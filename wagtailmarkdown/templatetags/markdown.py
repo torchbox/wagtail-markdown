@@ -8,10 +8,11 @@
 # warranty.
 #
 
-from django.db.models import TextField
-from wagtail.wagtailcore.blocks import TextBlock
+from django import template
 import wagtailmarkdown.utils
 
-class MarkdownBlock(TextBlock):
-    def render_basic(self, value):
-        return wagtailmarkdown.utils.render(value)
+register = template.Library()
+
+@register.filter(name='markdown')
+def markdown(value):
+    return wagtailmarkdown.utils.render(value)
