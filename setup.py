@@ -14,14 +14,17 @@ from setuptools import setup, find_packages
 
 setup(
     name='wagtail-markdown',
-    version='0.2',
+    version='0.3',
     description='Markdown support for Wagtail',
     long_description="Provides Markdown page field and streamfield block for Wagtail.  More info: https://github.com/torchbox/wagtail-markdown/blob/master/README.md",
     author='Felicity Tarnell',
     author_email='felicity@torchbox.com',
     url='https://github.com/torchbox/wagtail-markdown',
 
-    install_requires=['Markdown==2.6.2'],
+    install_requires=[
+        'Markdown==2.6.2',
+        'bleach==1.4.2',
+    ],
     license='zlib license',
 
     packages=find_packages(),
