@@ -17,6 +17,13 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 import wagtailmarkdown.utils
 
 class MarkdownBlock(TextBlock):
+    def __init__(self, **kwargs):
+        if 'classname' in kwargs:
+            kwargs['classname'] += ' markdown'
+        else:
+            kwargs['classname'] = 'markdown'
+        super(MarkdownBlock, self).__init__(**kwargs)
+
     def render_basic(self, value):
         return wagtailmarkdown.utils.render(value)
 

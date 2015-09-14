@@ -59,4 +59,3 @@ unsuitable for production use.  Testing, comments and feedback are welcome:
 ### TODO
 
 * Using the `markdown` filter in the template should not be necessary.
-* SimpleMDE should work with Streamfield.
