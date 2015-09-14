@@ -23,7 +23,7 @@ class MarkdownBlock(TextBlock):
 class MarkdownField(TextField):
     def __init__(self, **kwargs):
         if 'help_text' not in kwargs:
-            kwargs['help_text'] = 'Use <em>*emphasised*</em> or **strong** text, link to <:Another page> or include <:image:An image.jpeg>.'
+            kwargs['help_text'] = 'Use *emphasised* or **strong** text, link to <:Another page> or include <:image:An image.jpeg>.'
         super(MarkdownField, self).__init__(**kwargs)
 
 class MarkdownPanel(FieldPanel):
