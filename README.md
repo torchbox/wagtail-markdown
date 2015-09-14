@@ -7,17 +7,23 @@ input?  Wish Wagtail worked more like a wiki?  Well, now it can.
 Specifically, it provides:
 
 * A `MarkdownBlock` for use in streamfields.
-* A MarkdownPanel and MarkdownPanel for use in the editor interface.
-* A Markdown template tag.
+* A `MarkdownField` for use in page models.
+* A `MarkdownPanel` for use in the editor interface.
+* A `markdown` template tag.
 
 The markdown rendered is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
 * Tables.
 * Code highlighting.
-* Inline links to pages (`<:My page name|link title>`), images
-  (`<:image:My pretty image.jpeg>`), documents, etc.
+* Inline links to pages (`<:My page name|link title>`) and documents
+  (`<:doc:My fancy document.pdf>`), and inline images
+  (`<:image:My pretty image.jpeg>`).
 * Inline Markdown preview using [SimpleMDE](http://nextstepwebs.github.io/simplemde-markdown-editor/)
+
+These are implemented using the `python-markdown` extension interface.
+Currently, adding new extensions isn't possible without modifying the code, but
+that shouldn't be difficult to implement (patches welcome).
 
 ### Using it
 
@@ -56,8 +62,8 @@ And render the content in a template:
 
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
-NB: The current version was written in about an hour and is probably completely 
-unsuitable for production use.  Testing, comments and feedback are welcome: 
+NB: The current version was written in about an hour and is probably completely
+unsuitable for production use.  Testing, comments and feedback are welcome:
 <felicity@torchbox.com> (or open a Github issue).
 
 ### TODO
