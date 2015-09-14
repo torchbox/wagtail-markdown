@@ -30,6 +30,8 @@ class MyStreamBlock(StreamBlock):
     markdown = MarkdownBlock(icon="code")
 ```
 
+<img src="https://i.imgur.com/4NFcfHd.png" width="728px" alt="">
+
 Or use as a page field:
 
 ```
@@ -51,6 +53,8 @@ And render the content in a template:
 {{ self.body|markdown }}
 </article>
 ```
+
+<img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
 NB: The current version was written in about an hour and is probably completely 
 unsuitable for production use.  Testing, comments and feedback are welcome: 
