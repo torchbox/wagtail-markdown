@@ -9,9 +9,20 @@
 #
 
 from django.db.models import TextField
+
 from wagtail.wagtailcore.blocks import TextBlock
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
+
 import wagtailmarkdown.utils
 
 class MarkdownBlock(TextBlock):
     def render_basic(self, value):
         return wagtailmarkdown.utils.render(value)
+
+class MarkdownPanel(FieldPanel):
+    def __init__(self, field_name, classname="", widget=None):
+        super(MarkdownPanel, self).__init__(field_name, classname, None)
+
+        if self.classname != "":
+            self.classname += " "
+        self.classname += "markdown"
