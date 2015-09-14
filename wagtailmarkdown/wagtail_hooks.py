@@ -26,7 +26,6 @@ $(document).ready(function() {
     $(".markdown textarea").each(function(index, elem) {
         var mde = new SimpleMDE({
             element: elem,
-            spellChecker: false,
             toolbar: false,
             autofocus: false,
         });
