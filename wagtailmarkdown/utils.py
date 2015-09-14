@@ -30,4 +30,6 @@ def render(text):
             'codehilite': [
                 ('guess_lang', False),
             ]
-        }, output_format='html5'))
+        },
+        output_format='html5',
+        safe_mode='escape'))
