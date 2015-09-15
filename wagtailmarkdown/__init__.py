@@ -8,6 +8,7 @@
 # warranty.
 #
 
+from django import forms
 from django.db.models import TextField
 from django.utils.translation import ugettext_lazy as _
 
@@ -27,11 +28,25 @@ class MarkdownBlock(TextBlock):
     def render_basic(self, value):
         return wagtailmarkdown.utils.render(value)
 
+    @property
+    def media(self):
+        return forms.Media(
+                js =  [ 'wagtailmarkdown/js/simplemde.min.js' ],
+                css = [ 'wagtailmarkdown/css/simplemde.min.css' ]
+            )
+
 class MarkdownField(TextField):
     def __init__(self, **kwargs):
         if 'help_text' not in kwargs:
             kwargs['help_text'] = 'Use *emphasised* or **strong** text, link to <:Another page> or include <:image:An image.jpeg>.'
         super(MarkdownField, self).__init__(**kwargs)
+
+    @property
+    def media(self):
+        return forms.Media(
+                js =  [ 'wagtailmarkdown/js/simplemde.min.js' ],
+                css = [ 'wagtailmarkdown/css/simplemde.min.css' ]
+            )
 
 class MarkdownPanel(FieldPanel):
     def __init__(self, field_name, classname="", widget=None):
