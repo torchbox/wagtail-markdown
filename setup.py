@@ -14,7 +14,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='wagtail-markdown',
-    version='0.3',
+    version='0.3.1',
     description='Markdown support for Wagtail',
     long_description="Provides Markdown page field and streamfield block for Wagtail.  More info: https://github.com/torchbox/wagtail-markdown/blob/master/README.md",
     author='Felicity Tarnell',
