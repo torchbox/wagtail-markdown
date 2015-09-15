@@ -28,12 +28,12 @@ class MarkdownBlock(TextBlock):
     def render_basic(self, value):
         return wagtailmarkdown.utils.render(value)
 
-    @property
-    def media(self):
-        return forms.Media(
-                js =  [ 'wagtailmarkdown/js/simplemde.min.js' ],
-                css = [ 'wagtailmarkdown/css/simplemde.min.css' ]
-            )
+    class Media:
+        css = { 'all': ( 'wagtailmarkdown/css/simplemde.min.css', ) }
+        js = (
+            'wagtailmarkdown/js/simplemde.min.js',
+            'wagtailmarkdown/js/simplemde.attach.js',
+        )
 
 class MarkdownField(TextField):
     def __init__(self, **kwargs):
@@ -41,12 +41,12 @@ class MarkdownField(TextField):
             kwargs['help_text'] = 'Use *emphasised* or **strong** text, link to <:Another page> or include <:image:An image.jpeg>.'
         super(MarkdownField, self).__init__(**kwargs)
 
-    @property
-    def media(self):
-        return forms.Media(
-                js =  [ 'wagtailmarkdown/js/simplemde.min.js' ],
-                css = [ 'wagtailmarkdown/css/simplemde.min.css' ]
-            )
+    class Media:
+        css = { 'all': ( 'wagtailmarkdown/css/simplemde.min.css', ) }
+        js = (
+            'wagtailmarkdown/js/simplemde.min.js',
+            'wagtailmarkdown/js/simplemde.attach.js',
+        )
 
 class MarkdownPanel(FieldPanel):
     def __init__(self, field_name, classname="", widget=None):
