@@ -9,13 +9,22 @@
  * warranty.
  */
 
-$(document).ready(function() {
-    $(".markdown textarea").each(function(index, elem) {
+/*
+ * Used to initialize Simple MDE when Markdown blocks are used in StreamFields
+ */
+function simplemdeAttach(id) {
         var mde = new SimpleMDE({
-            element: elem,
-            toolbar: false,
+            element: document.getElementById(id),
             autofocus: false,
         });
         mde.render();
+}
+
+/*
+ * Used to initialize Simple MDE when MarkdownFields are used on a page.
+ */
+$(document).ready(function() {
+    $(".object.markdown textarea").each(function(index, elem) {
+        simplemdeAttach(elem.id);
     });
 });
