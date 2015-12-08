@@ -18,6 +18,10 @@ function simplemdeAttach(id) {
             autofocus: false,
         });
         mde.render();
+
+        mde.codemirror.on("change", function(){
+            $('#' + id).val(mde.value());
+        });
 }
 
 /*
