@@ -8,6 +8,7 @@
 # warranty.
 #
 
+from __future__ import absolute_import
 from django import template
 import wagtailmarkdown.utils
 
