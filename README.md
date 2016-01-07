@@ -55,6 +55,7 @@ MyPage.content_panels = [
 And render the content in a template:
 
 ```
+{% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
 </article>
