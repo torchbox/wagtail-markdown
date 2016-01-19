@@ -4,6 +4,7 @@ Tired of annoying rich text editors getting in the way of your content
 input?  Wish Wagtail worked more like a wiki?  Well, now it can.
 
 `wagtail-markdown` provides Markdown field support for [Wagtail](https://github.com/torchbox/wagtail/).
+
 Specifically, it provides:
 
 * A `MarkdownBlock` for use in streamfields.

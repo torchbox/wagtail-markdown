@@ -1,2 +1,6 @@
 *.pyc
 *.swp
+# OS Cruft
+.DS_Store
+._*
+Thumbs.db
