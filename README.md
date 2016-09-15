@@ -35,7 +35,7 @@ that shouldn't be difficult to implement (patches welcome).
 
 Add it to `INSTALLED_APPS`:
 
-```
+``` python
 INSTALLED_APPS = (
 ...
     'wagtailmarkdown',
@@ -80,7 +80,7 @@ picked up on pages rendering the relevant output, e.g. your base template:
 
 Use it as a `StreamField` block:
 
-```
+``` python
 from wagtailmarkdown.fields import MarkdownBlock
 
 class MyStreamBlock(StreamBlock):
@@ -91,7 +91,7 @@ class MyStreamBlock(StreamBlock):
 
 Or use as a page field:
 
-```
+``` python
 from wagtailmarkdown.fields import MarkdownField, MarkdownPanel
 
 class MyPage(Page):
@@ -105,7 +105,7 @@ MyPage.content_panels = [
 
 And render the content in a template:
 
-```
+``` html
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
