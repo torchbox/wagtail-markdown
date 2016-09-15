@@ -71,7 +71,7 @@ documentation](http://pygments.org/docs/quickstart/), with:
 And then saving the output to a file and referencing it somewhere that will be
 picked up on pages rendering the relevant output, e.g. your base template:
 
-``` html
+``` htmldjango
         <link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
 ```
 
@@ -105,7 +105,7 @@ MyPage.content_panels = [
 
 And render the content in a template:
 
-``` html
+``` htmldjango
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
