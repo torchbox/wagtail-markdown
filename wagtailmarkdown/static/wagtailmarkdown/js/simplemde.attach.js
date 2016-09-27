@@ -21,7 +21,7 @@ function simplemdeAttach(id) {
               'bold', 'italic', 'heading-1', 'heading-2', 'heading-3', '|',
               'quote', 'unordered-list', 'ordered-list', '|',
               'link', '|',
-              'fullscreen', 'guide'
+              'guide'
             ],
         });
         mde.render();
