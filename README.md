@@ -27,10 +27,20 @@ that shouldn't be difficult to implement (patches welcome).
 
 ### Using it
 
+Add it to `INSTALLED_APPS`:
+
+```
+INSTALLED_APPS = (
+...
+    'wagtailmarkdown',
+...
+)
+```
+
 Use it as a `StreamField` block:
 
 ```
-from wagtailmarkdown import MarkdownBlock
+from wagtailmarkdown.fields import MarkdownBlock
 
 class MyStreamBlock(StreamBlock):
     markdown = MarkdownBlock(icon="code")
@@ -41,7 +51,7 @@ class MyStreamBlock(StreamBlock):
 Or use as a page field:
 
 ```
-from wagtailmarkdown import MarkdownField, MarkdownPanel
+from wagtailmarkdown.fields import MarkdownField, MarkdownPanel
 
 class MyPage(Page):
     body = models.MarkdownField()
