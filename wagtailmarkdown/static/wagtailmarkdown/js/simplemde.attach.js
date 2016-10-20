@@ -5,7 +5,7 @@
  *
  * Permission is granted to anyone to use this software for any purpose,
  * including commercial applications, and to alter it and redistribute it
- * freely. This software is provided 'as-is', without any express or implied
+ * freely. This software is provided "as-is", without any express or implied
  * warranty.
  */
 
@@ -13,22 +13,20 @@
  * Used to initialize Simple MDE when Markdown blocks are used in StreamFields
  */
 function simplemdeAttach(id) {
-        var mde = new SimpleMDE({
-            element: document.getElementById(id),
-            autofocus: false,
-            spellChecker: false,
-            toolbar: [
-              'bold', 'italic', 'heading-1', 'heading-2', 'heading-3', '|',
-              'quote', 'unordered-list', 'ordered-list', '|',
-              'link', '|',
-              'guide'
-            ],
-        });
-        mde.render();
+    var options = {
+        element: document.getElementById(id),
+    };
 
-        mde.codemirror.on("change", function(){
-            $('#' + id).val(mde.value());
-        });
+    if (typeof wagtailMDEOptions !== "undefined") {
+      options = Object.assign({}, options, wagtailMDEOptions);
+    };
+
+    var mde = new SimpleMDE(options);
+    mde.render();
+
+    mde.codemirror.on("change", function(){
+        $("#" + id).val(mde.value());
+    });
 }
 
 /*
