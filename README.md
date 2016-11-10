@@ -60,7 +60,8 @@ def import_fontawesome_stylesheet():
 
 Syntax highlighting using codehilite is an optional feature, which works by
 adding CSS classes to the generated HTML. To use these classes, you will need
-an appropriate stylesheet. You can generate one as per the [pygments
+to install Pygments (`pip install Pygments`), and to generate an appropriate
+stylesheet. You can generate one as per the [pygments
 documentation](http://pygments.org/docs/quickstart/), with:
 
 ``` python

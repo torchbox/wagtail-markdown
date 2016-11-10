@@ -24,7 +24,6 @@ setup(
     install_requires=[
         'Markdown==2.6.2',
         'bleach==1.4.2',
-        'Pygments==2.1.3',
     ],
     license='zlib license',
 
