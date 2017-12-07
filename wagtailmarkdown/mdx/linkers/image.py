@@ -7,25 +7,19 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-
-import re
-
-from django.db import models
-from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
 
-from wagtail.wagtailcore.models import Page
-from wagtail.wagtailadmin.edit_handlers import FieldPanel    
 from wagtail import wagtailimages
 
-import markdown
-from markdown.util import AtomicString
 from markdown.util import etree
+
 
 # TODO: Default spec and class should be configurable, because they're
 # dependent on how the project is set up.  Hard-coding of 'left',
 # 'right' and 'full-width' should be removed.
-class Linker:
+
+
+class Linker(object):
     def run(self, fname, optstr):
         opts = {}
 
@@ -52,17 +46,18 @@ class Linker:
                 except ValueError:
                     pass
         try:
-            image = wagtailimages.models.get_image_model().objects.get(title = fname)
+            image = wagtailimages.models.get_image_model().objects \
+                                                          .get(title=fname)
         except ObjectDoesNotExist:
             return '[image %s not found]' % (fname,)
 
-        url = image.file.url
+        image_url = image.file.url
         rendition = image.get_rendition(opts['spec'])
 
         a = etree.Element('a')
         a.set('data-toggle', 'lightbox')
         a.set('data-type', 'image')
-        a.set('href', image.file.url)
+        a.set('href', image_url)
         img = etree.SubElement(a, 'img')
         img.set('src', rendition.url)
         img.set('class', opts['classname'])

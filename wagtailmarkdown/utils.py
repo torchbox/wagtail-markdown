@@ -7,47 +7,156 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
+import warnings
 
 from django.utils.safestring import mark_safe
+
 import markdown
 import bleach
 
-import wagtailmarkdown.mdx.tables
-import wagtailmarkdown.mdx.linker
+from .mdx import tables
+from .mdx import linker
+from .warnings import WagtailMarkdownDeprecationWarning
 
-def render(text):
-    return mark_safe(bleach.clean(markdown.markdown(text,
-            extensions=[ 'extra',
-                         'codehilite',
-                         wagtailmarkdown.mdx.tables.TableExtension(),
-                         wagtailmarkdown.mdx.linker.LinkerExtension({
-                             '__default__':  'wagtailmarkdown.mdx.linkers.page',
-                             'page:':        'wagtailmarkdown.mdx.linkers.page',
-                             'image:':       'wagtailmarkdown.mdx.linkers.image',
-                             'doc:':         'wagtailmarkdown.mdx.linkers.document',
-                         })
-                       ],
-            extension_configs = {
-                'codehilite': [
-                    ('guess_lang', False),
-                ]
-            },
-            output_format='html5'),
-        tags = [ 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'tt', 'pre',
-                 'em', 'strong', 'ul', 'li', 'dl', 'dd', 'dt', 'code', 'img', 'a',
-                 'table', 'tr', 'th', 'td', 'tbody', 'caption', 'colgroup', 'thead',
-                 'tfoot', 'blockquote', 'ol', '<hr>', ],
-        attributes = {
-            '*': [ 'class', 'style', 'id', ],
-            'a': [ 'href', 'target', 'rel', ],
-            'img': [ 'src', 'alt', ],
-            'tr': [ 'rowspan', 'colspan', ],
-            'td': [ 'rowspan', 'colspan', 'align', ],
-        },
-        styles = [ 'color', 'background-color', 'font-family', 'font-weight', 'font-size',
-                   'width', 'height', 'text-align',
-                   'border', 'border-top', 'border-bottom', 'border-left', 'border-right',
-                   'padding', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right',
-                   'margin', 'margin-top', 'margin-bottom', 'margin-left', 'margin-right',
-                   ]
-        ))
+
+def render_markdown(text, context=None):
+    """
+    Turn markdown into HTML.
+    """
+    if context is None or not isinstance(context, dict):
+        context = {}
+    markdown_html = _transform_markdown_into_html(text)
+    sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
+    return mark_safe(sanitised_markdown_html)
+
+
+def _transform_markdown_into_html(text):
+    return markdown.markdown(text, **_get_markdown_kwargs())
+
+
+def _sanitise_markdown_html(markdown_html):
+    return bleach.clean(markdown_html, **_get_bleach_kwargs())
+
+
+def _get_bleach_kwargs():
+    bleach_kwargs = {}
+    bleach_kwargs['tags'] = [
+        'p',
+        'div',
+        'span',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'tt',
+        'pre',
+        'em',
+        'strong',
+        'ul',
+        'li',
+        'dl',
+        'dd',
+        'dt',
+        'code',
+        'img',
+        'a',
+        'table',
+        'tr',
+        'th',
+        'td',
+        'tbody',
+        'caption',
+        'colgroup',
+        'thead',
+        'tfoot',
+        'blockquote',
+        'ol',
+        '<hr>',
+    ]
+    bleach_kwargs['attributes'] = {
+        '*': [
+            'class',
+            'style',
+            'id',
+        ],
+        'a': [
+            'href',
+            'target',
+            'rel',
+        ],
+        'img': [
+            'src',
+            'alt',
+        ],
+        'tr': [
+            'rowspan',
+            'colspan',
+        ],
+        'td': [
+            'rowspan',
+            'colspan',
+            'align',
+        ],
+    }
+    bleach_kwargs['styles'] = [
+        'color',
+        'background-color',
+        'font-family',
+        'font-weight',
+        'font-size',
+        'width',
+        'height',
+        'text-align',
+        'border',
+        'border-top',
+        'border-bottom',
+        'border-left',
+        'border-right',
+        'padding',
+        'padding-top',
+        'padding-bottom',
+        'padding-left',
+        'padding-right',
+        'margin',
+        'margin-top',
+        'margin-bottom',
+        'margin-left',
+        'margin-right',
+    ]
+    return bleach_kwargs
+
+
+def _get_markdown_kwargs():
+    markdown_kwargs = {}
+    markdown_kwargs['extensions'] = [
+        'extra',
+        'codehilite',
+        tables.TableExtension(),
+        linker.LinkerExtension({
+             '__default__': 'wagtailmarkdown.mdx.linkers.page',
+             'page:': 'wagtailmarkdown.mdx.linkers.page',
+             'image:': 'wagtailmarkdown.mdx.linkers.image',
+             'doc:': 'wagtailmarkdown.mdx.linkers.document',
+         })
+    ]
+    markdown_kwargs['extension_configs'] = {
+        'codehilite': [
+            ('guess_lang', False),
+        ]
+    }
+    markdown_kwargs['output_format'] = 'html5'
+    return markdown_kwargs
+
+
+def render(text, context=None):
+    """
+    Depreceated call to render_markdown().
+    """
+    warning = (
+        "wagtailmarkdown.utils.render() is deprecated. Use "
+        "wagtailmarkdown.utils.render_markdown() instead."
+    )
+    warnings.warn(warning, WagtailMarkdownDeprecationWarning, stacklevel=2)
+    return render_markdown(text, context)

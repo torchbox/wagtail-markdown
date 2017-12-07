@@ -7,35 +7,29 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-
-import re
-
-from django.db import models
-from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
 
 from wagtail.wagtailcore.models import Page
-from wagtail.wagtailadmin.edit_handlers import FieldPanel    
-from wagtail import wagtailimages
 
-import markdown
-from markdown.util import AtomicString
 from markdown.util import etree
+
 
 # TODO: In Waiflike, this only allowed linking to SitePage (the main
 # content type).  Should this be configurable?
-class Linker:
+
+
+class Linker(object):
     def run(self, name, optstr):
         try:
             text = name
             if len(optstr):
                 text = optstr[0]
 
-            page = Page.objects.get(title = name)
+            page = Page.objects.get(title=name)
             url = page.url
             a = etree.Element('a')
             a.set('href', url)
             a.text = text
-            return a;
+            return a
         except ObjectDoesNotExist:
             return '[page %s not found]' % (name,)
