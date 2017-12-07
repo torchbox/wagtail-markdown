@@ -18,7 +18,7 @@ README = 'https://github.com/torchbox/wagtail-markdown/blob/master/README.md'
 
 setup(
     name='wagtail-markdown',
-    version='0.4.1',
+    version='0.5a1',
     description='Markdown support for Wagtail',
     long_description="Provides Markdown page field and streamfield block for "
                      "Wagtail. More info: {}".format(README),
@@ -38,11 +38,13 @@ setup(
         ],
     },
     classifiers=[
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Framework :: Django',
         'License :: OSI Approved :: zlib/libpng License',
+        'Programming Language :: Python :: 3',
     ],
 )
