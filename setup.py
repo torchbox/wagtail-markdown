@@ -12,28 +12,31 @@
 
 from setuptools import setup, find_packages
 
+
+README = 'https://github.com/torchbox/wagtail-markdown/blob/master/README.md'
+
+
 setup(
     name='wagtail-markdown',
     version='0.4.1',
     description='Markdown support for Wagtail',
-    long_description="Provides Markdown page field and streamfield block for Wagtail.  More info: https://github.com/torchbox/wagtail-markdown/blob/master/README.md",
+    long_description="Provides Markdown page field and streamfield block for "
+                     "Wagtail. More info: {}".format(README),
     author='Felicity Tarnell',
     author_email='felicity@torchbox.com',
     url='https://github.com/torchbox/wagtail-markdown',
-
     install_requires=[
-        'Markdown==2.6.2',
-        'bleach==1.4.2',
+        'Markdown>=2.6,<2.7',
+        'bleach>=1.4.2,<2.2',
     ],
-    license='zlib license',
-
+    license='zlib',
     packages=find_packages(),
-
     include_package_data=True,
     package_data={
-        'wagtailmarkdown': [ 'static/wagtailmarkdown/*/*' ],
+        'wagtailmarkdown': [
+            'static/wagtailmarkdown/*/*'
+        ],
     },
-
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
