@@ -25,6 +25,10 @@ These are implemented using the `python-markdown` extension interface.
 Currently, adding new extensions isn't possible without modifying the code, but
 that shouldn't be difficult to implement (patches welcome).
 
+### Installation
+Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
+
+
 ### Using it
 
 Add it to `INSTALLED_APPS`:
