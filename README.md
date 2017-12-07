@@ -6,9 +6,9 @@ input?  Wish Wagtail worked more like a wiki?  Well, now it can.
 `wagtail-markdown` provides Markdown field support for [Wagtail](https://github.com/torchbox/wagtail/).
 Specifically, it provides:
 
-* A `MarkdownBlock` for use in streamfields.
-* A `MarkdownField` for use in page models.
-* A `MarkdownPanel` for use in the editor interface.
+* A `wagtailmarkdown.blocks.MarkdownBlock` for use in streamfields.
+* A `wagtailmarkdown.fields.MarkdownField` for use in page models.
+* A `wagtailmarkdown.edit_handlers.MarkdownPanel` for use in the editor interface.
 * A `markdown` template tag.
 
 The markdown rendered is based on `python-markdown`, but with several
@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 Use it as a `StreamField` block:
 
 ```
-from wagtailmarkdown.fields import MarkdownBlock
+from wagtailmarkdown.blocks import MarkdownBlock
 
 class MyStreamBlock(StreamBlock):
     markdown = MarkdownBlock(icon="code")
@@ -51,15 +51,16 @@ class MyStreamBlock(StreamBlock):
 Or use as a page field:
 
 ```
-from wagtailmarkdown.fields import MarkdownField, MarkdownPanel
+from wagtailmarkdown.edit_handlers import MarkdownPanel
+from wagtailmarkdown.fields import MarkdownField
 
 class MyPage(Page):
     body = models.MarkdownField()
 
-MyPage.content_panels = [
-    FieldPanel("title", classname="full title"),
-    MarkdownPanel("body"),
-]
+    content_panels = [
+        FieldPanel("title", classname="full title"),
+        MarkdownPanel("body"),
+    ]
 ```
 
 And render the content in a template:
@@ -73,10 +74,14 @@ And render the content in a template:
 
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
+To enable syntax highlighting please use the Pygments (`pip install Pygments`) library.
+
 NB: The current version was written in about an hour and is probably completely
 unsuitable for production use.  Testing, comments and feedback are welcome:
 <felicity@torchbox.com> (or open a Github issue).
 
 ### TODO
 
-* Using the `markdown` filter in the template should not be necessary.
+* Make a alpha/beta release and submit to PyPI
+* Set up CI
+* Set up tests
