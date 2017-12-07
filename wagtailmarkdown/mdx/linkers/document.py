@@ -8,7 +8,7 @@
 # warranty.
 #
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail import wagtaildocs
 
@@ -29,4 +29,6 @@ class Linker(object):
             a.text = text
             return a
         except ObjectDoesNotExist:
-            return '[document %s not found]' % (name,)
+            return '[document "{}" not found]'.format(name)
+        except MultipleObjectsReturned:
+            return '[multiple documents "{}" found]'.format(name)

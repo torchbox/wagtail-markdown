@@ -7,7 +7,7 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.wagtailcore.models import Page
 
@@ -22,7 +22,7 @@ class Linker(object):
     def run(self, name, optstr):
         try:
             text = name
-            if len(optstr):
+            if optstr:
                 text = optstr[0]
 
             page = Page.objects.get(title=name)
@@ -32,4 +32,6 @@ class Linker(object):
             a.text = text
             return a
         except ObjectDoesNotExist:
-            return '[page %s not found]' % (name,)
+            return '[page "{}" not found]'.format(name)
+        except MultipleObjectsReturned:
+            return '[multiple pages "{}" found]'.format(name)

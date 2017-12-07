@@ -7,9 +7,9 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from wagtail import wagtailimages
+from wagtail.wagtailimages import get_image_model
 
 from markdown.util import etree
 
@@ -46,10 +46,11 @@ class Linker(object):
                 except ValueError:
                     pass
         try:
-            image = wagtailimages.models.get_image_model().objects \
-                                                          .get(title=fname)
+            image = get_image_model().objects.get(title=fname)
         except ObjectDoesNotExist:
-            return '[image %s not found]' % (fname,)
+            return '[image "{}" not found]'.format(fname)
+        except MultipleObjectsReturned:
+            return '[multiple images "{}" found]'.format(fname)
 
         image_url = image.file.url
         rendition = image.get_rendition(opts['spec'])
