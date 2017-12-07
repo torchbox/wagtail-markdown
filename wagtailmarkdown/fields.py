@@ -7,10 +7,8 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-
 from django import forms
 from django.db.models import TextField
-from django.utils.translation import ugettext_lazy as _
 
 from wagtail.utils.widgets import WidgetWithScript
 from wagtail.wagtailcore.blocks import TextBlock
@@ -29,8 +27,12 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
     @property
     def media(self):
         return forms.Media(
-            css = { 'all': ( 'wagtailmarkdown/css/simplemde.min.css', ) },
-            js = (
+            css={
+                'all': (
+                    'wagtailmarkdown/css/simplemde.min.css',
+                )
+            },
+            js=(
                 'wagtailmarkdown/js/simplemde.min.js',
                 'wagtailmarkdown/js/simplemde.attach.js',
             )
@@ -39,17 +41,22 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
 
 class MarkdownBlock(TextBlock):
     def __init__(self, required=True, help_text=None, **kwargs):
-        self.field = forms.CharField(required=required, help_text=help_text, widget=MarkdownTextarea())
+        self.field = forms.CharField(required=required, help_text=help_text,
+                                     widget=MarkdownTextarea())
         super(MarkdownBlock, self).__init__(**kwargs)
 
-    def render_basic(self, value):
+    def render_basic(self, value, context=None):
         return wagtailmarkdown.utils.render(value)
 
     @property
     def media(self):
         return forms.Media(
-            css = { 'all': ( 'wagtailmarkdown/css/simplemde.min.css', ) },
-            js = (
+            css={
+                'all': (
+                    'wagtailmarkdown/css/simplemde.min.css',
+                )
+            },
+            js=(
                 'wagtailmarkdown/js/simplemde.min.js',
                 'wagtailmarkdown/js/simplemde.attach.js',
             )
@@ -58,9 +65,11 @@ class MarkdownBlock(TextBlock):
 
 class MarkdownField(TextField):
     def formfield(self, **kwargs):
-        defaults = {'widget': MarkdownTextarea}                                                  
-        defaults.update(kwargs)                                                              
-        return super(MarkdownField, self).formfield(**defaults)                              
+        defaults = {
+            'widget': MarkdownTextarea
+        }
+        defaults.update(kwargs)
+        return super(MarkdownField, self).formfield(**defaults)
 
     def __init__(self, **kwargs):
         super(MarkdownField, self).__init__(**kwargs)
