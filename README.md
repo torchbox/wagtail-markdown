@@ -25,11 +25,17 @@ These are implemented using the `python-markdown` extension interface.
 Currently, adding new extensions isn't possible without modifying the code, but
 that shouldn't be difficult to implement (patches welcome).
 
-### Using it
+
+#### Compatibility
+
+`wagtail-markdown` is compatible with Wagtail 1.4 and above.
+
+
+### Installation
 
 Add it to `INSTALLED_APPS`:
 
-```
+``` python
 INSTALLED_APPS = (
 ...
     'wagtailmarkdown',
@@ -37,9 +43,45 @@ INSTALLED_APPS = (
 )
 ```
 
+The SimpleMDE editor uses FontAwesome for its widget icons. You need to add the
+following to a `wagtail_hooks` module in a registered app in your project:
+
+``` python
+@hooks.register('insert_global_admin_css')
+def import_fontawesome_stylesheet():
+    elem = '<link rel="stylesheet" href="{}path/to/font-awesome.min.css">'.format(
+        settings.STATIC_URL
+    )
+    return format_html(elem)
+```
+
+
+#### Syntax highlighting
+
+Syntax highlighting using codehilite is an optional feature, which works by
+adding CSS classes to the generated HTML. To use these classes, you will need
+to install Pygments (`pip install Pygments`), and to generate an appropriate
+stylesheet. You can generate one as per the [pygments
+documentation](http://pygments.org/docs/quickstart/), with:
+
+``` python
+>>> from pygments.formatters import HtmlFormatter
+>>> print HtmlFormatter().get_style_defs('.codehilite')
+```
+
+And then saving the output to a file and referencing it somewhere that will be
+picked up on pages rendering the relevant output, e.g. your base template:
+
+``` htmldjango
+        <link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
+```
+
+
+### Using it
+
 Use it as a `StreamField` block:
 
-```
+``` python
 from wagtailmarkdown.fields import MarkdownBlock
 
 class MyStreamBlock(StreamBlock):
@@ -50,7 +92,7 @@ class MyStreamBlock(StreamBlock):
 
 Or use as a page field:
 
-```
+``` python
 from wagtailmarkdown.fields import MarkdownField, MarkdownPanel
 
 class MyPage(Page):
@@ -64,7 +106,7 @@ MyPage.content_panels = [
 
 And render the content in a template:
 
-```
+``` htmldjango
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
