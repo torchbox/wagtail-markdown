@@ -7,7 +7,7 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.admin.edit_handlers import FieldPanel
 
 
 class MarkdownPanel(FieldPanel):

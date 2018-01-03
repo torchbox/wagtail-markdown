@@ -9,7 +9,7 @@
 #
 from django import forms
 
-from wagtail.wagtailcore.blocks import TextBlock
+from wagtail.core.blocks import TextBlock
 
 from .utils import render_markdown
 from .widgets import MarkdownTextarea
