@@ -7,8 +7,10 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-from wagtail.admin.edit_handlers import FieldPanel
-
+try:
+    from wagtail.admin.edit_handlers import FieldPanel
+except ImportError:
+    from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 class MarkdownPanel(FieldPanel):
     def __init__(self, field_name, classname="", widget=None):
