@@ -15,7 +15,7 @@ import subprocess
 
 
 def get_git_revision_hash():
-    return subprocess.check_output(['git', 'rev-parse', 'HEAD'])
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').splitlines()[0]
 
 
 README = 'https://github.com/torchbox/wagtail-markdown/blob/{hash}/README.md'
