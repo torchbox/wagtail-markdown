@@ -13,7 +13,6 @@ from wagtail.wagtailimages import get_image_model
 
 from markdown.util import etree
 
-
 # TODO: Default spec and class should be configurable, because they're
 # dependent on how the project is set up.  Hard-coding of 'left',
 # 'right' and 'full-width' should be removed.

@@ -12,6 +12,7 @@ matrix:
     - env: TOXENV=py27
       python: 2.7
     - env: TOXENV=flake8
+    - env: TOXENV=isort
 
 services:
   - postgresql
@@ -19,7 +20,7 @@ services:
 env:
   - DATABASE_URL=postgres://postgres@localhost/postgres
 
-before_script:
+install:
   - pip install tox
 
 script:

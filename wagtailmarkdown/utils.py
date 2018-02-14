@@ -11,11 +11,10 @@ import warnings
 
 from django.utils.safestring import mark_safe
 
-import markdown
 import bleach
+import markdown
 
-from .mdx import tables
-from .mdx import linker
+from .mdx import linker, tables
 from .warnings import WagtailMarkdownDeprecationWarning
 
 

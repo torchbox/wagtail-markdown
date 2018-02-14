@@ -9,13 +9,13 @@
 #
 from django import forms
 
+from .utils import render_markdown
+from .widgets import MarkdownTextarea
+
 try:
     from wagtail.core.blocks import TextBlock
 except ImportError:
     from wagtail.wagtailcore.blocks import TextBlock
-
-from .utils import render_markdown
-from .widgets import MarkdownTextarea
 
 
 class MarkdownBlock(TextBlock):
