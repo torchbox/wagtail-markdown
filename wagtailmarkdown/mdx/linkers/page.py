@@ -9,10 +9,12 @@
 #
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from wagtail.wagtailcore.models import Page
-
 from markdown.util import etree
 
+try:
+    from wagtail.core.models import Page
+except ImportError:
+    from wagtail.wagtailcore.models import Page
 
 # TODO: In Waiflike, this only allowed linking to SitePage (the main
 # content type).  Should this be configurable?

@@ -1,3 +1,7 @@
 *.pyc
 *.swp
 *.egg-info
+build/
+dist/
+.tox/
+venv/

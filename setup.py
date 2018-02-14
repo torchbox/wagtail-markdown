@@ -15,13 +15,42 @@ import subprocess
 
 
 def get_git_revision_hash():
-    return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').splitlines()[0]
+    try:
+        git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD'])
+    except subprocess.CalledProcessError:
+        return 'master'
+    else:
+        return git_hash.decode('ascii').splitlines()[0]
 
 
 README = 'https://github.com/torchbox/wagtail-markdown/blob/{hash}/README.md'
 README = README.format(
     hash=get_git_revision_hash()
 )
+
+
+INSTALL_REQUIRES = [
+    'Markdown>=2.6,<2.7',
+    'bleach>=1.4.2,<2.2',
+    'Wagtail<2.1',
+]
+
+
+TESTING_REQUIRES = [
+    'dj_database_url==0.4.2',
+]
+
+
+CLASSIFIERS = [
+    'Development Status :: 3 - Alpha',
+    'Environment :: Web Environment',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Framework :: Django',
+    'License :: OSI Approved :: zlib/libpng License',
+    'Programming Language :: Python :: 3',
+]
 
 
 setup(
@@ -33,21 +62,10 @@ setup(
     author='Felicity Tarnell',
     author_email='felicity@torchbox.com',
     url='https://github.com/torchbox/wagtail-markdown',
-    install_requires=[
-        'Markdown>=2.6,<2.7',
-        'bleach>=1.4.2,<2.2',
-    ],
+    install_requires=INSTALL_REQUIRES,
     license='zlib',
     packages=find_packages(),
     include_package_data=True,
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Framework :: Django',
-        'License :: OSI Approved :: zlib/libpng License',
-        'Programming Language :: Python :: 3',
-    ],
+    classifiers=CLASSIFIERS,
+    extras_require={'testing': TESTING_REQUIRES},
 )

@@ -7,6 +7,7 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
+from __future__ import absolute_import
 
 
 def setup():
@@ -21,7 +22,7 @@ setup()
 
 # Classes below are here so users who use old imports get
 # meaningful errors.
-class DepreceatedObject(object):
+class DeprecatedObject(object):
     def __init__(self, *args, **kwargs):
         warning = (
             "The `wagtailmarkdown.{class_name}` import is not valid. Please "
@@ -41,7 +42,7 @@ old_classes = [
 ]
 
 for class_name, new_path in old_classes:
-    locals()[class_name] = type(class_name, (DepreceatedObject,), {
+    locals()[class_name] = type(class_name, (DeprecatedObject,), {
         'class_name': class_name,
         'new_path': new_path,
     })

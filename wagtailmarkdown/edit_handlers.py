@@ -12,6 +12,7 @@ try:
 except ImportError:
     from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
+
 class MarkdownPanel(FieldPanel):
     def __init__(self, field_name, classname="", widget=None):
         super(MarkdownPanel, self).__init__(field_name, classname, widget)
