@@ -31,7 +31,7 @@ def render_markdown(text, context=None):
 
 
 def _transform_markdown_into_html(text):
-    return markdown.markdown(text, **_get_markdown_kwargs())
+    return markdown.markdown(str(text), **_get_markdown_kwargs())
 
 
 def _sanitise_markdown_html(markdown_html):
