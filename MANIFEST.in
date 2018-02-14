@@ -1,0 +1,4 @@
+include LICENSE *.md
+graft wagtailmarkdown
+global-exclude __pycache__
+global-exclude *.py[co]

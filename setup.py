@@ -11,9 +11,17 @@
 #
 
 from setuptools import setup, find_packages
+import subprocess
 
 
-README = 'https://github.com/torchbox/wagtail-markdown/blob/master/README.md'
+def get_git_revision_hash():
+    return subprocess.check_output(['git', 'rev-parse', 'HEAD'])
+
+
+README = 'https://github.com/torchbox/wagtail-markdown/blob/{hash}/README.md'
+README = README.format(
+    hash=get_git_revision_hash()
+)
 
 
 setup(
@@ -32,11 +40,6 @@ setup(
     license='zlib',
     packages=find_packages(),
     include_package_data=True,
-    package_data={
-        'wagtailmarkdown': [
-            'static/wagtailmarkdown/*/*'
-        ],
-    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
