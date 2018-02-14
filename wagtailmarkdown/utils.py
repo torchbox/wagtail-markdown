@@ -73,7 +73,8 @@ def _get_bleach_kwargs():
         'tfoot',
         'blockquote',
         'ol',
-        '<hr>',
+        'hr',
+        'br',
     ]
     bleach_kwargs['attributes'] = {
         '*': [
