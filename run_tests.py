@@ -10,6 +10,9 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'wagtailmarkdown.tests.settings'
 
 
 def runtests():
+    execute_from_command_line([sys.argv[0], 'check'])
+    execute_from_command_line([sys.argv[0], 'makemigrations', '--no-input',
+                               '--check'])
     execute_from_command_line([sys.argv[0], 'test'] + sys.argv[1:])
 
 
