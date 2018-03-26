@@ -1,6 +1,7 @@
-# In development
+# 0.5a3 - 26th March 2018
 
-- Whitelist <hr> and <br> tags #33 - @tm-kn
+- Whitelist `<hr>` and `<br>` tags #33 - @tm-kn
+- Fix compatibility for markdown panel in Wagtail 2.0 #37 - @rspeed
 
 # 0.5a2 - 14th February 2018
 
