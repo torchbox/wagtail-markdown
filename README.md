@@ -59,7 +59,7 @@ from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
 
 class MyPage(Page):
-    body = models.MarkdownField()
+    body = MarkdownField()
 
     content_panels = [
         FieldPanel("title", classname="full title"),
