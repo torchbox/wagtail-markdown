@@ -84,8 +84,7 @@ NB: The current version was written in about an hour and is probably completely
 unsuitable for production use.  Testing, comments and feedback are welcome:
 <tomasz.knapik@torchbox.com> (or open a Github issue).
 
-### TODO
 
-* Make a alpha/beta release and submit to PyPI
-* Set up CI
-* Set up tests
+### Roadmap for 0.5
+
+* Set up tests: https://github.com/torchbox/wagtail-markdown/issues/28
