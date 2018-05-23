@@ -16,9 +16,10 @@ extensions to make it actually useful in Wagtail:
 
 * Tables.
 * Code highlighting.
-* Inline links to pages (`<:My page name|link title>`) and documents
-  (`<:doc:My fancy document.pdf>`), and inline images
-  (`<:image:My pretty image.jpeg>`).
+* Inline links to resource using page primary key:
+    - pages: `[My page name](page:1)`
+    - documents: `[My fancy document](doc:1)`
+    - images: ![alt text](image:1 "My pretty image.jpeg")
 * Inline Markdown preview using [SimpleMDE](http://nextstepwebs.github.io/simplemde-markdown-editor/)
 
 These are implemented using the `python-markdown` extension interface.

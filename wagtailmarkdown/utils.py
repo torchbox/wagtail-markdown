@@ -13,24 +13,92 @@ from django.utils.safestring import mark_safe
 
 import bleach
 import markdown
+from markdown.extensions.tables import TableExtension
+from wagtailmarkdown import inlinepatterns
+from wagtailmarkdown.warnings import WagtailMarkdownDeprecationWarning
 
-from .mdx import linker, tables
-from .warnings import WagtailMarkdownDeprecationWarning
-
-
-def render_markdown(text, context=None):
-    """
-    Turn markdown into HTML.
-    """
-    if context is None or not isinstance(context, dict):
-        context = {}
-    markdown_html = _transform_markdown_into_html(text)
-    sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
-    return mark_safe(sanitised_markdown_html)
+try:
+    from wagtail.wagtailimages import get_image_model
+    from wagtail.wagtailcore.models import Page
+    from wagtail.wagtaildocs.models import Document
+except ImportError:
+    from wagtail.images import get_image_model
+    from wagtail.core.models import Page
+    from wagtail.documents.models import Document
 
 
-def _transform_markdown_into_html(text):
-    return markdown.markdown(str(text), **_get_markdown_kwargs())
+class LinkExtension(markdown.Extension):
+    def __init__(self, object_lookup_negotiator, *args, **kwargs):
+        self.object_lookup_negotiator = object_lookup_negotiator
+
+    def extendMarkdown(self, md, md_globals):
+        md.inlinePatterns['link'] = inlinepatterns.LinkPattern(
+            pattern=markdown.inlinepatterns.LINK_RE,
+            markdown_instance=md,
+            object_lookup_negotiator=self.object_lookup_negotiator,
+        )
+
+
+class ImageExtension(markdown.Extension):
+    def __init__(self, object_lookup_negotiator, *args, **kwargs):
+        self.object_lookup_negotiator = object_lookup_negotiator
+
+    def extendMarkdown(self, md, md_globals):
+        md.inlinePatterns['image_link'] = inlinepatterns.ImagePattern(
+            pattern=markdown.inlinepatterns.IMAGE_LINK_RE,
+            markdown_instance=md,
+            object_lookup_negotiator=self.object_lookup_negotiator,
+        )
+
+
+class ObjectLookupNegotiator:
+    PAGE_LINK_PREFIX = 'page:'
+    DOCUMENT_LINK_PREFIX = 'doc:'
+    IMAGE_PREFIX = 'image:'
+
+    @staticmethod
+    def retrieve_page(lookup_field_value):
+        return Page.objects.get(pk=lookup_field_value)
+
+    @staticmethod
+    def retrieve_document(lookup_field_value):
+        return Document.objects.get(pk=lookup_field_value)
+
+    @staticmethod
+    def retrieve_image(lookup_field_value):
+        return get_image_model().objects.get(pk=lookup_field_value)
+
+    @classmethod
+    def retrieve(cls, url):
+        pairs = (
+            (cls.PAGE_LINK_PREFIX, cls.retrieve_page),
+            (cls.DOCUMENT_LINK_PREFIX, cls.retrieve_document),
+            (cls.IMAGE_PREFIX, cls.retrieve_image)
+        )
+        for prefix, object_retrieve_method in pairs:
+            if url.startswith(prefix):
+                return object_retrieve_method(url.replace(prefix, ''))
+
+
+def render_markdown(text, object_lookup_negotiator=ObjectLookupNegotiator):
+    html = markdown.markdown(
+        text,
+        extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TableExtension(),
+            LinkExtension(object_lookup_negotiator=object_lookup_negotiator),
+            ImageExtension(object_lookup_negotiator=object_lookup_negotiator),
+        ],
+        extension_configs={
+            'codehilite': [
+                ('guess_lang', False),
+            ]
+        },
+        output_format='html5'
+    )
+    sanitised_html = _sanitise_markdown_html(html)
+    return mark_safe(sanitised_html)
 
 
 def _sanitise_markdown_html(markdown_html):
@@ -126,28 +194,6 @@ def _get_bleach_kwargs():
         'margin-right',
     ]
     return bleach_kwargs
-
-
-def _get_markdown_kwargs():
-    markdown_kwargs = {}
-    markdown_kwargs['extensions'] = [
-        'extra',
-        'codehilite',
-        tables.TableExtension(),
-        linker.LinkerExtension({
-             '__default__': 'wagtailmarkdown.mdx.linkers.page',
-             'page:': 'wagtailmarkdown.mdx.linkers.page',
-             'image:': 'wagtailmarkdown.mdx.linkers.image',
-             'doc:': 'wagtailmarkdown.mdx.linkers.document',
-         })
-    ]
-    markdown_kwargs['extension_configs'] = {
-        'codehilite': [
-            ('guess_lang', False),
-        ]
-    }
-    markdown_kwargs['output_format'] = 'html5'
-    return markdown_kwargs
 
 
 def render(text, context=None):
