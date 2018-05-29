@@ -9,7 +9,11 @@
 #
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from wagtail.wagtailimages import get_image_model
+try:  # wagtail < 2.0
+    from wagtail.wagtailimages import get_image_model
+except ModuleNotFoundError:  # wagtail >= 2.0
+    from wagtail.images import get_image_model
+
 
 from markdown.util import etree
 
