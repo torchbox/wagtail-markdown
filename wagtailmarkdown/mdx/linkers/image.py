@@ -13,7 +13,7 @@ from markdown.util import etree
 
 try:  # wagtail < 2.0
     from wagtail.wagtailimages import get_image_model
-except ModuleNotFoundError:  # wagtail >= 2.0
+except ImportError:  # wagtail >= 2.0
     from wagtail.images import get_image_model
 
 
