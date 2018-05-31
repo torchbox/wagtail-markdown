@@ -9,9 +9,13 @@
 #
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from wagtail.wagtailimages import get_image_model
-
 from markdown.util import etree
+
+try:  # wagtail < 2.0
+    from wagtail.wagtailimages import get_image_model
+except ImportError:  # wagtail >= 2.0
+    from wagtail.images import get_image_model
+
 
 # TODO: Default spec and class should be configurable, because they're
 # dependent on how the project is set up.  Hard-coding of 'left',
