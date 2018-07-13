@@ -1,3 +1,7 @@
+# 0.5 - 13th July 2018
+
+- Adjust dependency of Wagtail to < 2.3
+
 # 0.5a3 - 26th March 2018
 
 - Whitelist `<hr>` and `<br>` tags #33 - @tm-kn
