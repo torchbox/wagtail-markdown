@@ -42,7 +42,7 @@ TESTING_REQUIRES = [
 
 
 CLASSIFIERS = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 5 - Production/Stable',
     'Environment :: Web Environment',
     'Intended Audience :: Developers',
     'Operating System :: OS Independent',
@@ -50,6 +50,7 @@ CLASSIFIERS = [
     'Framework :: Django',
     'License :: OSI Approved :: zlib/libpng License',
     'Programming Language :: Python :: 3',
+    'Framework :: Wagtail',
 ]
 
 
