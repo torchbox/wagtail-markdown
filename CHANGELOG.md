@@ -1,6 +1,9 @@
 # 0.5 - 13th July 2018
 
 - Adjust dependency of Wagtail to < 2.3
+- Fix support of Wagtail 2 #46 - @johnfraney
+- Fix example in the README #42 - @benjaoming
+- Change TODO #42 - @benjaoming
 
 # 0.5a3 - 26th March 2018
 
