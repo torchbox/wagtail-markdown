@@ -10,7 +10,7 @@
 
 from django import template
 
-from wagtailmarkdown.utils import render_markdown
+from ..utils import render_markdown
 
 register = template.Library()
 
