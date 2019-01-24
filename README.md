@@ -82,7 +82,7 @@ To enable syntax highlighting please use the Pygments (`pip install Pygments`) l
 
 NB: The current version was written in about an hour and is probably completely
 unsuitable for production use.  Testing, comments and feedback are welcome:
-<tomasz.knapik@torchbox.com> (or open a Github issue).
+<kevin.howbrook@torchbox.com> (or open a Github issue).
 
 
 ### Roadmap for 0.5
