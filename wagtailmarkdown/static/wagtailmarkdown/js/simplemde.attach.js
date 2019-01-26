@@ -41,7 +41,6 @@ $(document).on('shown.bs.tab', function(e) {
         setTimeout(
             function() {
                 el.CodeMirror.refresh();
-                console.log(el);
             }, 100
         );
     });
