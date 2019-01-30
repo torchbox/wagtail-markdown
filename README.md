@@ -33,17 +33,15 @@ Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ 
 
 Add it to `INSTALLED_APPS`:
 
-```
-INSTALLED_APPS = (
-...
+```python
+INSTALLED_APPS += [
     'wagtailmarkdown',
-...
-)
+]
 ```
 
 Use it as a `StreamField` block:
 
-```
+```python
 from wagtailmarkdown.blocks import MarkdownBlock
 
 class MyStreamBlock(StreamBlock):
@@ -54,7 +52,7 @@ class MyStreamBlock(StreamBlock):
 
 Or use as a page field:
 
-```
+```python
 from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
 
@@ -69,7 +67,7 @@ class MyPage(Page):
 
 And render the content in a template:
 
-```
+```html+django
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
