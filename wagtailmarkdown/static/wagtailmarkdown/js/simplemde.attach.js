@@ -32,3 +32,16 @@ $(document).ready(function() {
         simplemdeAttach(elem.id);
     });
 });
+
+/*
+ * Used to initialize content when MarkdownFields are used in admin panels.
+ */
+$(document).on('shown.bs.tab', function(e) {
+    $('.CodeMirror').each(function(i, el){
+        setTimeout(
+            function() {
+                el.CodeMirror.refresh();
+            }, 100
+        );
+    });
+});
