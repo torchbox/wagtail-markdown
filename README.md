@@ -76,6 +76,15 @@ And render the content in a template:
 </article>
 ```
 
+You can pass extensions by name to the filter:
+
+```
+{% load wagtailmarkdown %}
+<article>
+{{ self.body|markdown:"my_extension_package.my_extension_module" }}
+</article>
+```
+
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
 To enable syntax highlighting please use the Pygments (`pip install Pygments`) library.

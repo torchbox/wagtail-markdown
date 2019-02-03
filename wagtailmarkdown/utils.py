@@ -19,19 +19,21 @@ from .mdx import linker, tables
 from .warnings import WagtailMarkdownDeprecationWarning
 
 
-def render_markdown(text, context=None):
+def render_markdown(text, context=None, extensions=''):
     """
     Turn markdown into HTML.
     """
     if context is None or not isinstance(context, dict):
         context = {}
-    markdown_html = _transform_markdown_into_html(text)
+    markdown_html = _transform_markdown_into_html(text, extensions)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
     return mark_safe(sanitised_markdown_html)
 
 
-def _transform_markdown_into_html(text):
-    return markdown.markdown(smart_text(text), **_get_markdown_kwargs())
+def _transform_markdown_into_html(text, extensions):
+    markdown_kwargs = _get_markdown_kwargs()
+    markdown_kwargs['extensions'] += extensions.split()
+    return markdown.markdown(smart_text(text), **markdown_kwargs)
 
 
 def _sanitise_markdown_html(markdown_html):

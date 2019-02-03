@@ -16,5 +16,5 @@ register = template.Library()
 
 
 @register.filter(name='markdown')
-def markdown(value):
-    return render_markdown(value)
+def markdown(value, extensions=''):
+    return render_markdown(value, extensions=extensions)
