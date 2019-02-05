@@ -69,7 +69,7 @@ class MyPage(Page):
 
 And render the content in a template:
 
-```
+```html+django
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown }}
@@ -78,7 +78,7 @@ And render the content in a template:
 
 You can pass extensions by name to the filter:
 
-```
+```html+django
 {% load wagtailmarkdown %}
 <article>
 {{ self.body|markdown:"my_extension_package.my_extension_module" }}
