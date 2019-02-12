@@ -27,7 +27,8 @@ def render_markdown(text, context=None, extensions=''):
     if context is None or not isinstance(context, dict):
         context = {}
     markdown_html = _transform_markdown_into_html(text, extensions)
-    sanitised_markdown_html = _sanitise_markdown_html(markdown_html, extensions)
+    sanitised_markdown_html = _sanitise_markdown_html(markdown_html,
+                                                      extensions)
     return mark_safe(sanitised_markdown_html)
 
 
@@ -41,7 +42,8 @@ def _sanitise_markdown_html(markdown_html, extensions):
     """Ask the extensions in the string extensions what extra markup they allow
        and combine with default keyword arguments to bleach.clean.
 
-       Note that we only process the 'tags', 'attributes', and 'styles' keywords.
+       Note that we only process the 'tags', 'attributes', and 'styles'
+       keywords.
     """
     bleach_kwargs = _get_base_bleach_kwargs()
     for extension_name in extensions.split():
@@ -64,10 +66,11 @@ def _sanitise_markdown_html(markdown_html, extensions):
 
 
 def _get_extension_bleach_kwargs(extension_name):
-    """Use the lookup algorithm for python-markdown to find an extension class or module.
+    """Use the lookup algorithm for python-markdown to find an extension
+       class or module.
 
-       If the extension specifier gives a class (is 'module:classname') we look
-       for class variable 'allowed_markup'.
+       If the extension specifier gives a class (is 'module:classname') we
+       look for class variable 'allowed_markup'.
        If the extension specifier if a module we look for a module level
        variable 'allowed_markup'.
        In each case the result is a dictionary of keyword args that will be
@@ -88,12 +91,13 @@ def _get_extension_bleach_kwargs(extension_name):
     except ImportError:
         return {}
     try:
-      if class_name:
+        if class_name:
             return getattr(module, class_name).allowed_markup
-      else:
+        else:
             return module.allowed_markup
     except AttributeError:
         return {}
+
 
 def _get_base_bleach_kwargs():
     bleach_kwargs = {}
