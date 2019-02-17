@@ -83,6 +83,24 @@ You can pass extensions by name to the filter:
 </article>
 ```
 
+The markdown filter sanitizes the output of the underlying markdown processor,
+to prevent an untrusted user from passing malicious markup. This may conflict
+with some extensions.  When additional extensions are specified, it is possible
+to specify what additional HTML must be allowed through. This is done by
+defining a module variable `allowed_markup` for extensions specified as
+`"module name"`, or a class variable `allowed_markup` for extensions specified
+as `"module_name:class_name"`. In either case it is possible to recursively add
+to the `bleach` white list for tags, attributes, and styles. For example, adding
+```python
+allowed_markup = {
+  tags : ["sub"],
+  attributes : { img : ["srcset"] },
+  styles : [ "text-decoration-line" ]
+}
+```
+to the extension module allows subscripts, image source sets, and text decoration (such as
+underline or strike through) in addition to the HTML permitted by default.
+
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
 To enable syntax highlighting please use the Pygments (`pip install Pygments`) library.
