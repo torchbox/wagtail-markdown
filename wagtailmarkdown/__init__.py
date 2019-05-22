@@ -7,9 +7,6 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-from __future__ import absolute_import
-
-
 def setup():
     # Make warnings visible
     import warnings
