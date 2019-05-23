@@ -9,8 +9,6 @@ matrix:
   include:
     - env: TOXENV=py36
       python: 3.6
-    - env: TOXENV=py27
-      python: 2.7
     - env: TOXENV=flake8
     - env: TOXENV=isort
 

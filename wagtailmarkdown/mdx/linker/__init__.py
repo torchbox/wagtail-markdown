@@ -7,9 +7,9 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-import markdown
 from importlib import import_module
 
+import markdown
 
 LINKER_RE = r'<:([a-z]+:)?([^>|\n]+)((\|[^>|\n]+){0,})>'
 
