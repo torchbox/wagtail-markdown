@@ -15,7 +15,7 @@ The markdown rendered is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
 * Tables.
-* Code highlighting.
+* [Code highlighting](#syntax-highlighting).
 * Inline links to pages (`<:My page name|link title>`) and documents
   (`<:doc:My fancy document.pdf>`), and inline images
   (`<:image:My pretty image.jpeg>`).
@@ -27,6 +27,38 @@ that shouldn't be difficult to implement (patches welcome).
 
 ### Installation
 Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
+
+The SimpleMDE editor uses FontAwesome for its widget icons. You need to add the
+following to a `wagtail_hooks` module in a registered app in your project:
+
+``` python
+@hooks.register('insert_global_admin_css')
+def import_fontawesome_stylesheet():
+    elem = '<link rel="stylesheet" href="{}path/to/font-awesome.min.css">'.format(
+        settings.STATIC_URL
+    )
+    return format_html(elem)
+```
+
+#### Syntax highlighting
+
+Syntax highlighting using codehilite is an optional feature, which works by
+adding CSS classes to the generated HTML. To use these classes, you will need
+to install Pygments (`pip install Pygments`), and to generate an appropriate
+stylesheet. You can generate one as per the [Pygments
+documentation](http://pygments.org/docs/quickstart/), with:
+
+``` python
+>>> from pygments.formatters import HtmlFormatter
+>>> print HtmlFormatter().get_style_defs('.codehilite')
+```
+
+Save the output to a file and reference it somewhere that will be
+picked up on pages rendering the relevant output, e.g. your base template:
+
+``` html+django
+<link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
+```
 
 
 ### Using it
