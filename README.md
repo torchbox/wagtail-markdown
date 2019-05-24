@@ -28,8 +28,7 @@ that shouldn't be difficult to implement (patches welcome).
 ### Installation
 Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
 
-The SimpleMDE editor uses FontAwesome for its widget icons. You need to add the
-following to a `wagtail_hooks` module in a registered app in your project:
+The SimpleMDE editor uses FontAwesome for its widget icons. You can install [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome) via `pip install wagtailfontawesome`, or if you already have the stylesheet,  add the following to a `wagtail_hooks` module in a registered app in your project:
 
 ``` python
 @hooks.register('insert_global_admin_css')
