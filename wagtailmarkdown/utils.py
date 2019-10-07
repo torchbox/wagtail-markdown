@@ -149,6 +149,7 @@ def _get_markdown_kwargs():
         ]
     }
     markdown_kwargs['output_format'] = 'html5'
+    markdown_kwargs['tab_length'] = 2
     return markdown_kwargs
 
 
