@@ -23,7 +23,7 @@ extensions to make it actually useful in Wagtail:
 
 These are implemented using the `python-markdown` extension interface.
 
-You can configure wagtail-markdown with additional extensions using django
+You can configure wagtail-markdown to use additional Markdown extensions by via the `WAGTAILMARKDOWN_EXTENSIONS` setting.
 config.
 
 For example, to enable the [Table of
