@@ -254,6 +254,14 @@ mccabe = ">=0.6,<0.7"
 
 [[package]]
 category = "main"
+description = "Math extension for Python-Markdown"
+name = "python-markdown-math"
+optional = false
+python-versions = "*"
+version = "0.6"
+
+[[package]]
+category = "main"
 description = "World timezone definitions, modern and historical"
 name = "pytz"
 optional = false
@@ -377,8 +385,8 @@ python-versions = "*"
 version = "1.11.2"
 
 [metadata]
-content-hash = "64c0fb1238848486a97cd01b0bdc058b7ba835ea039303dc8760c97dab99e5e8"
-python-versions = "^3.7"
+content-hash = "060dfd9696a425d8d42ef114ca4b7aef78568d815486fe1d1d25645a8182ec53"
+python-versions = "^3.6"
 
 [metadata.files]
 astroid = [
@@ -513,6 +521,10 @@ pycodestyle = [
 pylint = [
     {file = "pylint-2.4.4-py3-none-any.whl", hash = "sha256:886e6afc935ea2590b462664b161ca9a5e40168ea99e5300935f6591ad467df4"},
     {file = "pylint-2.4.4.tar.gz", hash = "sha256:3db5468ad013380e987410a8d6956226963aed94ecb5f9d3a28acca6d9ac36cd"},
+]
+python-markdown-math = [
+    {file = "python-markdown-math-0.6.tar.gz", hash = "sha256:c68d8cb9695cb7b435484403dc18941d1bad0ff148e4166d9417046a0d5d3022"},
+    {file = "python_markdown_math-0.6-py2.py3-none-any.whl", hash = "sha256:d443e264cf063623a5f02b0c9730867e5172b31d49967da424ed3457c25b2848"},
 ]
 pytz = [
     {file = "pytz-2019.3-py2.py3-none-any.whl", hash = "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d"},

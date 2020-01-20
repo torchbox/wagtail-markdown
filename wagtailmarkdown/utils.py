@@ -137,11 +137,12 @@ def _get_markdown_kwargs():
         'codehilite',
         tables.TableExtension(),
         linker.LinkerExtension({
-             '__default__': 'wagtailmarkdown.mdx.linkers.page',
-             'page:': 'wagtailmarkdown.mdx.linkers.page',
-             'image:': 'wagtailmarkdown.mdx.linkers.image',
-             'doc:': 'wagtailmarkdown.mdx.linkers.document',
-         })
+            '__default__': 'wagtailmarkdown.mdx.linkers.page',
+            'page:': 'wagtailmarkdown.mdx.linkers.page',
+            'image:': 'wagtailmarkdown.mdx.linkers.image',
+            'doc:': 'wagtailmarkdown.mdx.linkers.document',
+        }),
+        'mdx_math'
     ]
     markdown_kwargs['extension_configs'] = {
         'codehilite': [
