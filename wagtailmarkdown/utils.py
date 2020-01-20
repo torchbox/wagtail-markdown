@@ -15,6 +15,9 @@ from django.utils.safestring import mark_safe
 import bleach
 import markdown
 
+# comes with wagtail
+from bs4 import BeautifulSoup
+
 from .mdx import linker, tables
 from .warnings import WagtailMarkdownDeprecationWarning
 
@@ -33,9 +36,21 @@ def render_markdown(text, context=None):
 def _transform_markdown_into_html(text):
     return markdown.markdown(smart_text(text), **_get_markdown_kwargs())
 
-
 def _sanitise_markdown_html(markdown_html):
-    return bleach.clean(markdown_html, **_get_bleach_kwargs())
+    cleaned_html = bleach.clean(markdown_html, **_get_bleach_kwargs())
+
+    # Problem: <script> tags get removed
+    # See: https://github.com/mozilla/bleach/issues/330 .. 
+    # this routine here is needed because bleach doesn't
+    # have conditional tag whitelists.
+    soup = BeautifulSoup(cleaned_html, 'html5lib')
+    for script_tag in soup.find_all('script'):
+        if script_tag.attrs.get('type', False) not in ['math/tex; mode=display','math/tex' ]:
+            # remove this script. it isn't MathJax.
+            print(script_tag)
+            script_tag.extract()
+    
+    return str(soup)
 
 
 def _get_bleach_kwargs():
@@ -76,6 +91,8 @@ def _get_bleach_kwargs():
         'ol',
         'hr',
         'br',
+        # white list <script>
+        'script'
     ]
     bleach_kwargs['attributes'] = {
         '*': [
@@ -101,6 +118,9 @@ def _get_bleach_kwargs():
             'colspan',
             'align',
         ],
+        'script': [
+            'type',
+        ]
     }
     bleach_kwargs['styles'] = [
         'color',
