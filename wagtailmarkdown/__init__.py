@@ -22,6 +22,7 @@ setup()
 # Classes below are here so users who use old imports get
 # meaningful errors.
 class DeprecatedObject(object):
+    # pylint: disable=no-member
     def __init__(self, *args, **kwargs):
         warning = (
             "The `wagtailmarkdown.{class_name}` import is not valid. Please "

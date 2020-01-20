@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wagtail-markdown"
-version = "0.6.1"
+version = "0.6.2"
 description = ""
 authors = ["Your Name <you@example.com>"]
 packages = [

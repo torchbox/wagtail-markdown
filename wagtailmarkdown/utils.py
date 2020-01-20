@@ -36,7 +36,38 @@ def render_markdown(text, context=None):
 def _transform_markdown_into_html(text):
     return markdown.markdown(smart_text(text), **_get_markdown_kwargs())
 
+
+# class TexFilter(bleach.html5lib_shim.Filter):
+#     def __iter__(self):
+#         open_scripts=[]
+#         for token in bleach.html5lib_shim.Filter.__iter__(self):
+#             print(token)
+#             type_ = token['type']
+#             if type_ in ['StartTag','EndTag'] and token['name'] in ['script'] and token['data']:
+
+#                 for k,v in token['data'].items():
+#                     print(k,v)
+                
+#                 if (None, 'type') in token['data']:
+#                     print("hit1")
+#                     if token['data'][(None, 'type')] in ["math/tex; mode=display", "math/tex", "js"]:
+#                         print("hit2")
+#                         yield token
+#                 else:
+#                     print('miss')
+#             else:
+#                 yield token
+
+
 def _sanitise_markdown_html(markdown_html):
+    # Would be more beautiful with a filter but I have no clue how to deal with the flatness of the iterator
+    # https://html5lib.readthedocs.io/en/latest/_modules/html5lib/filters/lint.html#Filter
+    # One needs a memory (open_elements)
+    # The solution below is much cleaner
+
+    # cleaner = bleach.sanitizer.Cleaner(**_get_bleach_kwargs(), filters=[TexFilter])
+    # return cleaner.clean(markdown_html)
+
     cleaned_html = bleach.clean(markdown_html, **_get_bleach_kwargs())
 
     # Problem: <script> tags get removed
@@ -47,7 +78,6 @@ def _sanitise_markdown_html(markdown_html):
     for script_tag in soup.find_all('script'):
         if script_tag.attrs.get('type', False) not in ['math/tex; mode=display','math/tex' ]:
             # remove this script. it isn't MathJax.
-            print(script_tag)
             script_tag.extract()
     
     return str(soup)
