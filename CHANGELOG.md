@@ -1,3 +1,10 @@
+# 0.6 - 12th February 2020
+
+- Dropped Python 2.7 support
+- Fixed requirements to support Wagtail >2.0
+- Allow superscript HTML tags
+- Improved README
+
 # 0.5 - 13th July 2018
 
 - Adjust dependency of Wagtail to < 2.3
