@@ -10,7 +10,10 @@
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from wagtail import wagtaildocs
+try:  # wagtail < 2.0
+    from wagtail.wagtaildocs.models import Document
+except ImportError:  # wagtail >= 2.0
+    from wagtail.documents.models import Document
 
 from markdown.util import etree
 
@@ -22,7 +25,7 @@ class Linker(object):
             if len(optstr):
                 text = optstr[0]
 
-            doc = wagtaildocs.models.Document.objects.get(title=name)
+            doc = Document.objects.get(title=name)
             url = doc.url
             a = etree.Element('a')
             a.set('href', url)
