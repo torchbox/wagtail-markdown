@@ -23,8 +23,7 @@ extensions to make it actually useful in Wagtail:
 
 These are implemented using the `python-markdown` extension interface.
 
-You can configure wagtail-markdown to use additional Markdown extensions by via the `WAGTAILMARKDOWN_EXTENSIONS` setting.
-config.
+You can configure wagtail-markdown to use additional Markdown extensions using the `WAGTAILMARKDOWN_EXTENSIONS` setting.
 
 For example, to enable the [Table of
 Contents](https://python-markdown.github.io/extensions/toc/) and [Sane
