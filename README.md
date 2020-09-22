@@ -22,8 +22,16 @@ extensions to make it actually useful in Wagtail:
 * Inline Markdown preview using [SimpleMDE](http://nextstepwebs.github.io/simplemde-markdown-editor/)
 
 These are implemented using the `python-markdown` extension interface.
-Currently, adding new extensions isn't possible without modifying the code, but
-that shouldn't be difficult to implement (patches welcome).
+
+You can configure wagtail-markdown to use additional Markdown extensions by via the `WAGTAILMARKDOWN_EXTENSIONS` setting.
+config.
+
+For example, to enable the [Table of
+Contents](https://python-markdown.github.io/extensions/toc/) and [Sane
+Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
+```python
+WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
+```
 
 ### Installation
 Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.

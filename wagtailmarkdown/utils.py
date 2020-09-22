@@ -9,6 +9,7 @@
 #
 import warnings
 
+from django.conf import settings
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
 
@@ -143,6 +144,10 @@ def _get_markdown_kwargs():
              'doc:': 'wagtailmarkdown.mdx.linkers.document',
          })
     ]
+
+    if hasattr(settings, 'WAGTAILMARKDOWN_EXTENSIONS'):
+        markdown_kwargs['extensions'] += settings.WAGTAILMARKDOWN_EXTENSIONS
+
     markdown_kwargs['extension_configs'] = {
         'codehilite': [
             ('guess_lang', False),
