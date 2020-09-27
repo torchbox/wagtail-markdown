@@ -165,6 +165,8 @@ def _get_markdown_kwargs():
             for opt in markdown_kwargs["extension_configs"][extension_config]:
                 if opt[0] not in [new_opt[0] for new_opt in options]:
                     conf[extension_name].append(opt)
+                    
+        markdown_kwargs['extension_configs'] = conf
 
     markdown_kwargs['output_format'] = 'html5'
     return markdown_kwargs
