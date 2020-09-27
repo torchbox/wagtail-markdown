@@ -162,11 +162,13 @@ def _get_markdown_kwargs():
         ) in settings.WAGTAILMARKDOWN_EXTENSION_CONFIGS.items():
             conf[extension_name] = options
             # Copy over defaut options that aren't overwritten
-            for opt in markdown_kwargs["extension_configs"][extension_name]:
-                if opt[0] not in [new_opt[0] for new_opt in options]:
-                    conf[extension_name].append(opt)
-                    
-        markdown_kwargs['extension_configs'] = conf
+            default_opts = markdown_kwargs["extension_configs"][extension_name]
+            if default_opts:
+                for opt in default_opts:
+                    if opt[0] not in [new_opt[0] for new_opt in options]:
+                        conf[extension_name].append(opt)
+
+        markdown_kwargs["extension_configs"] = conf
 
     markdown_kwargs['output_format'] = 'html5'
     return markdown_kwargs
