@@ -32,6 +32,16 @@ Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
 WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
 ```
 
+You can also configure specific extensions using the `WAGTAILMARKDOWN_EXTENSION_CONFIGS` setting.
+
+For example, to customize the settings for the `codehilite` extension, you can do something like this:
+
+```python
+WAGTAILMARKDOWN_EXTENSION_CONFIGS = {
+    "codehilite": [("guess_lang", True), ("linenums", True)]
+}
+```
+
 ### Installation
 Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
 
