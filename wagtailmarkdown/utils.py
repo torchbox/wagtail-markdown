@@ -145,14 +145,20 @@ def _get_markdown_kwargs():
          })
     ]
 
-    if hasattr(settings, 'WAGTAILMARKDOWN_EXTENSIONS'):
-        markdown_kwargs['extensions'] += settings.WAGTAILMARKDOWN_EXTENSIONS
-
     markdown_kwargs['extension_configs'] = {
         'codehilite': [
             ('guess_lang', False),
         ]
     }
+
+    if hasattr(settings, 'WAGTAILMARKDOWN_EXTENSIONS'):
+        markdown_kwargs['extensions'] += settings.WAGTAILMARKDOWN_EXTENSIONS
+
+    if hasattr(settings, 'WAGTAILMARKDOWN_EXTENSION_CONFIGS'):
+        markdown_kwargs['extension_configs'].update(
+            settings.WAGTAILMARKDOWN_EXTENSION_CONFIGS
+        )
+
     markdown_kwargs['output_format'] = 'html5'
     return markdown_kwargs
 
