@@ -51,6 +51,7 @@ CLASSIFIERS = [
     'License :: OSI Approved :: zlib/libpng License',
     'Programming Language :: Python :: 3',
     'Framework :: Wagtail',
+    'Framework :: Wagtail :: 2'
 ]
 
 
