@@ -30,6 +30,7 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
             css={
                 'all': (
                     'wagtailmarkdown/css/easymde.min.css',
+                    'wagtailmarkdown/css/easymde.tweaks.css',
                 )
             },
             js=(
