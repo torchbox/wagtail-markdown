@@ -32,6 +32,12 @@ Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
 WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
 ```
 
+Extensions can be configured too:
+
+```python
+WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
+```
+
 ### Installation
 Alpha release is available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
 

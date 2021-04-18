@@ -153,6 +153,12 @@ def _get_markdown_kwargs():
             ('guess_lang', False),
         ]
     }
+
+    if hasattr(settings, 'WAGTAILMARKDOWN_EXTENSIONS_CONFIG'):
+        markdown_kwargs['extension_configs'].update(
+            settings.WAGTAILMARKDOWN_EXTENSIONS_CONFIG
+        )
+
     markdown_kwargs['output_format'] = 'html5'
     return markdown_kwargs
 
