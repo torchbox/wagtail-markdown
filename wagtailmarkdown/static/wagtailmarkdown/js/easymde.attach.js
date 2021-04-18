@@ -12,12 +12,11 @@
 /*
  * Used to initialize Simple MDE when Markdown blocks are used in StreamFields
  */
-function easymdeAttach(id) {
+function easymdeAttach(id, autoDownloadFontAwesome) {
     var mde = new EasyMDE({
         element: document.getElementById(id),
         autofocus: false,
-        // Do not get FontAwesome automatically. Instead rely on the version added as instructed in README
-        autoDownloadFontAwesome: false,
+        autoDownloadFontAwesome: autoDownloadFontAwesome,
     });
     mde.render();
 
