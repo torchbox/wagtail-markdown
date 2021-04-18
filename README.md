@@ -35,7 +35,7 @@ WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
 Extensions can be configured too:
 
 ```python
-WAGTAILMARKDOWN_EXTENSION_CONFIGS = {'pymdownx.arithmatex': {'generic': True}}
+WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
 ```
 
 ### Installation
