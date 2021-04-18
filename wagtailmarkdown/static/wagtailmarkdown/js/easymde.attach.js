@@ -16,6 +16,8 @@ function easymdeAttach(id) {
     var mde = new EasyMDE({
         element: document.getElementById(id),
         autofocus: false,
+        // Do not get FontAwesome automatically. Instead rely on the version added as instructed in README
+        autoDownloadFontAwesome: false,
     });
     mde.render();
 
