@@ -64,6 +64,9 @@ setup(
     author='Felicity Tarnell',
     author_email='felicity@torchbox.com',
     url='https://github.com/torchbox/wagtail-markdown',
+    project_urls={
+        "Changelog": "https://github.com/torchbox/wagtail-markdown/blob/master/CHANGELOG.md",
+    },
     install_requires=INSTALL_REQUIRES,
     license='zlib',
     packages=find_packages(),
