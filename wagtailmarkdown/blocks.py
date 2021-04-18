@@ -26,17 +26,3 @@ class MarkdownBlock(TextBlock):
 
     def render_basic(self, value, context=None):
         return render_markdown(value, context)
-
-    @property
-    def media(self):
-        return forms.Media(
-            css={
-                'all': (
-                    'wagtailmarkdown/css/easymde.min.css',
-                )
-            },
-            js=(
-                'wagtailmarkdown/js/easymde.min.js',
-                'wagtailmarkdown/js/easymde.attach.js',
-            )
-        )
