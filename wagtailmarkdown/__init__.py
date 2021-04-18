@@ -12,6 +12,7 @@
 def setup():
     # Make warnings visible
     import warnings
+
     from .warnings import WagtailMarkdownDeprecationWarning
     warnings.simplefilter('default', WagtailMarkdownDeprecationWarning)
 

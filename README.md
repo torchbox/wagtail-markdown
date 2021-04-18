@@ -19,7 +19,7 @@ extensions to make it actually useful in Wagtail:
 * Inline links to pages (`<:My page name|link title>`) and documents
   (`<:doc:My fancy document.pdf>`), and inline images
   (`<:image:My pretty image.jpeg>`).
-* Inline Markdown preview using [SimpleMDE](http://nextstepwebs.github.io/simplemde-markdown-editor/)
+* Inline Markdown preview using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)
 
 These are implemented using the `python-markdown` extension interface.
 
@@ -33,11 +33,28 @@ WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
 ```
 
 ### Installation
-Alpha release is available on Pypi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
+Alpha release is available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
 
-The SimpleMDE editor uses FontAwesome for its widget icons. You can install [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome) via `pip install wagtailfontawesome`, or if you already have the stylesheet,  add the following to a `wagtail_hooks` module in a registered app in your project:
+The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started). 
+By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set 
+`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings. 
 
-``` python
+Then get the desired FontAwesome version. For the latest version you can use: 
+
+```sh
+curl -H "Content-Type: application/json" \
+-d '{ "query": "query { release(version: \"latest\") { version } }" }' \
+https://api.fontawesome.com
+```
+
+then add the following to a `wagtail_hooks` module in a registered app in your application:
+
+```python
+# Content of app_name/wagtail_hooks.py
+from wagtail.core import hooks
+from django.conf import settings
+from django.utils.html import format_html
+
 @hooks.register('insert_global_admin_css')
 def import_fontawesome_stylesheet():
     elem = '<link rel="stylesheet" href="{}path/to/font-awesome.min.css">'.format(
@@ -45,6 +62,8 @@ def import_fontawesome_stylesheet():
     )
     return format_html(elem)
 ```
+
+Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome) 
 
 #### Syntax highlighting
 

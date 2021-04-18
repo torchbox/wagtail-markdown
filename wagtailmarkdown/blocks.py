@@ -32,11 +32,11 @@ class MarkdownBlock(TextBlock):
         return forms.Media(
             css={
                 'all': (
-                    'wagtailmarkdown/css/simplemde.min.css',
+                    'wagtailmarkdown/css/easymde.min.css',
                 )
             },
             js=(
-                'wagtailmarkdown/js/simplemde.min.js',
-                'wagtailmarkdown/js/simplemde.attach.js',
+                'wagtailmarkdown/js/easymde.min.js',
+                'wagtailmarkdown/js/easymde.attach.js',
             )
         )

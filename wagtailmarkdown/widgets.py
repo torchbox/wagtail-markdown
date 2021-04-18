@@ -8,6 +8,7 @@
 # warranty.
 #
 from django import forms
+from django.conf import settings
 
 from wagtail.utils.widgets import WidgetWithScript
 
@@ -17,18 +18,23 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
         super(MarkdownTextarea, self).__init__(**kwargs)
 
     def render_js_init(self, id_, name, value):
-        return 'simplemdeAttach("{0}");'.format(id_)
+        autodownload_fontawesome = getattr(settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None)
+        if autodownload_fontawesome is not None:
+            autodownload = 'true' if autodownload_fontawesome else 'false'
+            return 'easymdeAttach("{0}", {1});'.format(id_, autodownload)
+        return 'easymdeAttach("{0}");'.format(id_)
 
     @property
     def media(self):
         return forms.Media(
             css={
                 'all': (
-                    'wagtailmarkdown/css/simplemde.min.css',
+                    'wagtailmarkdown/css/easymde.min.css',
+                    'wagtailmarkdown/css/easymde.tweaks.css',
                 )
             },
             js=(
-                'wagtailmarkdown/js/simplemde.min.js',
-                'wagtailmarkdown/js/simplemde.attach.js',
+                'wagtailmarkdown/js/easymde.min.js',
+                'wagtailmarkdown/js/easymde.attach.js',
             )
         )
