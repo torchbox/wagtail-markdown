@@ -41,11 +41,11 @@ WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
 ### Installation
 Alpha release is available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
 
-The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started). 
-By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set 
-`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings. 
+The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started).
+By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
+`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings.
 
-Then get the desired FontAwesome version. For the latest version you can use: 
+Then get the desired FontAwesome version. For the latest version you can use:
 
 ```sh
 curl -H "Content-Type: application/json" \
@@ -69,7 +69,7 @@ def import_fontawesome_stylesheet():
     return format_html(elem)
 ```
 
-Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome) 
+Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
 
 #### Syntax highlighting
 

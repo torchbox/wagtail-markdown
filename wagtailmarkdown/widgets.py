@@ -18,9 +18,11 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
         super(MarkdownTextarea, self).__init__(**kwargs)
 
     def render_js_init(self, id_, name, value):
-        autodownload_fontawesome = getattr(settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None)
+        autodownload_fontawesome = getattr(
+            settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None
+        )
         if autodownload_fontawesome is not None:
-            autodownload = 'true' if autodownload_fontawesome else 'false'
+            autodownload = "true" if autodownload_fontawesome else "false"
             return 'easymdeAttach("{0}", {1});'.format(id_, autodownload)
         return 'easymdeAttach("{0}");'.format(id_)
 
@@ -28,13 +30,13 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
     def media(self):
         return forms.Media(
             css={
-                'all': (
-                    'wagtailmarkdown/css/easymde.min.css',
-                    'wagtailmarkdown/css/easymde.tweaks.css',
+                "all": (
+                    "wagtailmarkdown/css/easymde.min.css",
+                    "wagtailmarkdown/css/easymde.tweaks.css",
                 )
             },
             js=(
-                'wagtailmarkdown/js/easymde.min.js',
-                'wagtailmarkdown/js/easymde.attach.js',
-            )
+                "wagtailmarkdown/js/easymde.min.js",
+                "wagtailmarkdown/js/easymde.attach.js",
+            ),
         )

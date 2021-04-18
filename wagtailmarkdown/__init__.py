@@ -14,7 +14,8 @@ def setup():
     import warnings
 
     from .warnings import WagtailMarkdownDeprecationWarning
-    warnings.simplefilter('default', WagtailMarkdownDeprecationWarning)
+
+    warnings.simplefilter("default", WagtailMarkdownDeprecationWarning)
 
 
 setup()
@@ -27,22 +28,23 @@ class DeprecatedObject(object):
         warning = (
             "The `wagtailmarkdown.{class_name}` import is not valid. Please "
             "use `wagtailmarkdown.{new_path}` instead."
-        ).format(
-            new_path=self.new_path,
-            class_name=self.class_name
-        )
+        ).format(new_path=self.new_path, class_name=self.class_name)
         raise ImportError(warning)
 
 
 old_classes = [
-    ('MarkdownBlock', 'blocks.MarkdownBlock'),
-    ('MarkdownField', 'fields.MarkdownField'),
-    ('MarkdownPanel', 'edit_handlers.MarkdownPanel'),
-    ('MarkdownTextarea', 'widgets.MarkdownTextarea'),
+    ("MarkdownBlock", "blocks.MarkdownBlock"),
+    ("MarkdownField", "fields.MarkdownField"),
+    ("MarkdownPanel", "edit_handlers.MarkdownPanel"),
+    ("MarkdownTextarea", "widgets.MarkdownTextarea"),
 ]
 
 for class_name, new_path in old_classes:
-    locals()[class_name] = type(class_name, (DeprecatedObject,), {
-        'class_name': class_name,
-        'new_path': new_path,
-    })
+    locals()[class_name] = type(
+        class_name,
+        (DeprecatedObject,),
+        {
+            "class_name": class_name,
+            "new_path": new_path,
+        },
+    )
