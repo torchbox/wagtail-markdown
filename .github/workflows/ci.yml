@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: "3.8"
       - uses: pre-commit/action@v2.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,23 +29,23 @@ jobs:
 #    strategy:
 #      matrix:
 #        include:
-#          - python: 3.6
+#          - python: "3.6"
 #            django: "Django>=2.2,<2.3"
 #            wagtail: "wagtail>=2.10,<2.11"
 #            experimental: false
-#          - python: 3.7
+#          - python: "3.7"
 #            django: "Django>=3.0,<3.1"
 #            wagtail: "wagtail>=2.11,<2.14"
 #            experimental: false
-#          - python: 3.8
+#          - python: "3.8"
 #            django: "Django>=3.1,<3.2"
 #            wagtail: "wagtail>=2.11,<2.14"
 #            experimental: false
-#          - python: 3.9
+#          - python: "3.9"
 #            django: "Django>=3.1,<3.2"
 #            wagtail: "wagtail>=2.11,<2.14"
 #            experimental: false
-#          - python: 3.9
+#          - python: "3.9"
 #            django: "Django>=3.1,<3.3"
 #            wagtail: "git+https://github.com/wagtail/wagtail.git@main#egg=wagtail"
 #            experimental: true
@@ -87,7 +87,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: "3.8"
       - name: Install dependencies
         run: pip install wheel
       - name: Build

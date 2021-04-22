@@ -36,19 +36,22 @@ INSTALL_REQUIRES = [
 
 
 TESTING_REQUIRES = [
-    "dj_database_url==0.4.2",
+    "dj_database_url==0.5.0",
 ]
 
 
 CLASSIFIERS = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
+    "License :: OSI Approved :: zlib/libpng License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Framework :: Django",
-    "License :: OSI Approved :: zlib/libpng License",
     "Programming Language :: Python :: 3",
+    "Framework :: Django",
+    "Framework :: Django :: 2.2",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django :: 3.1",
     "Framework :: Wagtail",
     "Framework :: Wagtail :: 2",
 ]
@@ -56,7 +59,7 @@ CLASSIFIERS = [
 
 setup(
     name="wagtail-markdown",
-    version="0.6",
+    version="0.7.0-alpha",
     description="Markdown support for Wagtail",
     long_description="Provides Markdown page field and streamfield block for "
     "Wagtail. More info: {}".format(README),
