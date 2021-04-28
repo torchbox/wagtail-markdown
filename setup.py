@@ -19,7 +19,7 @@ def get_git_revision_hash():
     try:
         git_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
     except subprocess.CalledProcessError:
-        return 'main'
+        return "main"
     else:
         return git_hash.decode("ascii").splitlines()[0]
 
@@ -29,9 +29,9 @@ README = README.format(hash=get_git_revision_hash())
 
 
 INSTALL_REQUIRES = [
-    'Markdown>=3,<4',
-    'bleach>=3.3.0,<4',
-    'Wagtail>=2.0',
+    "Markdown>=3,<4",
+    "bleach>=3.3.0,<4",
+    "Wagtail>=2.0",
 ]
 
 
@@ -59,7 +59,7 @@ CLASSIFIERS = [
 
 setup(
     name="wagtail-markdown",
-    version="0.7.0-alpha",
+    version="0.7.0-rc1",
     description="Markdown support for Wagtail",
     long_description="Provides Markdown page field and streamfield block for "
     "Wagtail. More info: {}".format(README),

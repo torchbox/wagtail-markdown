@@ -1,10 +1,11 @@
-# 0.7.0 - UNRELEASED
+# 0.7.0-rc1 - 28th April 2021
 
 - Switched to using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) - @StefanUlbrich
 - Added support for extensions config via `WAGTAILMARKDOWN_EXTENSIONS_CONFIG` - @StefanUlbrich
 - Removed deprecations
 - Added [pre-commit](https://pre-commit.com/) support
 - Switched to [SemVer](https://semver.org/) and GitHub Actions
+- Updated [bleach](https://github.com/mozilla/bleach) minimum version to 3.3.0
 
 # 0.6 - 12th February 2020
 
