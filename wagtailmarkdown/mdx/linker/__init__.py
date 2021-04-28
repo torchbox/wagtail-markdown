@@ -11,7 +11,7 @@ from importlib import import_module
 
 import markdown
 
-LINKER_RE = r'<:([a-z]+:)?([^>|\n]+)((\|[^>|\n]+){0,})>'
+LINKER_RE = r"<:([a-z]+:)?([^>|\n]+)((\|[^>|\n]+){0,})>"
 
 
 class LinkerPattern(markdown.inlinepatterns.Pattern):
@@ -23,16 +23,16 @@ class LinkerPattern(markdown.inlinepatterns.Pattern):
         linktypes = self.linktypes
         opts = []
         if m.group(3) is not None and len(m.group(4)):
-            opts = m.group(4).split('|')[1:]
+            opts = m.group(4).split("|")[1:]
 
         type = m.group(2)
         if type is None:
-            type = '__default__'
+            type = "__default__"
         mod = import_module(linktypes[type])
         c = mod.Linker()
 
         return c.run(m.group(3), opts)
-        return '[invalid link]'
+        return "[invalid link]"
 
 
 class LinkerExtension(markdown.Extension):
@@ -41,8 +41,7 @@ class LinkerExtension(markdown.Extension):
         self.linktypes = linktypes
 
     def extendMarkdown(self, md, md_globals):
-        md.inlinePatterns['linker'] = LinkerPattern(LINKER_RE, md,
-                                                    self.linktypes)
+        md.inlinePatterns["linker"] = LinkerPattern(LINKER_RE, md, self.linktypes)
 
 
 def makeExtension(configs=None):

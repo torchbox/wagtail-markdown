@@ -1,0 +1,10 @@
+[tool.black]
+target-version = ['py36']
+
+[tool.isort]
+profile = "black"
+known_django = "django"
+known_wagtail = "wagtail"
+known_first_party = ['wagtailmarkdown']
+sections = ['FUTURE', 'STDLIB', 'DJANGO', 'WAGTAIL', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+skip=['migrations', '.git', '__pycache__', 'venv']

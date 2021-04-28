@@ -29,9 +29,7 @@ class MarkdownBlock(MarkdownBlock):
 
 class MarkdownField(TextField):
     def formfield(self, **kwargs):
-        defaults = {
-            'widget': MarkdownTextarea
-        }
+        defaults = {"widget": MarkdownTextarea}
         defaults.update(kwargs)
         return super(MarkdownField, self).formfield(**defaults)
 

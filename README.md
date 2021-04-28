@@ -1,5 +1,11 @@
 ## wagtail-markdown: Markdown fields and blocks for Wagtail
 
+[![Build status](https://img.shields.io/github/workflow/status/torchbox/wagtail-markdown/CI/main?style=for-the-badge)](https://github.com/torchbox/wagtail-markdown/actions)
+[![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg?style=for-the-badge)](https://pypi.org/project/wagtail-markdown/)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=for-the-badge)](https://github.com/pre-commit/pre-commit)
+
+
 Tired of annoying rich text editors getting in the way of your content
 input?  Wish Wagtail worked more like a wiki?  Well, now it can.
 
@@ -39,13 +45,13 @@ WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
 ```
 
 ### Installation
-Alpha release is available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`. It's not a production ready release.
+Available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`.
 
-The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started). 
-By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set 
-`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings. 
+The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started).
+By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
+`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings.
 
-Then get the desired FontAwesome version. For the latest version you can use: 
+Then get the desired FontAwesome version. For the latest version you can use:
 
 ```sh
 curl -H "Content-Type: application/json" \
@@ -69,17 +75,16 @@ def import_fontawesome_stylesheet():
     return format_html(elem)
 ```
 
-Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome) 
+Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
 
 #### Syntax highlighting
 
 Syntax highlighting using codehilite is an optional feature, which works by
 adding CSS classes to the generated HTML. To use these classes, you will need
 to install Pygments (`pip install Pygments`), and to generate an appropriate
-stylesheet. You can generate one as per the [Pygments
-documentation](http://pygments.org/docs/quickstart/), with:
+stylesheet. You can generate one as per the [Pygments documentation](http://pygments.org/docs/quickstart/), with:
 
-``` python
+```python
 >>> from pygments.formatters import HtmlFormatter
 >>> print HtmlFormatter().get_style_defs('.codehilite')
 ```
@@ -87,7 +92,7 @@ documentation](http://pygments.org/docs/quickstart/), with:
 Save the output to a file and reference it somewhere that will be
 picked up on pages rendering the relevant output, e.g. your base template:
 
-``` html+django
+```html+django
 <link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
 ```
 

@@ -1,3 +1,11 @@
+# 0.7.0 - UNRELEASED
+
+- Switched to using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) - @StefanUlbrich
+- Added support for extensions config via `WAGTAILMARKDOWN_EXTENSIONS_CONFIG` - @StefanUlbrich
+- Removed deprecations
+- Added [pre-commit](https://pre-commit.com/) support
+- Switched to [SemVer](https://semver.org/) and GitHub Actions
+
 # 0.6 - 12th February 2020
 
 - Dropped Python 2.7 support

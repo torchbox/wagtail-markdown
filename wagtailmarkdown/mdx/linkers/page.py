@@ -29,8 +29,8 @@ class Linker(object):
 
             page = Page.objects.get(title=name)
             url = page.url
-            a = etree.Element('a')
-            a.set('href', url)
+            a = etree.Element("a")
+            a.set("href", url)
             a.text = text
             return a
         except ObjectDoesNotExist:

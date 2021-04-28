@@ -20,23 +20,10 @@ except ImportError:
 
 class MarkdownBlock(TextBlock):
     def __init__(self, required=True, help_text=None, **kwargs):
-        self.field = forms.CharField(required=required, help_text=help_text,
-                                     widget=MarkdownTextarea())
+        self.field = forms.CharField(
+            required=required, help_text=help_text, widget=MarkdownTextarea()
+        )
         super(MarkdownBlock, self).__init__(**kwargs)
 
     def render_basic(self, value, context=None):
         return render_markdown(value, context)
-
-    @property
-    def media(self):
-        return forms.Media(
-            css={
-                'all': (
-                    'wagtailmarkdown/css/easymde.min.css',
-                )
-            },
-            js=(
-                'wagtailmarkdown/js/easymde.min.js',
-                'wagtailmarkdown/js/easymde.attach.js',
-            )
-        )

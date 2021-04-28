@@ -27,8 +27,8 @@ class Linker(object):
 
             doc = Document.objects.get(title=name)
             url = doc.url
-            a = etree.Element('a')
-            a.set('href', url)
+            a = etree.Element("a")
+            a.set("href", url)
             a.text = text
             return a
         except ObjectDoesNotExist:

@@ -10,64 +10,69 @@
 # warranty.
 #
 
-from setuptools import setup, find_packages
 import subprocess
+
+from setuptools import find_packages, setup
 
 
 def get_git_revision_hash():
     try:
-        git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD'])
+        git_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
     except subprocess.CalledProcessError:
-        return 'master'
+        return "master"
     else:
-        return git_hash.decode('ascii').splitlines()[0]
+        return git_hash.decode("ascii").splitlines()[0]
 
 
-README = 'https://github.com/torchbox/wagtail-markdown/blob/{hash}/README.md'
-README = README.format(
-    hash=get_git_revision_hash()
-)
+README = "https://github.com/torchbox/wagtail-markdown/blob/{hash}/README.md"
+README = README.format(hash=get_git_revision_hash())
 
 
 INSTALL_REQUIRES = [
-    'Markdown>=3,<4',
-    'bleach>=1.4.2,<2.2',
-    'Wagtail>=2.0',
+    "Markdown>=3,<4",
+    "bleach>=1.4.2,<2.2",
+    "Wagtail>=2.0",
 ]
 
 
 TESTING_REQUIRES = [
-    'dj_database_url==0.4.2',
+    "dj_database_url==0.5.0",
 ]
 
 
 CLASSIFIERS = [
-    'Development Status :: 5 - Production/Stable',
-    'Environment :: Web Environment',
-    'Intended Audience :: Developers',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python',
-    'Framework :: Django',
-    'License :: OSI Approved :: zlib/libpng License',
-    'Programming Language :: Python :: 3',
-    'Framework :: Wagtail',
-    'Framework :: Wagtail :: 2'
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: zlib/libpng License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Framework :: Django",
+    "Framework :: Django :: 2.2",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django :: 3.1",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 2",
 ]
 
 
 setup(
-    name='wagtail-markdown',
-    version='0.6',
-    description='Markdown support for Wagtail',
+    name="wagtail-markdown",
+    version="0.7.0-alpha",
+    description="Markdown support for Wagtail",
     long_description="Provides Markdown page field and streamfield block for "
-                     "Wagtail. More info: {}".format(README),
-    author='Felicity Tarnell',
-    author_email='felicity@torchbox.com',
-    url='https://github.com/torchbox/wagtail-markdown',
+    "Wagtail. More info: {}".format(README),
+    author="Felicity Tarnell",
+    author_email="felicity@torchbox.com",
+    url="https://github.com/torchbox/wagtail-markdown",
+    project_urls={
+        "Changelog": "https://github.com/torchbox/wagtail-markdown/blob/master/CHANGELOG.md",
+    },
     install_requires=INSTALL_REQUIRES,
-    license='zlib',
+    license="zlib",
     packages=find_packages(),
     include_package_data=True,
     classifiers=CLASSIFIERS,
-    extras_require={'testing': TESTING_REQUIRES},
+    extras_require={"testing": TESTING_REQUIRES},
 )
