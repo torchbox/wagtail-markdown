@@ -29,9 +29,9 @@ README = README.format(hash=get_git_revision_hash())
 
 
 INSTALL_REQUIRES = [
-    "Markdown>=3,<4",
-    "bleach>=1.4.2,<2.2",
-    "Wagtail>=2.0",
+    'Markdown>=3,<4',
+    'bleach>=3.3.0,<4',
+    'Wagtail>=2.0',
 ]
 
 
