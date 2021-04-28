@@ -19,7 +19,7 @@ def get_git_revision_hash():
     try:
         git_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
     except subprocess.CalledProcessError:
-        return "master"
+        return 'main'
     else:
         return git_hash.decode("ascii").splitlines()[0]
 
@@ -67,7 +67,7 @@ setup(
     author_email="felicity@torchbox.com",
     url="https://github.com/torchbox/wagtail-markdown",
     project_urls={
-        "Changelog": "https://github.com/torchbox/wagtail-markdown/blob/master/CHANGELOG.md",
+        "Changelog": "https://github.com/torchbox/wagtail-markdown/blob/main/CHANGELOG.md",
     },
     install_requires=INSTALL_REQUIRES,
     license="zlib",
