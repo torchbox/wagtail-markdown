@@ -132,7 +132,7 @@ def _get_bleach_kwargs():
         if 'allowed_tags' in settings.WAGTAILMARKDOWN:
             bleach_kwargs["tags"]=bleach_kwargs["tags"]+settings.WAGTAILMARKDOWN['allowed_tags']
         if 'allowed_attributes' in settings.WAGTAILMARKDOWN:
-            bleach_kwargs["attributes"]={**bleach_kwargs["attributes"],**settings.WAGTAILMARKDOWN['allowed_attributes'])            
+            bleach_kwargs["attributes"]={**bleach_kwargs["attributes"],**settings.WAGTAILMARKDOWN['allowed_attributes']}            
     return bleach_kwargs
 
 
