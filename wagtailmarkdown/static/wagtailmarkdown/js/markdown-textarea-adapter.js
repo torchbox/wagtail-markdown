@@ -14,6 +14,7 @@
         // define public API functions for the widget:
         // https://docs.wagtail.io/en/latest/reference/streamfield/widget_api.html
         return {
+            idForLabel: null,
             getValue: function() {
                 return element.value;
             },
