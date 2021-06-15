@@ -20,6 +20,9 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
     });
     mde.render();
 
+    // Save the codemirror instance on the original html element for later use.
+    mde.element.codemirror = mde.codemirror;
+
     mde.codemirror.on("change", function(){
         $('#' + id).val(mde.value());
     });
@@ -29,20 +32,20 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 * Used to initialize Simple MDE when MarkdownFields are used on a page.
 */
 $(document).ready(function() {
-$(".object.markdown textarea").each(function(index, elem) {
-    easymdeAttach(elem.id);
-});
+    $(".object.markdown textarea").each(function(index, elem) {
+        easymdeAttach(elem.id);
+    });
 });
 
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
 */
 $(document).on('shown.bs.tab', function(e) {
-$('.CodeMirror').each(function(i, el){
-    setTimeout(
-        function() {
-            el.CodeMirror.refresh();
-        }, 100
-    );
-});
+    $('.CodeMirror').each(function(i, el){
+        setTimeout(
+            function() {
+                el.CodeMirror.refresh();
+            }, 100
+        );
+    });
 });

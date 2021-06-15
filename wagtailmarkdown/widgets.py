@@ -12,11 +12,19 @@ from django.conf import settings
 
 from wagtail.utils.widgets import WidgetWithScript
 
+try:
+    from wagtail.core.telepath import register
+    from wagtail.core.widget_adapters import WidgetAdapter
+except ImportError:  # do-nothing fallback for Wagtail <2.13
+
+    def register(adapter, cls):
+        pass
+
+    class WidgetAdapter:
+        pass
+
 
 class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
-    def __init__(self, **kwargs):
-        super(MarkdownTextarea, self).__init__(**kwargs)
-
     def render_js_init(self, id_, name, value):
         autodownload_fontawesome = getattr(
             settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None
@@ -40,3 +48,13 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
                 "wagtailmarkdown/js/easymde.attach.js",
             ),
         )
+
+
+class MarkdownTextareaAdapter(WidgetAdapter):
+    js_constructor = "wagtailmarkdown.widgets.MarkdownTextarea"
+
+    class Media:
+        js = ["wagtailmarkdown/js/markdown-textarea-adapter.js"]
+
+
+register(MarkdownTextareaAdapter(), MarkdownTextarea)
