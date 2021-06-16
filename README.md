@@ -35,7 +35,7 @@ Available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via
 
 ### Configuration
 
-With version 0.7.0 settings are defined as dict (The previous settings with constants will be deprecated at version 0.9.0):
+In version 0.7.0, settings are defined as a dict (the previous settings with constants will be deprecated in version 0.9.0):
 ```
 WAGTAILMARKDOWN = {
 'extensions': {},
