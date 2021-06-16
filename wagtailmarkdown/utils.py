@@ -10,6 +10,7 @@
 from django.conf import settings
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
+import warnings
 
 import bleach
 import markdown
@@ -154,6 +155,10 @@ def _get_markdown_kwargs():
 
     if hasattr(settings, "WAGTAILMARKDOWN_EXTENSIONS"):
         markdown_kwargs["extensions"] += settings.WAGTAILMARKDOWN_EXTENSIONS
+        warnings.warn(
+            "WAGTAILMARKDOWN_EXTENSIONS will be deprecated in version 7.1, use WAGTAILMARKDOWN = { extensions: {} } as dict instead",
+             PendingDeprecationWarning
+        )
     elif hasattr(settings, "WAGTAILMARKDOWN") and 'extensions' in settings.WAGTAILMARKDOWN:
         markdown_kwargs["extensions"] += settings.WAGTAILMARKDOWN['extensions']
 
@@ -166,6 +171,10 @@ def _get_markdown_kwargs():
     if hasattr(settings, "WAGTAILMARKDOWN_EXTENSIONS_CONFIG"):
         markdown_kwargs["extension_configs"].update(
             settings.WAGTAILMARKDOWN_EXTENSIONS_CONFIG
+        )
+        warnings.warn(
+            "WAGTAILMARKDOWN_EXTENSIONS_CONFIG will be deprecated in version 7.1, use WAGTAILMARKDOWN = { extensions_config: {} } as dict instead",
+             PendingDeprecationWarning
         )
     elif hasattr(settings, "WAGTAILMARKDOWN") and 'extensions_config' in settings.WAGTAILMARKDOWN:
         markdown_kwargs["extension_configs"].update(
