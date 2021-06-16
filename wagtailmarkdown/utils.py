@@ -156,7 +156,7 @@ def _get_markdown_kwargs():
     if hasattr(settings, "WAGTAILMARKDOWN_EXTENSIONS"):
         markdown_kwargs["extensions"] += settings.WAGTAILMARKDOWN_EXTENSIONS
         warnings.warn(
-            "WAGTAILMARKDOWN_EXTENSIONS will be deprecated in version 7.1, use WAGTAILMARKDOWN = { extensions: {} } as dict instead",
+            "WAGTAILMARKDOWN_EXTENSIONS will be deprecated in version  0.9.0, use WAGTAILMARKDOWN = { extensions: {} } as dict instead",
              PendingDeprecationWarning
         )
     elif hasattr(settings, "WAGTAILMARKDOWN") and 'extensions' in settings.WAGTAILMARKDOWN:
@@ -173,7 +173,7 @@ def _get_markdown_kwargs():
             settings.WAGTAILMARKDOWN_EXTENSIONS_CONFIG
         )
         warnings.warn(
-            "WAGTAILMARKDOWN_EXTENSIONS_CONFIG will be deprecated in version 7.1, use WAGTAILMARKDOWN = { extensions_config: {} } as dict instead",
+            "WAGTAILMARKDOWN_EXTENSIONS_CONFIG will be deprecated in version  0.9.0, use WAGTAILMARKDOWN = { extensions_config: {} } as dict instead",
              PendingDeprecationWarning
         )
     elif hasattr(settings, "WAGTAILMARKDOWN") and 'extensions_config' in settings.WAGTAILMARKDOWN:
