@@ -12,6 +12,8 @@ from django.conf import settings
 
 from wagtail.utils.widgets import WidgetWithScript
 
+import warnings
+
 try:
     from wagtail.core.telepath import register
     from wagtail.core.widget_adapters import WidgetAdapter
@@ -26,9 +28,18 @@ except ImportError:  # do-nothing fallback for Wagtail <2.13
 
 class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
     def render_js_init(self, id_, name, value):
-        autodownload_fontawesome = getattr(
-            settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None
-        )
+        autodownload_fontawesome = None
+        if hasattr(settings, "WAGTAILMARKDOWN") and 'autodownload_fontawesome' in settings.WAGTAILMARKDOWN:
+            autodownload_fontawesome = "true" if a settings.WAGTAILMARKDOWN["autodownload_fontawesome"] else "false"
+        if autodownload_fontawesome is None:
+            autodownload_fontawesome = getattr(
+                settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None
+            )
+            if hasattr(settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME"):
+                warnings.warn(
+                "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME will be deprecated in version 7.1, use WAGTAILMARKDOWN = { autodownload_fontawesome: .. } as dict instead",
+                 PendingDeprecationWarning
+                )
         if autodownload_fontawesome is not None:
             autodownload = "true" if autodownload_fontawesome else "false"
             return 'easymdeAttach("{0}", {1});'.format(id_, autodownload)
