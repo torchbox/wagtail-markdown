@@ -29,27 +29,25 @@ extensions to make it actually useful in Wagtail:
 
 These are implemented using the `python-markdown` extension interface.
 
-You can configure wagtail-markdown to use additional Markdown extensions using the `WAGTAILMARKDOWN_EXTENSIONS` setting.
-
-For example, to enable the [Table of
-Contents](https://python-markdown.github.io/extensions/toc/) and [Sane
-Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
-```python
-WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
-```
-
-Extensions can be configured too:
-
-```python
-WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
-```
-
 ### Installation
 Available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`.
 
+
+### Configuration
+
+With version 0.7.0 settings are defined as dict (The previous settings with constants will be deprecated at version 0.9.0):
+```
+WAGTAILMARKDOWN = {
+'extensions': {},
+'autodownload_fontawesome': ..,
+..
+}
+```
+
+#### `autodownload_fontawesome`: Custom FontAwesome Configuration
 The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started).
-By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
-`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings.
+By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set the configuration
+`'autodownload_fontawesome' : False` in your settings.
 
 Then get the desired FontAwesome version. For the latest version you can use:
 
@@ -76,6 +74,34 @@ def import_fontawesome_stylesheet():
 ```
 
 Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
+
+#### `extensions`/`extensions_config`: Add extensions
+
+You can configure wagtail-markdown to use additional Markdown extensions using the `extensions` setting.
+
+For example, to enable the [Table of
+Contents](https://python-markdown.github.io/extensions/toc/) and [Sane
+Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
+```python
+WAGTAILMARKDOWN={'extensions' : ["toc", "sane_lists"] }
+```
+
+Extensions can be configured too:
+
+```python
+WAGTAILMARKDOWN['extensions_config'] = {'pymdownx.arithmatex': {'generic': True}}
+```
+
+#### `allowed_styles` / `allowed_attributes` / `allowed_tags`: Allow more html tags
+
+To extend the default bleach values, you can add your own tags or attributes:
+```
+WAGTAILMARKDOWN = {
+'allowed_tags': ["i"],
+'allowed_styles': ["some_style"],
+'allowed_attributes':{'i':['aria-hidden']}
+}
+```
 
 #### Syntax highlighting
 
