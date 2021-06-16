@@ -1,5 +1,5 @@
 # vim:sw=4 ts=4 et:
-# Copyright (c) 2015 Torchbox Ltd.
+# Copyright (c) 2015-present Torchbox Ltd.
 # felicity@torchbox.com 2015-09-14
 #
 # Permission is granted to anyone to use this software for any purpose,
@@ -7,7 +7,6 @@
 # freely. This software is provided 'as-is', without any express or implied
 # warranty.
 #
-import warnings
 
 from django.conf import settings
 from django.utils.encoding import smart_text
@@ -38,112 +37,118 @@ def _sanitise_markdown_html(markdown_html):
     return bleach.clean(markdown_html, **_get_bleach_kwargs())
 
 
-def _get_bleach_kwargs():
-    bleach_kwargs = {}
-    bleach_kwargs["tags"] = [
-        "p",
-        "div",
-        "span",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "tt",
-        "pre",
-        "em",
-        "strong",
-        "ul",
-        "sup",
-        "li",
-        "dl",
-        "dd",
-        "dt",
-        "code",
-        "img",
-        "a",
-        "table",
-        "tr",
-        "th",
-        "td",
-        "tbody",
-        "caption",
-        "colgroup",
-        "thead",
-        "tfoot",
-        "blockquote",
-        "ol",
-        "hr",
-        "br",
-    ]
-    bleach_kwargs["attributes"] = {
-        "*": [
-            "class",
-            "style",
-            "id",
+def _get_default_bleach_kwargs():
+    return {
+        "tags": [
+            "p",
+            "div",
+            "span",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "tt",
+            "pre",
+            "em",
+            "strong",
+            "ul",
+            "sup",
+            "li",
+            "dl",
+            "dd",
+            "dt",
+            "code",
+            "img",
+            "a",
+            "table",
+            "tr",
+            "th",
+            "td",
+            "tbody",
+            "caption",
+            "colgroup",
+            "thead",
+            "tfoot",
+            "blockquote",
+            "ol",
+            "hr",
+            "br",
         ],
-        "a": [
-            "href",
-            "target",
-            "rel",
-        ],
-        "img": [
-            "src",
-            "alt",
-        ],
-        "tr": [
-            "rowspan",
-            "colspan",
-        ],
-        "td": [
-            "rowspan",
-            "colspan",
-            "align",
+        "attributes": {
+            "*": [
+                "class",
+                "style",
+                "id",
+            ],
+            "a": [
+                "href",
+                "target",
+                "rel",
+            ],
+            "img": [
+                "src",
+                "alt",
+            ],
+            "tr": [
+                "rowspan",
+                "colspan",
+            ],
+            "td": [
+                "rowspan",
+                "colspan",
+                "align",
+            ],
+        },
+        "styles": [
+            "color",
+            "background-color",
+            "font-family",
+            "font-weight",
+            "font-size",
+            "width",
+            "height",
+            "text-align",
+            "border",
+            "border-top",
+            "border-bottom",
+            "border-left",
+            "border-right",
+            "padding",
+            "padding-top",
+            "padding-bottom",
+            "padding-left",
+            "padding-right",
+            "margin",
+            "margin-top",
+            "margin-bottom",
+            "margin-left",
+            "margin-right",
         ],
     }
-    bleach_kwargs["styles"] = [
-        "color",
-        "background-color",
-        "font-family",
-        "font-weight",
-        "font-size",
-        "width",
-        "height",
-        "text-align",
-        "border",
-        "border-top",
-        "border-bottom",
-        "border-left",
-        "border-right",
-        "padding",
-        "padding-top",
-        "padding-bottom",
-        "padding-left",
-        "padding-right",
-        "margin",
-        "margin-top",
-        "margin-bottom",
-        "margin-left",
-        "margin-right",
-    ]
+
+
+def _get_bleach_kwargs():
+    bleach_kwargs = _get_default_bleach_kwargs()
 
     if hasattr(settings, "WAGTAILMARKDOWN"):
         if "allowed_styles" in settings.WAGTAILMARKDOWN:
             bleach_kwargs["styles"] = bleach_kwargs["styles"] + list(
-                set(settings.WAGTAILMARKDOWN["allowed_styles"])
-                - set(bleach_kwargs["styles"])
+                set(
+                    settings.WAGTAILMARKDOWN["allowed_styles"] + bleach_kwargs["styles"]
+                )
             )
         if "allowed_tags" in settings.WAGTAILMARKDOWN:
             bleach_kwargs["tags"] = bleach_kwargs["tags"] + list(
-                set(settings.WAGTAILMARKDOWN["allowed_tags"])
-                - set(bleach_kwargs["tags"])
+                set(settings.WAGTAILMARKDOWN["allowed_tags"] + bleach_kwargs["tags"])
             )
         if "allowed_attributes" in settings.WAGTAILMARKDOWN:
             bleach_kwargs["attributes"] = {
                 **bleach_kwargs["attributes"],
                 **settings.WAGTAILMARKDOWN["allowed_attributes"],
             }
+
     return bleach_kwargs
 
 
@@ -163,14 +168,7 @@ def _get_markdown_kwargs():
         ),
     ]
 
-    if hasattr(settings, "WAGTAILMARKDOWN_EXTENSIONS"):
-        markdown_kwargs["extensions"] += settings.WAGTAILMARKDOWN_EXTENSIONS
-        warnings.warn(
-            "WAGTAILMARKDOWN_EXTENSIONS will be deprecated in version 0.9.0."
-            + " Use WAGTAILMARKDOWN = { extensions: {} } as a dict instead",
-            PendingDeprecationWarning,
-        )
-    elif (
+    if (
         hasattr(settings, "WAGTAILMARKDOWN")
         and "extensions" in settings.WAGTAILMARKDOWN
     ):
@@ -182,21 +180,12 @@ def _get_markdown_kwargs():
         ]
     }
 
-    if hasattr(settings, "WAGTAILMARKDOWN_EXTENSIONS_CONFIG"):
-        markdown_kwargs["extension_configs"].update(
-            settings.WAGTAILMARKDOWN_EXTENSIONS_CONFIG
-        )
-        warnings.warn(
-            "WAGTAILMARKDOWN_EXTENSIONS_CONFIG will be deprecated in version  0.9.0,"
-            + " use WAGTAILMARKDOWN = { extensions_config: {} } as dict instead",
-            PendingDeprecationWarning,
-        )
-    elif (
+    if (
         hasattr(settings, "WAGTAILMARKDOWN")
-        and "extensions_config" in settings.WAGTAILMARKDOWN
+        and "extension_configs" in settings.WAGTAILMARKDOWN
     ):
         markdown_kwargs["extension_configs"].update(
-            settings.WAGTAILMARKDOWN["extensions_config"]
+            settings.WAGTAILMARKDOWN["extension_configs"]
         )
 
     markdown_kwargs["output_format"] = "html5"
