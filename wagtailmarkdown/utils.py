@@ -129,9 +129,9 @@ def _get_bleach_kwargs():
     
     if hasattr(settings, "WAGTAILMARKDOWN"):
         if 'allowed_styles' in settings.WAGTAILMARKDOWN:
-            bleach_kwargs["styles"]=bleach_kwargs["styles"]+settings.WAGTAILMARKDOWN['allowed_styles']
+            bleach_kwargs["styles"]=bleach_kwargs["styles"]+list(set(settings.WAGTAILMARKDOWN['allowed_styles']) - set(bleach_kwargs["styles"]))
         if 'allowed_tags' in settings.WAGTAILMARKDOWN:
-            bleach_kwargs["tags"]=bleach_kwargs["tags"]+settings.WAGTAILMARKDOWN['allowed_tags']
+            bleach_kwargs["tags"]=bleach_kwargs["tags"]+list(set(settings.WAGTAILMARKDOWN['allowed_tags']) - set(bleach_kwargs["tags"]))
         if 'allowed_attributes' in settings.WAGTAILMARKDOWN:
             bleach_kwargs["attributes"]={**bleach_kwargs["attributes"],**settings.WAGTAILMARKDOWN['allowed_attributes']}            
     return bleach_kwargs
