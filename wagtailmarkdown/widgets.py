@@ -26,12 +26,17 @@ except ImportError:  # do-nothing fallback for Wagtail <2.13
 
 class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
     def render_js_init(self, id_, name, value):
-        autodownload_fontawesome = getattr(
-            settings, "WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME", None
-        )
-        if autodownload_fontawesome is not None:
-            autodownload = "true" if autodownload_fontawesome else "false"
+        if (
+            hasattr(settings, "WAGTAILMARKDOWN")
+            and "autodownload_fontawesome" in settings.WAGTAILMARKDOWN
+        ):
+            autodownload = (
+                "true"
+                if settings.WAGTAILMARKDOWN["autodownload_fontawesome"]
+                else "false"
+            )
             return 'easymdeAttach("{0}", {1});'.format(id_, autodownload)
+
         return 'easymdeAttach("{0}");'.format(id_)
 
     @property

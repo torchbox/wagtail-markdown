@@ -12,8 +12,8 @@ input?  Wish Wagtail worked more like a wiki?  Well, now it can.
 `wagtail-markdown` provides Markdown field support for [Wagtail](https://github.com/torchbox/wagtail/).
 Specifically, it provides:
 
-* A `wagtailmarkdown.blocks.MarkdownBlock` for use in streamfields.
-* A `wagtailmarkdown.fields.MarkdownField` for use in page models.
+* A `wagtailmarkdown.blocks.MarkdownBlock` for use in StreamFields.
+* A `wagtailmarkdown.fields.MarkdownField` for use in Page models.
 * A `wagtailmarkdown.edit_handlers.MarkdownPanel` for use in the editor interface.
 * A `markdown` template tag.
 
@@ -29,29 +29,57 @@ extensions to make it actually useful in Wagtail:
 
 These are implemented using the `python-markdown` extension interface.
 
-You can configure wagtail-markdown to use additional Markdown extensions using the `WAGTAILMARKDOWN_EXTENSIONS` setting.
-
-For example, to enable the [Table of
-Contents](https://python-markdown.github.io/extensions/toc/) and [Sane
-Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
-```python
-WAGTAILMARKDOWN_EXTENSIONS = ["toc", "sane_lists"]
-```
-
-Extensions can be configured too:
-
-```python
-WAGTAILMARKDOWN_EXTENSIONs_CONFIG = {'pymdownx.arithmatex': {'generic': True}}
-```
-
 ### Installation
-Available on PyPi - https://pypi.org/project/wagtail-markdown/ - installable via `pip install wagtail-markdown`.
+Available on PyPi - https://pypi.org/project/wagtail-markdown/.
 
+Install using pip (`pip install wagtail-markdown`), poetry (`poetry add wagtail-markdown`) or your package manager of choice.
+
+After installing the package, add `wagtailmarkdown` to the list of installed apps in your settings file:
+
+```python
+# settings.py
+
+INSTALLED_APPS = [
+    # ...
+    "wagtailmarkdown",
+]
+```
+
+### Configuration
+
+All `wagtatail-markdown` settings are defined in a single `WAGTAILMARKDOWN` dictionary in your settings file:
+
+```python
+# settings.py
+
+WAGTAILMARKDOWN = {
+    "autodownload_fontawesome": False,
+    "allowed_tags": [],  # optional. a list of tags
+    "allowed_styles": [],  # optional. a list of styles
+    "allowed_attributes": {},  # optional. a dict with HTML tag as key and a list of attributes as value
+    "extensions": [],  # optioanl. a list of extensions
+    "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
+}
+```
+
+Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extensions_config` are added to the
+default wagtail-markdown settings.
+
+
+#### Custom FontAwesome Configuration - `autodownload_fontawesome`
 The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started).
 By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
-`WAGTAILMARKDOWN_AUTODOWNLOAD_FONTAWESOME = False` in your settings.
 
-Then get the desired FontAwesome version. For the latest version you can use:
+```python
+# settings.py
+
+WAGTAILMARKDOWN = {
+    # ...
+    "autodownload_fontawesome": False,
+}
+```
+
+Get the desired FontAwesome version. For the latest version you can use:
 
 ```sh
 curl -H "Content-Type: application/json" \
@@ -67,6 +95,7 @@ from wagtail.core import hooks
 from django.conf import settings
 from django.utils.html import format_html
 
+
 @hooks.register('insert_global_admin_css')
 def import_fontawesome_stylesheet():
     elem = '<link rel="stylesheet" href="{}path/to/font-awesome.min.css">'.format(
@@ -75,7 +104,47 @@ def import_fontawesome_stylesheet():
     return format_html(elem)
 ```
 
-Note that due to the way EasyMDE defines the toolbar icons it is not compatible with [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
+Note that due to the way EasyMDE defines the toolbar icons it is not compatible with
+[Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
+
+#### Markdown extensions - `extensions`/`extensions_config`
+
+You can configure wagtail-markdown to use additional Markdown extensions using the `extensions` setting.
+
+For example, to enable the [Table of Contents](https://python-markdown.github.io/extensions/toc/) and
+[Sane Lists](https://python-markdown.github.io/extensions/sane_lists/) extensions:
+
+```python
+WAGTAILMARKDOWN = {
+    # ...
+    "extensions": ["toc", "sane_lists"]
+}
+```
+
+Extensions can be configured too:
+
+```python
+WAGTAILMARKDOWN = {
+    # ...
+    "extensions_config": {
+        "pymdownx.arithmatex": {"generic": True}
+    }
+}
+```
+
+#### Allowed HTML - `allowed_styles` / `allowed_attributes` / `allowed_tags`
+
+wagtail-markdown uses [bleach](https://github.com/mozilla/bleach) to sanitise the input. To extend the default
+bleach configurations, you can add your own allowed tags, styles or attributes:
+
+```python
+WAGTAILMARKDOWN = {
+    # ...
+    "allowed_tags": ["i"],
+    "allowed_styles": ["some_style"],
+    "allowed_attributes": {"i": ["aria-hidden"]}
+}
+```
 
 #### Syntax highlighting
 
@@ -97,23 +166,19 @@ picked up on pages rendering the relevant output, e.g. your base template:
 ```
 
 
-### Using it
+### Usage
 
-Add it to `INSTALLED_APPS`:
-
-```python
-INSTALLED_APPS += [
-    'wagtailmarkdown',
-]
-```
-
-Use it as a `StreamField` block:
+You can use it as a `StreamField` block:
 
 ```python
+from wagtail.core.blocks import StreamBlock
+
 from wagtailmarkdown.blocks import MarkdownBlock
+
 
 class MyStreamBlock(StreamBlock):
     markdown = MarkdownBlock(icon="code")
+    # ...
 ```
 
 <img src="https://i.imgur.com/4NFcfHd.png" width="728px" alt="">
@@ -121,8 +186,11 @@ class MyStreamBlock(StreamBlock):
 Or use as a page field:
 
 ```python
+from wagtail.core.models import Page
+
 from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
+
 
 class MyPage(Page):
     body = MarkdownField()
@@ -144,13 +212,21 @@ And render the content in a template:
 
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
-To enable syntax highlighting please use the Pygments (`pip install Pygments`) library.
 
-NB: The current version was written in about an hour and is probably completely
-unsuitable for production use.  Testing, comments and feedback are welcome:
-<kevin.howbrook@torchbox.com> (or open a Github issue).
+## Contributing
 
+All contributions are welcome!
 
-### Roadmap for 0.5
+Note that this project uses [pre-commit](https://github.com/pre-commit/pre-commit). To set up locally:
 
-* Set up tests: https://github.com/torchbox/wagtail-markdown/issues/28
+```shell
+# if you don't have it yet
+$ pip install pre-commit
+# go to the project directory
+$ cd wagtail-markdown
+# initialize pre-commit
+$ pre-commit install
+
+# Optional, run all checks once for this, then the checks will run only on the changed files
+$ pre-commit run --all-files
+```
