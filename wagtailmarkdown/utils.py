@@ -152,7 +152,7 @@ def _get_bleach_kwargs():
     return bleach_kwargs
 
 
-def _get_markdown_kwargs():
+def _get_default_markdown_kwargs():
     markdown_kwargs = {}
     markdown_kwargs["extensions"] = [
         "extra",
@@ -168,17 +168,27 @@ def _get_markdown_kwargs():
         ),
     ]
 
-    if (
-        hasattr(settings, "WAGTAILMARKDOWN")
-        and "extensions" in settings.WAGTAILMARKDOWN
-    ):
-        markdown_kwargs["extensions"] += settings.WAGTAILMARKDOWN["extensions"]
-
     markdown_kwargs["extension_configs"] = {
         "codehilite": [
             ("guess_lang", False),
         ]
     }
+
+    markdown_kwargs["output_format"] = "html5"
+
+    return markdown_kwargs
+
+
+def _get_markdown_kwargs():
+    markdown_kwargs = _get_default_markdown_kwargs()
+
+    if (
+        hasattr(settings, "WAGTAILMARKDOWN")
+        and "extensions" in settings.WAGTAILMARKDOWN
+    ):
+        markdown_kwargs["extensions"] = list(
+            set(markdown_kwargs["extensions"] + settings.WAGTAILMARKDOWN["extensions"])
+        )
 
     if (
         hasattr(settings, "WAGTAILMARKDOWN")
@@ -188,5 +198,4 @@ def _get_markdown_kwargs():
             settings.WAGTAILMARKDOWN["extension_configs"]
         )
 
-    markdown_kwargs["output_format"] = "html5"
     return markdown_kwargs
