@@ -62,7 +62,7 @@ WAGTAILMARKDOWN = {
 }
 ```
 
-Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extensions_config` are added to the
+Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extension_configs` are added to the
 default wagtail-markdown settings.
 
 
@@ -107,7 +107,7 @@ def import_fontawesome_stylesheet():
 Note that due to the way EasyMDE defines the toolbar icons it is not compatible with
 [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
 
-#### Markdown extensions - `extensions`/`extensions_config`
+#### Markdown extensions - `extensions`/`extension_configs`
 
 You can configure wagtail-markdown to use additional Markdown extensions using the `extensions` setting.
 
@@ -126,7 +126,7 @@ Extensions can be configured too:
 ```python
 WAGTAILMARKDOWN = {
     # ...
-    "extensions_config": {
+    "extension_configs": {
         "pymdownx.arithmatex": {"generic": True}
     }
 }
