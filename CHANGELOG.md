@@ -4,6 +4,7 @@
 
 ## 0.7.0 - 18 June 2021
 
+- Add test suite
 - Move all options in a single setting and allow further customisations ([#82](https://github.com/torchbox/wagtail-markdown/pull/82)) - Thanks @rokdd
 
 ### 0.7.0-rc2 - 15th June 2021
