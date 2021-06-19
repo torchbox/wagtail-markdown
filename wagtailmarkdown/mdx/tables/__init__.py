@@ -20,7 +20,7 @@ from markdown.util import etree
 
 
 class TableProcessor(BlockProcessor):
-    """ Process Tables. """
+    """Process Tables."""
 
     def test(self, parent, block):
         rows = block.split("\n")
@@ -33,7 +33,7 @@ class TableProcessor(BlockProcessor):
         )
 
     def run(self, parent, blocks):
-        """ Parse a table block and build table. """
+        """Parse a table block and build table."""
         block = blocks.pop(0).split("\n")
         header = block[0].strip()
         seperator = block[1].strip()
@@ -63,7 +63,7 @@ class TableProcessor(BlockProcessor):
             self._build_row(row.strip(), tbody, align, border)
 
     def _build_row(self, row, parent, align, border):
-        """ Given a row of text, build table cells. """
+        """Given a row of text, build table cells."""
         tr = etree.SubElement(parent, "tr")
         tag = "td"
         if parent.tag == "thead":
@@ -81,7 +81,7 @@ class TableProcessor(BlockProcessor):
                 c.set("align", a)
 
     def _split_row(self, row, border):
-        """ split a row of text into list of cells. """
+        """split a row of text into list of cells."""
         if border:
             if row.startswith("|"):
                 row = row[1:]
@@ -91,10 +91,10 @@ class TableProcessor(BlockProcessor):
 
 
 class TableExtension(Extension):
-    """ Add tables to Markdown. """
+    """Add tables to Markdown."""
 
     def extendMarkdown(self, md, md_globals):
-        """ Add an instance of TableProcessor to BlockParser. """
+        """Add an instance of TableProcessor to BlockParser."""
         md.parser.blockprocessors.add("table", TableProcessor(md.parser), "<hashheader")
 
 
