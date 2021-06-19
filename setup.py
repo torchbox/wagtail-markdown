@@ -47,6 +47,7 @@ CLASSIFIERS = [
     "Framework :: Django :: 2.2",
     "Framework :: Django :: 3.0",
     "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
     "Framework :: Wagtail",
     "Framework :: Wagtail :: 2",
 ]
@@ -54,12 +55,14 @@ CLASSIFIERS = [
 
 setup(
     name="wagtail-markdown",
-    version="0.7.0-rc2",
+    version="0.7.0",
     description="Markdown support for Wagtail",
     long_description="Provides Markdown page field and streamfield block for "
     "Wagtail. More info: {}".format(README),
     author="Felicity Tarnell",
-    author_email="felicity@torchbox.com",
+    author_email="hello@torchbox.com",
+    maintainer="Dan Braghis",
+    maintainer_email="dan.braghis@torchbox.com",
     url="https://github.com/torchbox/wagtail-markdown",
     project_urls={
         "Changelog": "https://github.com/torchbox/wagtail-markdown/blob/main/CHANGELOG.md",

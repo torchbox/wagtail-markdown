@@ -1,4 +1,12 @@
 global-exclude *.py[cod] __pycache__
-include LICENSE *.md
+prune __pycache__
+prune tests
+prune venv
+prune .tox
 graft wagtailmarkdown
-exclude .pre-commit-config.yaml tox.ini venv db.sqlite3 .tox
+include LICENSE
+include *.md
+include pyproject.toml
+exclude .pre-commit-config.yaml
+exclude tox.ini
+exclude db.sqlite3
