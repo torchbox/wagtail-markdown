@@ -7,4 +7,4 @@ known_django = "django"
 known_wagtail = "wagtail"
 known_first_party = ['wagtailmarkdown']
 sections = ['FUTURE', 'STDLIB', 'DJANGO', 'WAGTAIL', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
-skip=['migrations', '.git', '__pycache__', 'venv']
+skip=['migrations', '.git', '__pycache__', 'venv', '.github', '.tox', 'build', 'dist']

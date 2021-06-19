@@ -35,11 +35,6 @@ INSTALL_REQUIRES = [
 ]
 
 
-TESTING_REQUIRES = [
-    "dj_database_url==0.5.0",
-]
-
-
 CLASSIFIERS = [
     "Development Status :: 4 - Beta",
     "Environment :: Web Environment",
@@ -74,5 +69,4 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     classifiers=CLASSIFIERS,
-    extras_require={"testing": TESTING_REQUIRES},
 )
