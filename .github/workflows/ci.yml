@@ -32,7 +32,7 @@ jobs:
         experimental: [false]
         include:
           - python-version: "3.x"
-            toxenv: "djangomain"
+            toxenv: "wagtailmain"
             experimental: true
 
     steps:
@@ -47,11 +47,11 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade tox tox-py tox-venv
     - name: Run tox targets for Python ${{ matrix.python-version }}
-      if: ${{ matrix.toxenv != 'djangomain' }}
+      if: ${{ matrix.toxenv != 'wagtailmain' }}
       continue-on-error: ${{ matrix.experimental }}
       run: tox --py current
 
-    - name: Run '${{ matrix.toxenv }}' tox targets
-      if: ${{ matrix.toxenv == 'djangomain' }}
+    - name: Run ${{ matrix.toxenv }} tox targets
+      if: ${{ matrix.toxenv == 'wagtailmain' }}
       continue-on-error: ${{ matrix.experimental }}
       run: tox -e ${{ matrix.toxenv }}
