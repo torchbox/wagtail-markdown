@@ -155,7 +155,7 @@ stylesheet. You can generate one as per the [Pygments documentation](http://pygm
 
 ```python
 >>> from pygments.formatters import HtmlFormatter
->>> print HtmlFormatter().get_style_defs('.codehilite')
+>>> print(HtmlFormatter().get_style_defs('.codehilite'))
 ```
 
 Save the output to a file and reference it somewhere that will be
