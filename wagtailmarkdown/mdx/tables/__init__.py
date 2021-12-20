@@ -14,9 +14,10 @@ A simple example:
 Copyright 2009 - [Waylan Limberg](http://achinghead.com)
 """
 
+import xml.etree.ElementTree as etree
+
 from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
-from markdown.util import etree
 
 
 class TableProcessor(BlockProcessor):
