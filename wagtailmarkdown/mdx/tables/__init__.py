@@ -16,7 +16,7 @@ Copyright 2009 - [Waylan Limberg](http://achinghead.com)
 
 import markdown
 
-if markdown.VERSION >= (3, 2):
+if markdown.version >= (3, 2):
     import xml.etree.ElementTree as etree
 else:
     from markdown.util import etree
