@@ -12,6 +12,7 @@ from django.conf import settings
 
 from wagtail.utils.widgets import WidgetWithScript
 
+
 try:
     from wagtail.core.telepath import register
     from wagtail.core.widget_adapters import WidgetAdapter
