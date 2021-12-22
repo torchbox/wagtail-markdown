@@ -14,9 +14,19 @@ A simple example:
 Copyright 2009 - [Waylan Limberg](http://achinghead.com)
 """
 
+
+import markdown
+from packaging.version import Version
+
+if Version(markdown.__version__) >= Version("3.2"):
+    # Using markdown version 3.2+
+    import xml.etree.ElementTree as etree
+else:
+    # Using markdown below 3.2
+    from markdown.util import etree
+
 from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
-from markdown.util import etree
 
 
 class TableProcessor(BlockProcessor):
