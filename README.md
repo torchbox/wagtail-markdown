@@ -229,3 +229,14 @@ $ pre-commit install
 # Optional, run all checks once for this, then the checks will run only on the changed files
 $ pre-commit run --all-files
 ```
+
+### How to run tests
+
+Now you can run tests as shown below:
+
+```sh
+tox -p
+```
+
+or, you can run them for a specific environment `tox -e python3.9-django3.2-wagtail2.15` or specific test
+`tox -e python3.9-django3.2-wagtail2.15 tests.testapp.tests.test_admin.TestFieldsAdmin`
