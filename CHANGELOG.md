@@ -2,7 +2,11 @@
 
 ## Unreleased
 
-- Added Wagtail 2.16 and Django 4.0 compatibility ([#94](https://github.com/torchbox/wagtail-markdown/pull/94))
+### Added
+- Add Wagtail 2.16 and Django 4.0 compatibility ([#94](https://github.com/torchbox/wagtail-markdown/pull/94))
+- Update to EasyMDE 2.16.1 ([#95](https://github.com/torchbox/wagtail-markdown/pull/95))
+
+### Fixed
 - Fix etree deprecation warnings (for `Markdown >= 3.2`) ([#93](https://github.com/torchbox/wagtail-markdown/pull/93)) - Thanks @nickmoreton
 - Fix pygments code highlighting instructions ([#87](https://github.com/torchbox/wagtail-markdown/pull/87)) - Thanks @elcuy
 
