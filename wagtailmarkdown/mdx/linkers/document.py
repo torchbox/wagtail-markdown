@@ -10,6 +10,7 @@
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
+
 try:  # wagtail < 2.0
     from wagtail.wagtaildocs.models import Document
 except ImportError:  # wagtail >= 2.0

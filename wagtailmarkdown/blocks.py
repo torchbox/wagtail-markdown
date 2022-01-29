@@ -13,6 +13,7 @@ from django.utils.functional import cached_property
 from .utils import render_markdown
 from .widgets import MarkdownTextarea
 
+
 try:
     from wagtail.core.blocks import TextBlock
 except ImportError:

@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from wagtailmarkdown.templatetags.wagtailmarkdown import markdown
 
+
 markdown_input = (
     "# Heading\nThis is *some* text with a "
     "[link](https://example.com)\nand some disallowed "

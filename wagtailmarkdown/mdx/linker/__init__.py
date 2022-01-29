@@ -11,6 +11,7 @@ from importlib import import_module
 
 import markdown
 
+
 LINKER_RE = r"<:([a-z]+:)?([^>|\n]+)((\|[^>|\n]+){0,})>"
 
 

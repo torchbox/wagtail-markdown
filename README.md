@@ -54,16 +54,16 @@ All `wagtatail-markdown` settings are defined in a single `WAGTAILMARKDOWN` dict
 
 WAGTAILMARKDOWN = {
     "autodownload_fontawesome": False,
-    "allowed_tags": [],  # optional. a list of tags
+    "allowed_tags": [],  # optional. a list of HTML tags. e.g. ['div', 'p', 'a']
     "allowed_styles": [],  # optional. a list of styles
     "allowed_attributes": {},  # optional. a dict with HTML tag as key and a list of attributes as value
-    "extensions": [],  # optioanl. a list of extensions
+    "extensions": [],  # optional. a list of python-markdown supported extensions
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
 }
 ```
 
 Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extension_configs` are added to the
-default wagtail-markdown settings.
+[default wagtail-markdown settings](https://github.com/torchbox/wagtail-markdown/blob/main/wagtailmarkdown/utils.py#L40).
 
 
 #### Custom FontAwesome Configuration - `autodownload_fontawesome`
@@ -96,7 +96,7 @@ from django.conf import settings
 from django.utils.html import format_html
 
 
-@hooks.register('insert_global_admin_css')
+@hooks.register("insert_global_admin_css")
 def import_fontawesome_stylesheet():
     elem = '<link rel="stylesheet" href="{}path/to/font-awesome.min.css">'.format(
         settings.STATIC_URL
@@ -126,9 +126,7 @@ Extensions can be configured too:
 ```python
 WAGTAILMARKDOWN = {
     # ...
-    "extension_configs": {
-        "pymdownx.arithmatex": {"generic": True}
-    }
+    "extension_configs": {"pymdownx.arithmatex": {"generic": True}}
 }
 ```
 
@@ -142,7 +140,7 @@ WAGTAILMARKDOWN = {
     # ...
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],
-    "allowed_attributes": {"i": ["aria-hidden"]}
+    "allowed_attributes": {"i": ["aria-hidden"]},
 }
 ```
 
@@ -154,8 +152,9 @@ to install Pygments (`pip install Pygments`), and to generate an appropriate
 stylesheet. You can generate one as per the [Pygments documentation](http://pygments.org/docs/quickstart/), with:
 
 ```python
->>> from pygments.formatters import HtmlFormatter
->>> print(HtmlFormatter().get_style_defs('.codehilite'))
+from pygments.formatters import HtmlFormatter
+
+print(HtmlFormatter().get_style_defs(".codehilite"))
 ```
 
 Save the output to a file and reference it somewhere that will be
@@ -230,3 +229,14 @@ $ pre-commit install
 # Optional, run all checks once for this, then the checks will run only on the changed files
 $ pre-commit run --all-files
 ```
+
+### How to run tests
+
+Now you can run tests as shown below:
+
+```sh
+tox -p
+```
+
+or, you can run them for a specific environment `tox -e python3.9-django3.2-wagtail2.15` or specific test
+`tox -e python3.9-django3.2-wagtail2.15 tests.testapp.tests.test_admin.TestFieldsAdmin`

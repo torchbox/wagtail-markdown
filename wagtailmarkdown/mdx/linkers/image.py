@@ -11,6 +11,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from markdown.util import etree
 
+
 try:  # wagtail < 2.0
     from wagtail.wagtailimages import get_image_model
 except ImportError:  # wagtail >= 2.0

@@ -9,7 +9,7 @@
 #
 
 from django.conf import settings
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
 import bleach
@@ -30,7 +30,7 @@ def render_markdown(text, context=None):
 
 
 def _transform_markdown_into_html(text):
-    return markdown.markdown(smart_text(text), **_get_markdown_kwargs())
+    return markdown.markdown(smart_str(text), **_get_markdown_kwargs())
 
 
 def _sanitise_markdown_html(markdown_html):

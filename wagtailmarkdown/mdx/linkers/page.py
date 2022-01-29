@@ -11,6 +11,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from markdown.util import etree
 
+
 try:
     from wagtail.core.models import Page
 except ImportError:

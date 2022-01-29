@@ -9,6 +9,7 @@ from wagtailmarkdown.utils import (
     _get_markdown_kwargs,
 )
 
+
 WAGTAILMARKDOWN_BLEACH_SETTINGS = {
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],

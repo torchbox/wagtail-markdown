@@ -16,7 +16,9 @@ Copyright 2009 - [Waylan Limberg](http://achinghead.com)
 
 
 import markdown
+
 from packaging.version import Version
+
 
 if Version(markdown.__version__) >= Version("3.2"):
     # Using markdown version 3.2+
