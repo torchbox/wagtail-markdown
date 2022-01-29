@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added Wagtail 2.16 and Django 4.0 compatibility ([#94](https://github.com/torchbox/wagtail-markdown/pull/94))
+- Fix etree deprecation warnings (for `Markdown >= 3.2`) ([#93](https://github.com/torchbox/wagtail-markdown/pull/93)) - Thanks @nickmoreton
+- Fix pygments code highlighting instructions ([#87](https://github.com/torchbox/wagtail-markdown/pull/87)) - Thanks @elcuy
+
 ## 0.7.0 - 18 June 2021
 
 - Add test suite
