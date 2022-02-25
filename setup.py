@@ -48,6 +48,7 @@ CLASSIFIERS = [
     "Framework :: Django :: 3.0",
     "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
     "Framework :: Wagtail",
     "Framework :: Wagtail :: 2",
 ]
@@ -69,7 +70,8 @@ setup(
     },
     install_requires=INSTALL_REQUIRES,
     license="zlib",
-    packages=find_packages(),
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     include_package_data=True,
     classifiers=CLASSIFIERS,
 )
