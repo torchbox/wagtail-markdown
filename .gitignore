@@ -1,10 +1,12 @@
 *.pyc
 *.swp
 *.egg-info
+**/.DS_Store
 build/
 dist/
 .tox/
 venv/
+.venv/
 
 db.sqlite3
 .coverage

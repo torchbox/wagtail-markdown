@@ -1,5 +1,6 @@
 global-exclude *.py[cod] __pycache__
-prune __pycache__
+prune **/__pycache__
+prune **/.DS_Store
 prune tests
 prune venv
 prune .tox
@@ -10,4 +11,4 @@ include pyproject.toml
 exclude .pre-commit-config.yaml
 exclude tox.ini
 exclude db.sqlite3
-exclude .editorconfig
+exclude .editorconfig .gitignore
