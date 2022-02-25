@@ -8,7 +8,5 @@ graft src/wagtailmarkdown
 include LICENSE
 include *.md
 include pyproject.toml
-exclude .pre-commit-config.yaml
-exclude tox.ini
-exclude db.sqlite3
-exclude .editorconfig .gitignore
+exclude tox.ini db.sqlite3 Makefile
+exclude .pre-commit-config.yaml .editorconfig .gitignore
