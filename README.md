@@ -107,7 +107,7 @@ def import_fontawesome_stylesheet():
 Note that due to the way EasyMDE defines the toolbar icons it is not compatible with
 [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
 
-#### Django-compressor example
+##### Using with django-compressor
 
 You may have your own SCSS sources that you want to precompile on the fly.
 We can invoke django-compressor to fetch our Font Awesome SCSS sources like this:
