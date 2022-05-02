@@ -107,6 +107,32 @@ def import_fontawesome_stylesheet():
 Note that due to the way EasyMDE defines the toolbar icons it is not compatible with
 [Wagtail FontAwesome](https://gitlab.com/alexgleason/wagtailfontawesome)
 
+##### Using with django-compressor
+
+You may have your own SCSS sources that you want to precompile on the fly.
+We can invoke django-compressor to fetch our Font Awesome SCSS sources like this:
+
+```python
+# Content of app_name/wagtail_hooks.py
+from compressor.css import CssCompressor
+from wagtail.core import hooks
+from django.conf import settings
+from django.utils.html import format_html
+
+
+@hooks.register("insert_global_admin_css")
+def import_fontawesome_stylesheet():
+    elem = '<link rel="stylesheet" type="text/x-scss" href="{}scss/fontawesome.scss">'.format(
+        settings.STATIC_URL
+    )
+    compressor = CssCompressor("css", content=elem)
+    output = ""
+    for s in compressor.hunks():
+        output += s
+    return format_html(output)
+```
+
+
 #### Markdown extensions - `extensions`/`extension_configs`
 
 You can configure wagtail-markdown to use additional Markdown extensions using the `extensions` setting.
