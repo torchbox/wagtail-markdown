@@ -2,12 +2,15 @@
 
 ## Unreleased
 
-## Changed
+## [0.9.0] - 2022-07-01
+
+### Changed
 
 - `wagtailmarkdown.edit_handlers.MarkdownPanel` is deprecated and will be removed in the next minor version.
   Use the Wagtail core `FieldPanel` instead.
+- Updated the easymde/codemirror setup logic.
 
-## Removed
+### Removed
 
 - Dropped support for Wagtail < 2.15
 - Removed long deprecated `wagtailmarkdown.fields.MarkdownBlock` import
@@ -71,6 +74,7 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
+[0.9.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/v0.8.0
 [0.8.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/v0.8.0
 [0.7.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/0.7.0
 [0.6]: https://github.com/torchbox/wagtail-markdown/releases/tag/0.6
