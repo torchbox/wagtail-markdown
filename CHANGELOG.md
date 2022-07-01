@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## Changed
+
+- `wagtailmarkdown.edit_handlers.MarkdownPanel` is deprecated and will be removed in the next minor version.
+  Use the Wagtail core `FieldPanel` instead.
+
 ## Removed
 
 - Dropped support for Wagtail < 2.15
