@@ -1,13 +1,3 @@
-# vim:sw=4 ts=4 et:
-# Copyright (c) 2015-present Torchbox Ltd.
-# felicity@torchbox.com 2015-09-14
-#
-# Permission is granted to anyone to use this software for any purpose,
-# including commercial applications, and to alter it and redistribute it
-# freely. This software is provided 'as-is', without any express or implied
-# warranty.
-#
-
 from django.conf import settings
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
@@ -22,8 +12,6 @@ def render_markdown(text, context=None):
     """
     Turn markdown into HTML.
     """
-    if context is None or not isinstance(context, dict):
-        context = {}
     markdown_html = _transform_markdown_into_html(text)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
     return mark_safe(sanitised_markdown_html)

@@ -211,9 +211,9 @@ class MyStreamBlock(StreamBlock):
 Or use as a page field:
 
 ```python
+from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
-from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
 
 
@@ -222,7 +222,7 @@ class MyPage(Page):
 
     content_panels = [
         FieldPanel("title", classname="full title"),
-        MarkdownPanel("body"),
+        FieldPanel("body"),
     ]
 ```
 
