@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## Removed
+
+- Dropped support for Wagtail < 2.15
+
 ## [0.8.0] - 2022-02-25
 
 ### Added

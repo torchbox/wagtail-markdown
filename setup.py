@@ -31,7 +31,7 @@ README = README.format(hash=get_git_revision_hash())
 INSTALL_REQUIRES = [
     "Markdown>=3,<4",
     "bleach>=3.3.0,<4",
-    "Wagtail>=2.0",
+    "Wagtail>=2.15",
 ]
 
 
@@ -44,13 +44,13 @@ CLASSIFIERS = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Framework :: Django",
-    "Framework :: Django :: 2.2",
     "Framework :: Django :: 3.0",
     "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
     "Framework :: Wagtail",
     "Framework :: Wagtail :: 2",
+    "Framework :: Wagtail :: 3",
 ]
 
 

@@ -238,6 +238,10 @@ And render the content in a template:
 <img src="https://i.imgur.com/Sj1f4Jh.png" width="728px" alt="">
 
 
+## Compatibility
+
+wagtail-markdown supports Wagtail 2.15 and above.
+
 ## Contributing
 
 All contributions are welcome!
