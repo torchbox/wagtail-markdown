@@ -1,16 +1,15 @@
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.blocks import StreamBlock
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 
 from wagtailmarkdown.blocks import MarkdownBlock
-from wagtailmarkdown.edit_handlers import MarkdownPanel
 from wagtailmarkdown.fields import MarkdownField
 
 
 class TestPage(Page):
     body = MarkdownField(blank=True)
-    content_panels = [MarkdownPanel("body")]
+    content_panels = Page.content_panels + [FieldPanel("body")]
 
 
 class MyStreamBlock(StreamBlock):
@@ -19,4 +18,4 @@ class MyStreamBlock(StreamBlock):
 
 class TestWithStreamFieldPage(Page):
     body = StreamField(MyStreamBlock, blank=True)
-    content_panels = [StreamFieldPanel("body")]
+    content_panels = Page.content_panels + [StreamFieldPanel("body")]

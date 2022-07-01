@@ -10,3 +10,4 @@ venv/
 
 db.sqlite3
 .coverage
+tests/testapp/static/

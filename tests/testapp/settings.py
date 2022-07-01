@@ -1,7 +1,8 @@
 import os
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 SECRET_KEY = "fake_secret_key_to_run_tests"  # pragma: allowlist secret
 
@@ -40,7 +41,7 @@ DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "db.sql
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 STATIC_URL = "/static/"
 
 ROOT_URLCONF = "testapp.urls"
@@ -51,8 +52,14 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
 ALLOWED_HOSTS = ["*"]
 
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
+
+WAGTAIL_SITE_NAME = "Wagtail Markdown Test"
+WAGTAILADMIN_BASE_URL = "http://localhost:8020/"
+
+DEBUG = "INTERACTIVE" in os.environ
