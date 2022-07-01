@@ -5,6 +5,7 @@
 ## Removed
 
 - Dropped support for Wagtail < 2.15
+- Removed long deprecated `wagtailmarkdown.fields.MarkdownBlock` import
 
 ## [0.8.0] - 2022-02-25
 
