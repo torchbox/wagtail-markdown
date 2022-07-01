@@ -34,14 +34,6 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
-        experimental: [false]
-        include:
-          - python-version: "3.10"
-            toxenv: "notwagtailmain"
-            experimental: false
-          - python-version: "3.x"
-            toxenv: "wagtailmain"
-            experimental: true
 
     steps:
     - uses: actions/checkout@v3
@@ -55,11 +47,4 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install --upgrade tox tox-py tox-venv
     - name: Run tox targets for Python ${{ matrix.python-version }}
-      if: ${{ matrix.toxenv != 'wagtailmain' }}
-      continue-on-error: ${{ matrix.experimental }}
       run: tox --py current
-
-    - name: Run ${{ matrix.toxenv }} tox targets
-      if: ${{ matrix.toxenv == 'wagtailmain' }}
-      continue-on-error: ${{ matrix.experimental }}
-      run: tox -e ${{ matrix.toxenv }}

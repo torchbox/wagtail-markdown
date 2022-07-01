@@ -1,0 +1,37 @@
+name: Nightly Wagtail test
+
+on:
+  schedule:
+    # Weekly on Monday.
+    - cron: "0 0 * * 1"
+
+  workflow_dispatch:
+
+jobs:
+  nightly-test:
+    # Cannot check the existence of secrets, so limiting to repository name to prevent all forks to run nightly.
+    # See: https://github.com/actions/runner/issues/520
+    if: ${{ github.repository == 'torchbox/wagtail-markdown' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade tox tox-py tox-venv
+      - name: Test
+        id: test
+        continue-on-error: true
+        run: tox -e wagtailmain
+
+      - name: Send Slack notification on failure
+        if: steps.test.outcome == 'failure'
+        run: |
+          python .github/report_nightly_build_failure.py
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
