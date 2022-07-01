@@ -1,7 +1,7 @@
 /*
  * vim:sw=4 ts=4 et:
- * Copyright (c) 2015 Torchbox Ltd.
- * felicity@torchbox.com 2015-09-14
+ * Copyright (c) 2015-present Torchbox Ltd.
+ * hello@torchbox.com
  *
  * Permission is granted to anyone to use this software for any purpose,
  * including commercial applications, and to alter it and redistribute it
@@ -23,29 +23,33 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
     // Save the codemirror instance on the original html element for later use.
     mde.element.codemirror = mde.codemirror;
 
-    mde.codemirror.on("change", function(){
-        $('#' + id).val(mde.value());
+    mde.codemirror.on("change", function() {
+        document.getElementById(id).value = mde.value();
     });
 }
 
-/*
-* Used to initialize Simple MDE when MarkdownFields are used on a page.
-*/
-$(document).ready(function() {
-    $(".object.markdown textarea").each(function(index, elem) {
-        easymdeAttach(elem.id);
-    });
-});
 
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
 */
-$(document).on('shown.bs.tab', function(e) {
-    $('.CodeMirror').each(function(i, el){
-        setTimeout(
-            function() {
-                el.CodeMirror.refresh();
-            }, 100
-        );
+function refreshCodeMirror(e) {
+    setTimeout(
+        function() {
+            e.CodeMirror.refresh();
+        }, 100
+    );
+}
+
+// Wagtail < 3.0
+document.addEventListener('shown.bs.tab', function() {
+    document.querySelectorAll('.CodeMirror').forEach(function(e) {
+        refreshCodeMirror(e)
+    });
+});
+
+// Wagtail >= 3.0
+document.addEventListener('wagtail:tab-changed', function() {
+    document.querySelectorAll('.CodeMirror').forEach(function(e) {
+        refreshCodeMirror(e)
     });
 });
