@@ -10,14 +10,22 @@
  */
 
 /*
+ * Define globalThis.additionalEasyMDEOptions in your custom code to define options.
+ */
+if (!globalThis.additionalEasyMDEOptions) {
+    globalThis.additionalEasyMDEOptions = {};
+}
+
+/*
  * Used to initialize Simple MDE when Markdown blocks are used in StreamFields
  */
 function easymdeAttach(id, autoDownloadFontAwesome) {
-    var mde = new EasyMDE({
+    Object.assign(globalThis.additionalEasyMDEOptions, {
         element: document.getElementById(id),
         autofocus: false,
         autoDownloadFontAwesome: autoDownloadFontAwesome,
-    });
+    })
+    var mde = new EasyMDE(globalThis.additionalEasyMDEOptions);
     mde.render();
 
     // Save the codemirror instance on the original html element for later use.
