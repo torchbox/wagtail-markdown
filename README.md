@@ -190,6 +190,40 @@ picked up on pages rendering the relevant output, e.g. your base template:
 <link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
 ```
 
+#### EasyMDE configuration
+
+You can customise the [EasyMDE options](https://github.com/Ionaru/easy-markdown-editor#configuration). To do this,
+create a JavaScript file in your app (for example `my_app_name/static/js/easymde_custom.js`) and add the following:
+
+```js
+window.wagtailMarkdown = window.wagtailMarkdown || {};
+window.wagtailMarkdown.options = window.wagtailMarkdown.options || {};
+window.wagtailMarkdown.options.spellChecker = false;
+```
+
+This overrides a specific option and leaves any other ones untouched. If you want to override all options, you can do:
+
+```js
+window.wagtailMarkdown = window.wagtailMarkdown || {};
+window.wagtailMarkdown.options = {
+    spellChecker: false,
+}
+```
+
+To make sure that your JavaScript is executed, create a hook in `my_app_name/wagtail_hooks.py`:
+
+```python
+from django.templatetags.static import static
+from django.utils.html import format_html
+
+from wagtail import hooks
+
+
+@hooks.register("insert_global_admin_js", order=100)
+def global_admin_js():
+    """Add /static/js/admin/easymde_custom.js to the admin."""
+    return format_html('<script src="{}"></script>', static("js/easymde_custom.js"))
+```
 
 ### Usage
 

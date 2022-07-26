@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
+
 ## [0.9.0] - 2022-07-01
 
 ### Changed
