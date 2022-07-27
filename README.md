@@ -190,6 +190,28 @@ picked up on pages rendering the relevant output, e.g. your base template:
 <link rel="stylesheet" type="text/css" href="{% static 'path/to/pygments.css' %}">
 ```
 
+#### EasyMDE configuration
+
+EasyMDE options, as specified in [EasyMDE' documentation](https://github.com/Ionaru/easy-markdown-editor#configuration) can be set to configure the inline Markdown editor. To do this, create a static js file, where the options can be set:
+
+```js
+window.wagtailMarkdown = {};
+window.wagtailMarkdown.options = {
+    spellChecker: false,
+}
+```
+
+To make sure that the JS is executed, create a hook in `app_name/wagtail_hooks.py`:
+
+```python
+@hooks.register("insert_global_admin_js", order=100)
+def global_admin_js():
+    """Add /static/js/admin/easymde_custom.js to the admin."""
+    return format_html(
+        '<script src="{}"></script>',
+        static("/js/admin/easymde_custom.js")
+    )
+```
 
 ### Usage
 
