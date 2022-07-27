@@ -10,22 +10,22 @@
  */
 
 /*
- * Define globalThis.additionalEasyMDEOptions in your custom code to define options.
+ * Define window.wagtailMarkdown.options in your custom code to set EasyMDE options.
  */
-if (!globalThis.additionalEasyMDEOptions) {
-    globalThis.additionalEasyMDEOptions = {};
+if (!window.wagtailMarkdown || !window.wagtailMarkdown.options) {
+    window.wagtailMarkdown = {options: {}};
 }
 
 /*
  * Used to initialize Simple MDE when Markdown blocks are used in StreamFields
  */
 function easymdeAttach(id, autoDownloadFontAwesome) {
-    Object.assign(globalThis.additionalEasyMDEOptions, {
+    Object.assign(window.wagtailMarkdown.options, {
         element: document.getElementById(id),
         autofocus: false,
         autoDownloadFontAwesome: autoDownloadFontAwesome,
     })
-    var mde = new EasyMDE(globalThis.additionalEasyMDEOptions);
+    var mde = new EasyMDE(window.wagtailMarkdown.options);
     mde.render();
 
     // Save the codemirror instance on the original html element for later use.
