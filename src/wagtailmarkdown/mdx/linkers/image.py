@@ -2,7 +2,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.images import get_image_model
 
-from markdown.util import etree
+import xml.etree.ElementTree as etree
 
 
 # TODO: Default spec and class should be configurable, because they're

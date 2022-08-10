@@ -107,8 +107,8 @@ class TableExtension(Extension):
 
     def extendMarkdown(self, md):
         """Add an instance of TableProcessor to BlockParser."""
-        md.parser.blockprocessors.add("table", TableProcessor(md.parser), "<hashheader")
-
-
-def makeExtension(configs=None):
-    return TableExtension(configs=configs)
+        md.parser.blockprocessors.register(TableProcessor(md.parser), "table", 69)
+#
+#
+# def makeExtension(configs=None):
+#     return TableExtension(configs=configs)

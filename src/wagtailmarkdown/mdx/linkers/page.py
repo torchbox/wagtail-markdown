@@ -2,7 +2,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.core.models import Page
 
-from markdown.util import etree
+import xml.etree.ElementTree as etree
 
 
 # TODO: In Waiflike, this only allowed linking to SitePage (the main
@@ -17,11 +17,12 @@ class Linker(object):
                 text = optstr[0]
 
             page = Page.objects.get(title=name)
-            url = page.url
+            url = page.get_url()
             a = etree.Element("a")
             a.set("href", url)
             a.text = text
             return a
+            # return etree.tostring(a, encoding="utf8", method="html")
         except ObjectDoesNotExist:
             return '[page "{}" not found]'.format(name)
         except MultipleObjectsReturned:
