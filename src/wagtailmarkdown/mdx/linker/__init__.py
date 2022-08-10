@@ -25,7 +25,6 @@ class LinkerPattern(Pattern):
         c = mod.Linker()
 
         return c.run(m.group(3), opts)
-        return "[invalid link]"
 
 
 class LinkerExtension(Extension):
@@ -34,8 +33,9 @@ class LinkerExtension(Extension):
         self.linktypes = linktypes
 
     def extendMarkdown(self, md):
-        md.inlinePatterns["linker"] = LinkerPattern(LINKER_RE, md, self.linktypes)
-
-
-def makeExtension(configs=None):
-    return LinkerExtension(configs=configs)
+        md.inlinePatterns.register(LinkerPattern(LINKER_RE, md, self.linktypes),
+                                   "linker", 9)
+#
+#
+# def makeExtension(configs=None):
+#     return LinkerExtension(configs=configs)

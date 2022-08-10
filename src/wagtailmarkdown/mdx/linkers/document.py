@@ -2,7 +2,8 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.documents.models import Document
 
-from markdown.util import etree
+import xml.etree.ElementTree as etree
+
 
 
 class Linker(object):

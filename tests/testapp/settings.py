@@ -61,5 +61,6 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
 WAGTAIL_SITE_NAME = "Wagtail Markdown Test"
 WAGTAILADMIN_BASE_URL = "http://localhost:8020/"
+WAGTAILDOCS_SERVE_METHOD = "direct"
 
 DEBUG = "INTERACTIVE" in os.environ
