@@ -22,7 +22,6 @@ class Linker(object):
             a.set("href", url)
             a.text = text
             return a
-            # return etree.tostring(a, encoding="utf8", method="html")
         except ObjectDoesNotExist:
             return '[page "{}" not found]'.format(name)
         except MultipleObjectsReturned:
