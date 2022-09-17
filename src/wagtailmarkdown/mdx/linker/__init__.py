@@ -44,4 +44,4 @@ class LinkerExtension(Extension):
 
 def makeExtension(**kwargs):
     """As per https://python-markdown.github.io/extensions/api/#dot_notation"""
-    return LinkerExtension(**kwargs)
+    return LinkerExtension(**kwargs)  # pragma: no cover

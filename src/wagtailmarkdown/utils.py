@@ -122,13 +122,13 @@ def _get_bleach_kwargs():
 
     if hasattr(settings, "WAGTAILMARKDOWN"):
         if "allowed_styles" in settings.WAGTAILMARKDOWN:
-            bleach_kwargs["styles"] = bleach_kwargs["styles"] + list(
+            bleach_kwargs["styles"] = list(
                 set(
                     settings.WAGTAILMARKDOWN["allowed_styles"] + bleach_kwargs["styles"]
                 )
             )
         if "allowed_tags" in settings.WAGTAILMARKDOWN:
-            bleach_kwargs["tags"] = bleach_kwargs["tags"] + list(
+            bleach_kwargs["tags"] = list(
                 set(settings.WAGTAILMARKDOWN["allowed_tags"] + bleach_kwargs["tags"])
             )
         if "allowed_attributes" in settings.WAGTAILMARKDOWN:
@@ -141,28 +141,27 @@ def _get_bleach_kwargs():
 
 
 def _get_default_markdown_kwargs():
-    markdown_kwargs = {}
-    markdown_kwargs["extensions"] = [
-        "extra",
-        "codehilite",
-        "tables",
-        linker.LinkerExtension(
-            {
-                "__default__": "wagtailmarkdown.mdx.linkers.page",
-                "page:": "wagtailmarkdown.mdx.linkers.page",
-                "image:": "wagtailmarkdown.mdx.linkers.image",
-                "doc:": "wagtailmarkdown.mdx.linkers.document",
-            }
-        ),
-    ]
-
-    markdown_kwargs["extension_configs"] = {
-        "codehilite": [
-            ("guess_lang", False),
-        ]
+    markdown_kwargs = {
+        "extensions": [
+            "extra",
+            "codehilite",
+            "tables",
+            linker.LinkerExtension(
+                {
+                    "__default__": "wagtailmarkdown.mdx.linkers.page",
+                    "page:": "wagtailmarkdown.mdx.linkers.page",
+                    "image:": "wagtailmarkdown.mdx.linkers.image",
+                    "doc:": "wagtailmarkdown.mdx.linkers.document",
+                }
+            ),
+        ],
+        "extension_configs": {
+            "codehilite": [
+                ("guess_lang", False),
+            ]
+        },
+        "output_format": "html5",
     }
-
-    markdown_kwargs["output_format"] = "html5"
 
     return markdown_kwargs
 
