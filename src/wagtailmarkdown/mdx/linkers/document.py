@@ -1,25 +1,22 @@
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-
-from wagtail.documents.models import Document
-
 import xml.etree.ElementTree as etree
 
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+
+from wagtail.documents import get_document_model
 
 
-class Linker(object):
-    def run(self, name, optstr):
+class Linker:
+    def run(self, name, options):
         try:
             text = name
-            if len(optstr):
-                text = optstr[0]
+            if options:
+                text = options[0]
 
-            doc = Document.objects.get(title=name)
-            url = doc.url
             a = etree.Element("a")
-            a.set("href", url)
+            a.set("href", get_document_model().objects.get(title=name).url)
             a.text = text
             return a
         except ObjectDoesNotExist:
-            return '[document "{}" not found]'.format(name)
+            return f'[document "{name}" not found]'
         except MultipleObjectsReturned:
-            return '[multiple documents "{}" found]'.format(name)
+            return f'[multiple documents "{name}" found]'

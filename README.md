@@ -21,7 +21,7 @@ The markdown rendered is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
 * [Code highlighting](#syntax-highlighting).
-* Inline links to pages (`<:My page name|link title>`) and documents
+* Inline links to pages (`<:My page name|link title>` or `<:page:My page title>`) and documents
   (`<:doc:My fancy document.pdf>`), and inline images
   (`<:image:My pretty image.jpeg>`).
 * Inline Markdown preview using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)

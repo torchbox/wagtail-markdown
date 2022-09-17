@@ -1,8 +1,8 @@
+import xml.etree.ElementTree as etree
+
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.images import get_image_model
-
-import xml.etree.ElementTree as etree
 
 
 # TODO: Default spec and class should be configurable, because they're
@@ -10,14 +10,14 @@ import xml.etree.ElementTree as etree
 # 'right' and 'full-width' should be removed.
 
 
-class Linker(object):
-    def run(self, fname, optstr):
-        opts = {}
+class Linker:
+    def run(self, fname, options):
+        opts = {
+            "spec": "width-500",
+            "classname": "left",
+        }
 
-        opts["spec"] = "width-500"
-        opts["classname"] = "left"
-
-        for opt in optstr:
+        for opt in options:
             bits = opt.split("=", 1)
             opt = bits[0]
             value = ""
@@ -39,9 +39,9 @@ class Linker(object):
         try:
             image = get_image_model().objects.get(title=fname)
         except ObjectDoesNotExist:
-            return '[image "{}" not found]'.format(fname)
+            return f'[image "{fname}" not found]'
         except MultipleObjectsReturned:
-            return '[multiple images "{}" found]'.format(fname)
+            return f'[multiple images "{fname}" found]'
 
         image_url = image.file.url
         rendition = image.get_rendition(opts["spec"])
