@@ -17,8 +17,9 @@ README = README.format(hash=get_git_revision_hash())
 
 
 INSTALL_REQUIRES = [
-    "Markdown>=3,<4",
-    "bleach>=3.3.0,<4",
+    "Markdown>=3.3,<4",
+    # note: bleach5 requires bleach[css]. Will make one of the next versions require >= 5
+    "bleach>=3.3,<5",
     "Wagtail>=2.15",
 ]
 
@@ -36,8 +37,10 @@ CLASSIFIERS = [
     "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.0",
     "Framework :: Wagtail",
     "Framework :: Wagtail :: 2",
+    "Framework :: Wagtail :: 3",
     "Framework :: Wagtail :: 3",
 ]
 
@@ -46,7 +49,7 @@ setup(
     name="wagtail-markdown",
     version="0.9.0",
     description="Markdown support for Wagtail",
-    long_description="Provides Markdown page field and streamfield block for "
+    long_description="Provides Markdown page field and StreamField block for "
     "Wagtail. More info: {}".format(README),
     author="Felicity Tarnell",
     author_email="hello@torchbox.com",
