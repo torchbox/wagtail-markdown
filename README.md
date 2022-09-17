@@ -20,17 +20,17 @@ Specifically, it provides:
 The markdown rendered is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
-* Tables.
 * [Code highlighting](#syntax-highlighting).
 * Inline links to pages (`<:My page name|link title>`) and documents
   (`<:doc:My fancy document.pdf>`), and inline images
   (`<:image:My pretty image.jpeg>`).
 * Inline Markdown preview using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)
+* Tables
 
 These are implemented using the `python-markdown` extension interface.
 
 ### Installation
-Available on PyPi - https://pypi.org/project/wagtail-markdown/.
+Available on PyPI - https://pypi.org/project/wagtail-markdown/.
 
 Install using pip (`pip install wagtail-markdown`), poetry (`poetry add wagtail-markdown`) or your package manager of choice.
 
@@ -68,7 +68,7 @@ Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `
 
 #### Custom FontAwesome Configuration - `autodownload_fontawesome`
 The EasyMDE editor is compatible with [FontAwesome 5](https://fontawesome.com/how-to-use/graphql-api/intro/getting-started).
-By default EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
+By default, EasyMDE will get version 4.7.0 from a CDN. To specify your own version, set
 
 ```python
 # settings.py
