@@ -59,7 +59,7 @@ class TestTemplateTags(TestCase):
 
     def setUp(self):
         self.image = Image.objects.create(
-            title="test_image.png",
+            title="Test image",
             file=get_test_image_file(size=(1, 1)),
         )
         self.document = get_document_model().objects.create(
@@ -97,23 +97,96 @@ class TestTemplateTags(TestCase):
             markdown("<:page:test3>"), '<p><a href="/test3/">test3</a></p>'
         )
 
+    def test_markdown_linker_page_with_title(self):
+        self.assertEqual(
+            markdown("<:page:test3|Link title>"),
+            '<p><a href="/test3/">Link title</a></p>',
+        )
+
+    def test_markdown_linker_default(self):
+        self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/">test3</a></p>')
+
     def test_markdown_linker_wrong_type(self):
         self.assertEquals(
             markdown("<:foobar:test3>"), '<p>[invalid linker type "foobar"]</p>'
         )
 
-    def test_markdown_linker_image_not_found(self):
-        self.assertEquals(markdown("<:image:nope>"), '<p>[image "nope" not found]</p>')
-
     def test_markdown_linker_image(self):
         self.assertEqual(
-            markdown("<:image:test_image.png>"),
+            markdown("<:image:Test image>"),
             '<p><a href="/original_images/test.png">'
             '<img class="left" src="/images/test.width-500.png"></a></p>',
         )
+
+    def test_markdown_linker_image_with_classname(self):
+        self.assertEqual(
+            markdown("<:image:Test image|left>"),
+            '<p><a href="/original_images/test.png">'
+            '<img class="left" src="/images/test.width-500.png"></a></p>',
+        )
+        self.assertEqual(
+            markdown("<:image:Test image|right>"),
+            '<p><a href="/original_images/test.png">'
+            '<img class="right" src="/images/test.width-500.png"></a></p>',
+        )
+        self.assertEqual(
+            markdown("<:image:Test image|full>"),
+            '<p><a href="/original_images/test.png">'
+            '<img class="full-width" src="/images/test.width-500.png"></a></p>',
+        )
+
+    def test_markdown_linker_image_with_rendition(self):
+        self.assertEqual(
+            markdown("<:image:Test image|width=200>"),
+            '<p><a href="/original_images/test.png">'
+            '<img class="left" src="/images/test.width-200.png"></a></p>',
+        )
+        self.assertEqual(
+            markdown("<:image:Test image|width=foo>"),
+            '<p><a href="/original_images/test.png">'
+            '<img class="left" src="/images/test.width-500.png"></a></p>',
+        )
+
+    def test_markdown_linker_image_not_found(self):
+        self.assertEquals(markdown("<:image:nope>"), '<p>[image "nope" not found]</p>')
+
+    def test_markdown_linker_image_multiple(self):
+        image = Image.objects.create(
+            title="Test image",
+            file=get_test_image_file(size=(1, 1)),
+        )
+        self.assertEqual(
+            markdown("<:image:Test image>"),
+            '<p>[multiple images "Test image" found]</p>',
+        )
+
+        image.file.delete(False)
 
     def test_markdown_linker_doc(self):
         self.assertEqual(
             markdown("<:doc:Test document>"),
             '<p><a href="/documents/test.txt">Test document</a></p>',
         )
+
+    def test_markdown_linker_doc_with_title(self):
+        self.assertEqual(
+            markdown("<:doc:Test document|The document>"),
+            '<p><a href="/documents/test.txt">The document</a></p>',
+        )
+
+    def test_markdown_linker_doc_not_found(self):
+        self.assertEqual(
+            markdown("<:doc:a document>"),
+            '<p>[document "a document" not found]</p>',
+        )
+
+    def test_markdown_linker_doc_multiple(self):
+        document = get_document_model().objects.create(
+            title="Test document", file=get_test_document_file()
+        )
+        self.assertEqual(
+            markdown("<:doc:Test document>"),
+            '<p>[multiple documents "Test document" found]</p>',
+        )
+
+        document.file.delete(False)
