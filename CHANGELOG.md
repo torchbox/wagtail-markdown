@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [0.10.0] - 2022-09-18
+
 ### Added
 
 - Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
@@ -85,8 +87,10 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[0.9.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/v0.8.0
-[0.8.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/v0.8.0
-[0.7.0]: https://github.com/torchbox/wagtail-markdown/releases/tag/0.7.0
-[0.6]: https://github.com/torchbox/wagtail-markdown/releases/tag/0.6
-[0.5]: https://github.com/torchbox/wagtail-markdown/releases/tag/0.5
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.9.0...v0.10.0
+[0.9.0]: https://github.com/torchbox/wagtail-markdown/compare/0.8.0...v0.9.0
+[0.8.0]: https://github.com/torchbox/wagtail-markdown/compare/0.7.0...0.8.0
+[0.7.0]: https://github.com/torchbox/wagtail-markdown/compare/0.6...0.7.0
+[0.6]: https://github.com/torchbox/wagtail-markdown/compare/0.5...0.6
+[0.5]: https://github.com/torchbox/wagtail-markdown/compare/038a0e5...0.5

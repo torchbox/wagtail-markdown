@@ -47,7 +47,7 @@ CLASSIFIERS = [
 
 setup(
     name="wagtail-markdown",
-    version="0.9.0",
+    version="0.10.0",
     description="Markdown support for Wagtail",
     long_description="Provides Markdown page field and StreamField block for "
     "Wagtail. More info: {}".format(README),
