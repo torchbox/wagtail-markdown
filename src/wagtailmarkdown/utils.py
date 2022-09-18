@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 import bleach
 import markdown
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_REPLACE
+from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.mdx.inlinepatterns import ImageExtension, LinkExtension
 from wagtailmarkdown.mdx.linker import LinkerExtension
 
@@ -35,12 +35,12 @@ def _get_bleach_kwargs():
     if not hasattr(settings, "WAGTAILMARKDOWN"):
         return bleach_kwargs
 
-    replace = (
+    override = (
         settings.WAGTAILMARKDOWN.get("allowed_settings_mode", "extend").lower()
-        == SETTINGS_MODE_REPLACE
+        == SETTINGS_MODE_OVERRIDE
     )
     if "allowed_styles" in settings.WAGTAILMARKDOWN:
-        if replace:
+        if override:
             bleach_kwargs["styles"] = settings.WAGTAILMARKDOWN["allowed_styles"]
         else:
             bleach_kwargs["styles"] = list(
@@ -49,7 +49,7 @@ def _get_bleach_kwargs():
                 )
             )
     if "allowed_tags" in settings.WAGTAILMARKDOWN:
-        if replace:
+        if override:
             bleach_kwargs["tags"] = settings.WAGTAILMARKDOWN["allowed_tags"]
         else:
             bleach_kwargs["tags"] = list(
@@ -57,7 +57,7 @@ def _get_bleach_kwargs():
             )
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
-        if replace:
+        if override:
             bleach_kwargs["attributes"] = settings.WAGTAILMARKDOWN["allowed_attributes"]
         else:
             merged = defaultdict(set)
@@ -109,12 +109,12 @@ def _get_markdown_kwargs():
         return kwargs
 
     markdown_settings = settings.WAGTAILMARKDOWN
-    replace = (
+    override = (
         markdown_settings.get("extensions_settings_mode", "extend").lower()
-        == SETTINGS_MODE_REPLACE
+        == SETTINGS_MODE_OVERRIDE
     )
     if "extensions" in markdown_settings:
-        if replace:
+        if override:
             kwargs["extensions"] = markdown_settings["extensions"]
         else:
             kwargs["extensions"] = list(
@@ -122,7 +122,7 @@ def _get_markdown_kwargs():
             )
 
     if "extension_configs" in markdown_settings:
-        if replace:
+        if override:
             kwargs["extension_configs"] = markdown_settings["extension_configs"]
         else:
             kwargs["extension_configs"].update(markdown_settings["extension_configs"])

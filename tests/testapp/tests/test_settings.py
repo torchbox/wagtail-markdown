@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from django.test import override_settings
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS
+from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.utils import (
     _get_bleach_kwargs,
     _get_default_markdown_kwargs,
@@ -67,12 +67,12 @@ class TestSettings(TestCase):
             self.assertNotIn("sane_lists", default_kwargs["extension_configs"])
             self.assertIn("sane_lists", kwargs["extension_configs"])
 
-        REPLACE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_BLEACH_SETTINGS.copy()
-        REPLACE_MARKDOWN_SETTINGS["extensions_settings_mode"] = "replace"
-        REPLACE_MARKDOWN_SETTINGS["extension_configs"] = {
+        OVERRIDE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_BLEACH_SETTINGS.copy()
+        OVERRIDE_MARKDOWN_SETTINGS["extensions_settings_mode"] = SETTINGS_MODE_OVERRIDE
+        OVERRIDE_MARKDOWN_SETTINGS["extension_configs"] = {
             "pymdownx.arithmatex": {"generic": True}
         }
-        with override_settings(WAGTAILMARKDOWN=REPLACE_MARKDOWN_SETTINGS):
+        with override_settings(WAGTAILMARKDOWN=OVERRIDE_MARKDOWN_SETTINGS):
             kwargs = _get_markdown_kwargs()
             self.assertListEqual(kwargs["extensions"], ["toc", "sane_lists"])
             self.assertDictEqual(
@@ -112,7 +112,7 @@ class TestSettings(TestCase):
         with override_settings(
             WAGTAILMARKDOWN={
                 "allowed_styles": ["display", "color"],
-                "allowed_settings_mode": "replace",
+                "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
             self.assertListEqual(
@@ -130,7 +130,7 @@ class TestSettings(TestCase):
         with override_settings(
             WAGTAILMARKDOWN={
                 "allowed_tags": ["a", "iframe"],
-                "allowed_settings_mode": "replace",
+                "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
             self.assertListEqual(
@@ -154,7 +154,7 @@ class TestSettings(TestCase):
         with override_settings(
             WAGTAILMARKDOWN={
                 "allowed_attributes": allowed,
-                "allowed_settings_mode": "replace",
+                "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
             self.assertDictEqual(_get_bleach_kwargs()["attributes"], allowed)
