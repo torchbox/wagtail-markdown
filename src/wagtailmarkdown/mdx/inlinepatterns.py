@@ -3,6 +3,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.documents import get_document_model
 from wagtail.images import get_image_model
+from wagtail.images.exceptions import InvalidFilterSpecError
 
 from markdown import Extension
 from markdown.inlinepatterns import (
@@ -17,6 +18,25 @@ try:
     from wagtail.models import Page
 except ImportError:
     from wagtail.core.models import Page
+
+
+def _options_to_dict(value: str) -> dict:
+    """
+    Takes a "key=value,key2=value2" string and converts it to a dict
+    """
+    if not value.strip():
+        return {}
+
+    _dict = {}
+    for key_value_pair in value.split(","):
+        try:
+            key, val = key_value_pair.split("=", 1)
+            if key.strip():
+                _dict[key.strip()] = val.strip()
+        except ValueError:
+            pass
+
+    return _dict
 
 
 class ObjectLookupNegotiator:
@@ -78,14 +98,29 @@ class ImageProcessor(ImageInlineProcessor):
 
     def handleMatch(self, m, data):
         element, processed_m, index = super().handleMatch(m, data)
-        image = self.object_lookup_negotiator.retrieve(element.get("src", ""))
+        if element is None:
+            return element, processed_m, index
+
+        pk, *opts_str = element.get("src", "").split(",", 1)
+        image = self.object_lookup_negotiator.retrieve(pk)
         if image:
-            rendition = image.get_rendition("width-500")
+            opts = _options_to_dict(opts_str[0]) if opts_str else {}
+            element.set("class", opts.get("class", "left"))
+
+            rendition = self._get_rendition(image, opts.get("filter", "width-500"))
             element.set("src", rendition.url)
-            element.set("class", "left")
             element.set("width", str(rendition.width))
             element.set("height", str(rendition.height))
         return element, processed_m, index
+
+    @staticmethod
+    def _get_rendition(image, filter_spec):
+        try:
+            rendition = image.get_rendition(filter_spec)
+        except InvalidFilterSpecError:
+            rendition = image.get_rendition("width-500")
+
+        return rendition
 
 
 class LinkProcessor(LinkInlineProcessor):
