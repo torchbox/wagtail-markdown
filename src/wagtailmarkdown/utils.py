@@ -5,7 +5,8 @@ from django.utils.safestring import mark_safe
 import bleach
 import markdown
 
-from .mdx import linker
+from wagtailmarkdown.mdx.inlinepatterns import ImageExtension, LinkExtension
+from wagtailmarkdown.mdx.linker import LinkerExtension
 
 
 def render_markdown(text, context=None):
@@ -146,7 +147,7 @@ def _get_default_markdown_kwargs():
             "extra",
             "codehilite",
             "tables",
-            linker.LinkerExtension(
+            LinkerExtension(
                 {
                     "__default__": "wagtailmarkdown.mdx.linkers.page",
                     "page:": "wagtailmarkdown.mdx.linkers.page",
@@ -154,6 +155,8 @@ def _get_default_markdown_kwargs():
                     "doc:": "wagtailmarkdown.mdx.linkers.document",
                 }
             ),
+            LinkExtension(),
+            ImageExtension(),
         ],
         "extension_configs": {
             "codehilite": [

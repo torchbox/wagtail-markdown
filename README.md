@@ -21,9 +21,7 @@ The markdown rendered is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
 * [Code highlighting](#syntax-highlighting).
-* Inline links to pages (`<:My page name|link title>` or `<:page:My page title>`) and documents
-  (`<:doc:My fancy document.pdf>`), and inline images
-  (`<:image:My pretty image.jpeg>`).
+* [Inline links](#inline-links).
 * Inline Markdown preview using [EasyMDE](https://github.com/Ionaru/easy-markdown-editor)
 * Tables
 
@@ -225,6 +223,25 @@ def global_admin_js():
     return format_html('<script src="{}"></script>', static("js/easymde_custom.js"))
 ```
 
+#### Inline links
+
+wagtail-markdown supports custom inline links syntax:
+
+| Link to   | Syntax                        | Notes                                                                                           |
+|-----------|-------------------------------|-------------------------------------------------------------------------------------------------|
+| Pages     | `[title](page:PAGE_ID)`       | `PAGE_ID` is the page ID                                                                        |
+| Documents | `[title](doc:DOCUMENT_ID)`    | `DOCUMENT_ID` is the document ID                                                                |
+| Images    | `![alt text](image:IMAGE_ID)` | Renders an image tag. `IMAGE_ID` is the image ID                                                |
+
+Previously we supported custom link tags that used the target object title. They had the following form:
+* `<:My page name|link title>` or `<:page:My page title>`
+* `<:doc:My fancy document.pdf>`
+* `<:image:My pretty image.jpeg>`, `<:image:My pretty image.jpeg|left>` (`left` classname),
+  `<:image:My pretty image.jpeg|right>` (`right` classname), `<:image:My pretty image.jpeg|full>` (`full-name` classname),
+  `<:image:My pretty image.jpeg|width=123>` (outputs a rendition with `width-123`, and class `left`)
+
+⚠️ these types of tags are not reliable as titles can and will change. Support for  will be removed in the future.
+
 ### Usage
 
 You can use it as a `StreamField` block:
@@ -274,7 +291,7 @@ And render the content in a template:
 
 ## Compatibility
 
-wagtail-markdown supports Wagtail 2.15 and above.
+wagtail-markdown supports Wagtail 2.15 and above, python-markdown 3.3 and above.
 
 ## Contributing
 

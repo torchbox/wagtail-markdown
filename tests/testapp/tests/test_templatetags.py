@@ -48,8 +48,8 @@ class TestTemplateTags(TestCase):
     def setUpTestData(cls):
         cls.root_page = Page.objects.get(id=2)
 
-        page1 = TestPage(title="test", slug="test1")
-        cls.root_page.add_child(instance=page1)
+        cls.page1 = TestPage(title="test", slug="test1")
+        cls.root_page.add_child(instance=cls.page1)
 
         page2 = TestPage(title="test", slug="test2")
         cls.root_page.add_child(instance=page2)
@@ -190,3 +190,32 @@ class TestTemplateTags(TestCase):
         )
 
         document.file.delete(False)
+
+    def test_markdown_inline_links(self):
+        self.assertEqual(
+            markdown(f"[Page link](page:{self.page1.pk})"),
+            f'<p><a href="{self.page1.url}">Page link</a></p>',
+        )
+        self.assertEqual(
+            markdown("[Non-existent page link](page:10000)"),
+            '<p><a href="page:10000">Non-existent page link</a></p>',
+        )
+
+        self.assertEqual(
+            markdown(f"[Document link](doc:{self.document.pk})"),
+            f'<p><a href="{self.document.url}">Document link</a></p>',
+        )
+        self.assertEqual(
+            markdown("[Non-existent document link](doc:12345)"),
+            '<p><a href="doc:12345">Non-existent document link</a></p>',
+        )
+
+        self.assertEqual(
+            markdown(f"![alt text](image:{self.image.pk})"),
+            f'<p><img alt="alt text" class="left" '
+            f'src="{self.image.get_rendition("width-500").url}"></p>',
+        )
+        self.assertEqual(
+            markdown("![image not found](image:12345)"),
+            '<p><img alt="image not found" src="image:12345"></p>',
+        )
