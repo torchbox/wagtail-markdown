@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from wagtail.documents import get_document_model
@@ -22,6 +23,7 @@ class ObjectLookupNegotiator:
     PAGE_LINK_PREFIX = "page:"
     DOCUMENT_LINK_PREFIX = "doc:"
     IMAGE_PREFIX = "image:"
+    MEDIA_PREFIX = "media:"
 
     @staticmethod
     def retrieve_page(lookup_field_value):
@@ -44,12 +46,25 @@ class ObjectLookupNegotiator:
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return None
 
+    @staticmethod
+    def retrieve_wagtailmedia(lookup_field_value):
+        if not apps.is_installed("wagtailmedia"):
+            return None
+
+        try:
+            from wagtailmedia.models import get_media_model
+
+            return get_media_model().objects.get(pk=lookup_field_value)
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
+            return None
+
     @classmethod
     def retrieve(cls, url):
         pairs = (
             (cls.PAGE_LINK_PREFIX, cls.retrieve_page),
             (cls.DOCUMENT_LINK_PREFIX, cls.retrieve_document),
             (cls.IMAGE_PREFIX, cls.retrieve_image),
+            (cls.MEDIA_PREFIX, cls.retrieve_wagtailmedia),
         )
         for prefix, object_retrieve_method in pairs:
             if url.startswith(prefix):
