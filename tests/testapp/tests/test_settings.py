@@ -23,22 +23,6 @@ WAGTAILMARKDOWN_BLEACH_SETTINGS = {
 
 
 class TestSettings(TestCase):
-    def test_bleach_options(self):
-        kwargs = _get_bleach_kwargs()
-        self.assertDictEqual(kwargs, DEFAULT_BLEACH_KWARGS)
-
-        self.assertFalse("i" in kwargs["tags"])
-        self.assertFalse("i" in kwargs["attributes"])
-        self.assertFalse("some_style" in kwargs["styles"])
-
-        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
-            kwargs = _get_bleach_kwargs()
-            self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
-            self.assertTrue("i" in kwargs["tags"])
-            self.assertTrue("some_style" in kwargs["styles"])
-            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
-            self.assertEqual(kwargs["attributes"]["a"], ["data-test"])
-
     def test_markdown_kwargs(self):
         kwargs = _get_markdown_kwargs()
         default_kwargs = _get_default_markdown_kwargs()
@@ -68,3 +52,83 @@ class TestSettings(TestCase):
             self.assertEqual(
                 kwargs["extension_configs"]["codehilite"], [("guess_lang", True)]
             )
+
+    def test_bleach_options(self):
+        kwargs = _get_bleach_kwargs()
+        self.assertDictEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+
+        self.assertFalse("i" in kwargs["tags"])
+        self.assertFalse("i" in kwargs["attributes"])
+        self.assertFalse("some_style" in kwargs["styles"])
+
+        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
+            kwargs = _get_bleach_kwargs()
+            self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+            self.assertTrue("i" in kwargs["tags"])
+            self.assertTrue("some_style" in kwargs["styles"])
+            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
+            self.assertEqual(
+                sorted(kwargs["attributes"]["a"]),
+                sorted(DEFAULT_BLEACH_KWARGS["attributes"]["a"] + ["data-test"]),
+            )
+
+    def test_get_bleach_kwargs(self):
+        self.assertEqual(_get_bleach_kwargs(), DEFAULT_BLEACH_KWARGS)
+
+    def test_get_bleach_kwargs_with_styles(self):
+        with override_settings(
+            WAGTAILMARKDOWN={"allowed_styles": ["display", "color"]}
+        ):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["styles"]),
+                sorted(set(DEFAULT_BLEACH_KWARGS["styles"] + ["display", "color"])),
+            )
+        with override_settings(
+            WAGTAILMARKDOWN={
+                "allowed_styles": ["display", "color"],
+                "allowed_settings_mode": "replace",
+            }
+        ):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["styles"]),
+                ["color", "display"],
+            )
+
+    def test_get_bleach_kwargs_with_tags(self):
+        with override_settings(WAGTAILMARKDOWN={"allowed_tags": ["a", "iframe"]}):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["tags"]),
+                sorted(set(DEFAULT_BLEACH_KWARGS["tags"] + ["a", "iframe"])),
+            )
+
+        with override_settings(
+            WAGTAILMARKDOWN={
+                "allowed_tags": ["a", "iframe"],
+                "allowed_settings_mode": "replace",
+            }
+        ):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["tags"]),
+                ["a", "iframe"],
+            )
+
+    def test_get_bleach_kwargs_with_attributes(self):
+        allowed = {"*": ["data-test"]}
+        with override_settings(WAGTAILMARKDOWN={"allowed_attributes": allowed}):
+            expected = DEFAULT_BLEACH_KWARGS["attributes"].copy()
+            expected["*"] += ["data-test"]
+
+            attributes = _get_bleach_kwargs()["attributes"]
+            for key, value in expected.items():
+                self.assertListEqual(
+                    sorted(value),
+                    sorted(attributes[key]),
+                )
+
+        with override_settings(
+            WAGTAILMARKDOWN={
+                "allowed_attributes": allowed,
+                "allowed_settings_mode": "replace",
+            }
+        ):
+            self.assertDictEqual(_get_bleach_kwargs()["attributes"], allowed)
