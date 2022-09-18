@@ -2,9 +2,9 @@ from unittest import TestCase
 
 from django.test import override_settings
 
+from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS
 from wagtailmarkdown.utils import (
     _get_bleach_kwargs,
-    _get_default_bleach_kwargs,
     _get_default_markdown_kwargs,
     _get_markdown_kwargs,
 )
@@ -25,7 +25,7 @@ WAGTAILMARKDOWN_BLEACH_SETTINGS = {
 class TestSettings(TestCase):
     def test_bleach_options(self):
         kwargs = _get_bleach_kwargs()
-        self.assertDictEqual(kwargs, _get_default_bleach_kwargs())
+        self.assertDictEqual(kwargs, DEFAULT_BLEACH_KWARGS)
 
         self.assertFalse("i" in kwargs["tags"])
         self.assertFalse("i" in kwargs["attributes"])
@@ -33,7 +33,7 @@ class TestSettings(TestCase):
 
         with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
             kwargs = _get_bleach_kwargs()
-            self.assertNotEqual(kwargs, _get_default_bleach_kwargs())
+            self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
             self.assertTrue("i" in kwargs["tags"])
             self.assertTrue("some_style" in kwargs["styles"])
             self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
