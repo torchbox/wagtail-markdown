@@ -5,6 +5,7 @@
 ### Added
 
 - Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
+- Support for inline links and images ([#107](https://github.com/torchbox/wagtail-markdown/pull/107)). With belated thanks to @richtier for the original PR (#44)
 
 ## [0.9.0] - 2022-07-01
 
