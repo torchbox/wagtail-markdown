@@ -61,7 +61,7 @@ WAGTAILMARKDOWN = {
 ```
 
 Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extension_configs` are added to the
-[default wagtail-markdown settings](https://github.com/torchbox/wagtail-markdown/blob/main/wagtailmarkdown/utils.py#L40).
+[default wagtail-markdown settings](https://github.com/torchbox/wagtail-markdown/blob/main/src/wagtailmarkdown/constants.py).
 
 
 #### Custom FontAwesome Configuration - `autodownload_fontawesome`
