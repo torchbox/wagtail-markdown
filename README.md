@@ -58,6 +58,7 @@ WAGTAILMARKDOWN = {
     "allowed_settings_mode": "extend",  # optional. Possible values: "extend" or "replace". Defaults to "extend".
     "extensions": [],  # optional. a list of python-markdown supported extensions
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
+    "extensions_settings_mode": "extend",  # optional. Possible values: "extend" or "replace". Defaults to "extend".
 }
 ```
 

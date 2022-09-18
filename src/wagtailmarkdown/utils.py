@@ -75,7 +75,7 @@ def _get_bleach_kwargs():
 
 
 def _get_default_markdown_kwargs():
-    markdown_kwargs = {
+    kwargs = {
         "extensions": [
             "extra",
             "codehilite",
@@ -99,26 +99,32 @@ def _get_default_markdown_kwargs():
         "output_format": "html5",
     }
 
-    return markdown_kwargs
+    return kwargs
 
 
 def _get_markdown_kwargs():
-    markdown_kwargs = _get_default_markdown_kwargs()
+    kwargs = _get_default_markdown_kwargs()
 
-    if (
-        hasattr(settings, "WAGTAILMARKDOWN")
-        and "extensions" in settings.WAGTAILMARKDOWN
-    ):
-        markdown_kwargs["extensions"] = list(
-            set(markdown_kwargs["extensions"] + settings.WAGTAILMARKDOWN["extensions"])
-        )
+    if not hasattr(settings, "WAGTAILMARKDOWN"):
+        return kwargs
 
-    if (
-        hasattr(settings, "WAGTAILMARKDOWN")
-        and "extension_configs" in settings.WAGTAILMARKDOWN
-    ):
-        markdown_kwargs["extension_configs"].update(
-            settings.WAGTAILMARKDOWN["extension_configs"]
-        )
+    markdown_settings = settings.WAGTAILMARKDOWN
+    replace = (
+        markdown_settings.get("extensions_settings_mode", "extend").lower()
+        == SETTINGS_MODE_REPLACE
+    )
+    if "extensions" in markdown_settings:
+        if replace:
+            kwargs["extensions"] = markdown_settings["extensions"]
+        else:
+            kwargs["extensions"] = list(
+                set(kwargs["extensions"] + markdown_settings["extensions"])
+            )
 
-    return markdown_kwargs
+    if "extension_configs" in markdown_settings:
+        if replace:
+            kwargs["extension_configs"] = markdown_settings["extension_configs"]
+        else:
+            kwargs["extension_configs"].update(markdown_settings["extension_configs"])
+
+    return kwargs

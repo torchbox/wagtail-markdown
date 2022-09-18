@@ -53,6 +53,32 @@ class TestSettings(TestCase):
                 kwargs["extension_configs"]["codehilite"], [("guess_lang", True)]
             )
 
+        with override_settings(WAGTAILMARKDOWN={"extensions": ["toc"]}):
+            kwargs = _get_markdown_kwargs()
+            self.assertTrue("toc" in kwargs["extensions"])
+            self.assertDictEqual(
+                kwargs["extension_configs"], default_kwargs["extension_configs"]
+            )
+
+        with override_settings(
+            WAGTAILMARKDOWN={"extension_configs": {"sane_lists": ["foo"]}}
+        ):
+            kwargs = _get_markdown_kwargs()
+            self.assertNotIn("sane_lists", default_kwargs["extension_configs"])
+            self.assertIn("sane_lists", kwargs["extension_configs"])
+
+        REPLACE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_BLEACH_SETTINGS.copy()
+        REPLACE_MARKDOWN_SETTINGS["extensions_settings_mode"] = "replace"
+        REPLACE_MARKDOWN_SETTINGS["extension_configs"] = {
+            "pymdownx.arithmatex": {"generic": True}
+        }
+        with override_settings(WAGTAILMARKDOWN=REPLACE_MARKDOWN_SETTINGS):
+            kwargs = _get_markdown_kwargs()
+            self.assertListEqual(kwargs["extensions"], ["toc", "sane_lists"])
+            self.assertDictEqual(
+                kwargs["extension_configs"], {"pymdownx.arithmatex": {"generic": True}}
+            )
+
     def test_bleach_options(self):
         kwargs = _get_bleach_kwargs()
         self.assertDictEqual(kwargs, DEFAULT_BLEACH_KWARGS)
