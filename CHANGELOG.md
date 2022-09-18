@@ -6,6 +6,12 @@
 
 - Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
 - Support for inline links and images ([#107](https://github.com/torchbox/wagtail-markdown/pull/107)). With belated thanks to @richtier for the original PR (#44)
+- New settings: `allowed_settings_mode` and `extensions_settins_mode` to control the `allowed_*` and `extension*` settings mode.
+  Defaults to `extend`, but you can set to `override` to override the defaults. ([#108](https://github.com/torchbox/wagtail-markdown/pull/108))
+
+### Removed
+
+- The custom tables extension. This means tables will no longer have the `wftable` class added to them.
 
 ## [0.9.0] - 2022-07-01
 
