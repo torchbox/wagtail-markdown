@@ -6,6 +6,7 @@ from wagtail.images.tests.utils import Image, get_test_image_file
 
 from testapp.models import TestPage
 
+from wagtailmarkdown.mdx.inlinepatterns import _options_to_dict
 from wagtailmarkdown.templatetags.wagtailmarkdown import markdown
 
 
@@ -218,4 +219,61 @@ class TestTemplateTags(TestCase):
         self.assertEqual(
             markdown("![image not found](image:12345)"),
             '<p><img alt="image not found" src="image:12345"></p>',
+        )
+
+        self.assertEqual(
+            markdown(f"![alt text](image:{self.image.pk}"),  # note: missing closing )
+            "<p>![alt text](image:1</p>",
+        )
+
+    def test_markdown_inline_image_with_options(self):
+        self.assertRegex(
+            markdown(f"![alt text](image:{self.image.pk},class=left)"),
+            r'<p><img alt="alt text" class="left" src="/images/test\.width-500\.png"></p>',
+        )
+        self.assertRegex(
+            markdown(f"![alt text](image:{self.image.pk},class=right)"),
+            r'<p><img alt="alt text" class="right" src="/images/test\.width-500\.png"></p>',
+        )
+        self.assertRegex(
+            markdown(f"![alt text](image:{self.image.pk},classname=foo)"),
+            r'<p><img alt="alt text" class="left" src="/images/test\.width-500\.png"></p>',
+        )
+        self.assertRegex(
+            markdown(
+                f"![alt text](image:{self.image.pk},filter=fill-200x200|format-jpeg)"
+            ),
+            r'<p><img alt="alt text" class="left" '
+            r'src="/images/test[.a-z0-9]+\.fill-200x200\.format-jpeg\.jpg"></p>',
+        )
+        self.assertRegex(
+            markdown(f"![alt text](image:{self.image.pk},filter=invalid-filter)"),
+            r'<p><img alt="alt text" class="left" src="/images/test\.width-500\.png"></p>',
+        )
+
+    def test_markdown_options_to_dict(self):
+        self.assertDictEqual(_options_to_dict(""), {})
+        self.assertDictEqual(
+            _options_to_dict("class=left"),
+            {"class": "left"},
+        )
+        self.assertDictEqual(
+            _options_to_dict("class=left, filter=fill-200x200"),
+            {"class": "left", "filter": "fill-200x200"},
+        )
+        self.assertDictEqual(
+            _options_to_dict("class=left,filter=fill-200x200|format-jpeg"),
+            {"class": "left", "filter": "fill-200x200|format-jpeg"},
+        )
+        self.assertDictEqual(
+            _options_to_dict("class=left,filter=fill-200x200, foo=bar ,"),
+            {"class": "left", "filter": "fill-200x200", "foo": "bar"},
+        )
+        self.assertDictEqual(
+            _options_to_dict("class=left,filter=fill-200x200, foo = bar ,baz"),
+            {"class": "left", "filter": "fill-200x200", "foo": "bar"},
+        )
+        self.assertDictEqual(
+            _options_to_dict("class=left,filter=fill-200x200,foo =bar,baz="),
+            {"class": "left", "filter": "fill-200x200", "foo": "bar", "baz": ""},
         )

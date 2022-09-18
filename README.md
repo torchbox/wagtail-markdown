@@ -227,12 +227,17 @@ def global_admin_js():
 
 wagtail-markdown supports custom inline links syntax:
 
-| Link to   | Syntax                        | Notes                                                                                           |
-|-----------|-------------------------------|-------------------------------------------------------------------------------------------------|
-| Pages     | `[title](page:PAGE_ID)`       | `PAGE_ID` is the page ID                                                                        |
-| Documents | `[title](doc:DOCUMENT_ID)`    | `DOCUMENT_ID` is the document ID                                                                |
-| Media     | `[title](media:MEDIA_ID)`     | Needs [wagtailmedia](https://github.com/torchbox/wagtailmedia). `MEDIA_ID` is the media item ID |
-| Images    | `![alt text](image:IMAGE_ID)` | Renders an image tag. `IMAGE_ID` is the image ID                                                |
+| Link to                                | Syntax                                                              | Notes                                                                                                                                                                |
+|----------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Pages                                  | `[title](page:PAGE_ID)`                                             | `PAGE_ID` is the page ID                                                                                                                                             |
+| Documents                              | `[title](doc:DOCUMENT_ID)`                                          | `DOCUMENT_ID` is the document ID                                                                                                                                     |
+| Media                                  | `[title](media:MEDIA_ID)`                                           | Needs [wagtailmedia](https://github.com/torchbox/wagtailmedia). `MEDIA_ID` is the media item ID                                                                      |
+| Images                                 | `![alt text](image:IMAGE_ID)`                                       | Renders an image tag. `IMAGE_ID` is the image ID                                                                                                                     |
+| ↳ with class attribute                 | `![alt text](image:IMAGE_ID,class=the-class-name)`                  | adds `class="the-class-name" to the `<img>` tag                                                                                                                      |
+| ↳ with rendition filter                | `![alt text](image:IMAGE_ID,filter=fill-200x200&#x7c;format-webp)`  | Uses the same format as [generating renditions in Python](https://docs.wagtail.org/en/stable/advanced_topics/images/renditions.html#generating-renditions-in-python) |
+| ↳ class name and filter can be stacked | `![alt text](image:IMAGE_ID,class=the-class-name,filter=width-100)` |                                                                                                                                                                      |
+
+
 
 Previously we supported custom link tags that used the target object title. They had the following form:
 * `<:My page name|link title>` or `<:page:My page title>`
