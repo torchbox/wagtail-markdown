@@ -3,7 +3,7 @@
 [![Build status](https://img.shields.io/github/workflow/status/torchbox/wagtail-markdown/CI/main?style=for-the-badge)](https://github.com/torchbox/wagtail-markdown/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg?style=for-the-badge)](https://pypi.org/project/wagtail-markdown/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=for-the-badge)](https://github.com/pre-commit/pre-commit)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-markdown/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-markdown/main)
 
 
 Tired of annoying rich text editors getting in the way of your content
