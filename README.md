@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 
 ### Configuration
 
-All `wagtatail-markdown` settings are defined in a single `WAGTAILMARKDOWN` dictionary in your settings file:
+All `wagtail-markdown` settings are defined in a single `WAGTAILMARKDOWN` dictionary in your settings file:
 
 ```python
 # settings.py
