@@ -2,10 +2,15 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.core.fields
 import wagtailmarkdown.blocks
 import wagtailmarkdown.fields
 
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail import fields as wagtail_fields
+else:
+    from wagtail.core import fields as wagtail_fields
 
 class Migration(migrations.Migration):
 
@@ -53,7 +58,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "body",
-                    wagtail.core.fields.StreamField(
+                    wagtail_fields.StreamField(
                         [
                             (
                                 "markdown",
@@ -61,6 +66,7 @@ class Migration(migrations.Migration):
                             )
                         ],
                         blank=True,
+                        use_json_field=True if WAGTAIL_VERSION >= (3, 0) else None,
                     ),
                 ),
             ],
