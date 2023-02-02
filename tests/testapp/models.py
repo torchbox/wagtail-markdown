@@ -14,6 +14,11 @@ else:
 from wagtailmarkdown.blocks import MarkdownBlock
 from wagtailmarkdown.fields import MarkdownField
 
+if WAGTAIL_VERSION >= (3, 0):
+    use_json_field = {"use_json_field": True}
+else:
+    use_json_field = {}
+
 
 class TestPage(Page):
     body = MarkdownField(blank=True)
@@ -28,8 +33,9 @@ class TestWithStreamFieldPage(Page):
     body = StreamField(
         MyStreamBlock,
         blank=True,
-        use_json_field=True if WAGTAIL_VERSION >= (3, 0) else None,
+        **use_json_field,
     )
+
     content_panels = Page.content_panels + [
         FieldPanel("body") if WAGTAIL_VERSION >= (3, 0) else StreamFieldPanel("body")
     ]

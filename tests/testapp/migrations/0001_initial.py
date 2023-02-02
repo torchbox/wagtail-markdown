@@ -12,13 +12,18 @@ if WAGTAIL_VERSION >= (3, 0):
 else:
     from wagtail.core import fields as wagtail_fields
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
         ("wagtailcore", "0059_apply_collection_ordering"),
     ]
+
+    if WAGTAIL_VERSION >= (3, 0):
+        use_json_field = {"use_json_field": True}
+    else:
+        use_json_field = {}
 
     operations = [
         migrations.CreateModel(
@@ -66,7 +71,7 @@ class Migration(migrations.Migration):
                             )
                         ],
                         blank=True,
-                        use_json_field=True if WAGTAIL_VERSION >= (3, 0) else None,
+                        **use_json_field,
                     ),
                 ),
             ],
