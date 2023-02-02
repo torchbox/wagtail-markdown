@@ -91,7 +91,7 @@ then add the following to a `wagtail_hooks` module in a registered app in your a
 
 ```python
 # Content of app_name/wagtail_hooks.py
-from wagtail.core import hooks
+from wagtail import hooks
 from django.conf import settings
 from django.utils.html import format_html
 
@@ -115,7 +115,7 @@ We can invoke django-compressor to fetch our Font Awesome SCSS sources like this
 ```python
 # Content of app_name/wagtail_hooks.py
 from compressor.css import CssCompressor
-from wagtail.core import hooks
+from wagtail import hooks
 from django.conf import settings
 from django.utils.html import format_html
 
@@ -255,7 +255,7 @@ Previously we supported custom link tags that used the target object title. They
 You can use it as a `StreamField` block:
 
 ```python
-from wagtail.core.blocks import StreamBlock
+from wagtail.blocks import StreamBlock
 
 from wagtailmarkdown.blocks import MarkdownBlock
 
@@ -270,8 +270,8 @@ class MyStreamBlock(StreamBlock):
 Or use as a page field:
 
 ```python
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.core.models import Page
+from wagtail.admin.panels import FieldPanel
+from wagtail.models import Page
 
 from wagtailmarkdown.fields import MarkdownField
 
