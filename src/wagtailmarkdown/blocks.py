@@ -1,7 +1,13 @@
 from django import forms
 from django.utils.functional import cached_property
 
-from wagtail.core.blocks import TextBlock
+from wagtail import VERSION as WAGTAIL_VERSION
+
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.blocks import TextBlock
+else:
+    from wagtail.core.blocks import TextBlock
 
 from .utils import render_markdown
 from .widgets import MarkdownTextarea

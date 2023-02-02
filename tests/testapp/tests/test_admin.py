@@ -2,7 +2,11 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.core.models import Page
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.models import Page
+else:
+    from wagtail.core.models import Page
 from wagtail.tests.utils import WagtailTestUtils
 
 from wagtailmarkdown.blocks import MarkdownBlock
