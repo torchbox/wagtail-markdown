@@ -1,12 +1,6 @@
 import warnings
 
-from wagtail import VERSION as WAGTAIL_VERSION
-
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.admin.panels import FieldPanel
-else:
-    from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.panels import FieldPanel
 
 from wagtailmarkdown.warnings import WagtailMarkdownDeprecationWarning
 
