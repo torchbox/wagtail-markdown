@@ -20,7 +20,7 @@ INSTALL_REQUIRES = [
     "Markdown>=3.3,<4",
     # note: bleach5 requires bleach[css]. Will make one of the next versions require >= 5
     "bleach>=3.3,<5",
-    "Wagtail>=2.15",
+    "Wagtail>=4.1",
 ]
 
 
@@ -33,15 +33,11 @@ CLASSIFIERS = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Framework :: Django",
-    "Framework :: Django :: 3.0",
-    "Framework :: Django :: 3.1",
     "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
-    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
     "Framework :: Wagtail",
-    "Framework :: Wagtail :: 2",
-    "Framework :: Wagtail :: 3",
-    "Framework :: Wagtail :: 3",
+    "Framework :: Wagtail :: 4",
 ]
 
 
