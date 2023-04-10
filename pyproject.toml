@@ -1,5 +1,61 @@
+[project]
+name = "wagtail-markdown"
+description = "Markdown support for Wagtail"
+authors = [{name = "Felicity Tarnell ", email = "hello@torchbox.com"}]
+maintainers = [{name = "Dan Braghis", email="dan.braghis@torchbox.com"}]
+url="https://github.com/torchbox/wagtail-markdown"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["Wagtail", "Django", "Markdown"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: zlib/libpng License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 4",
+]
+
+dynamic = ["version"]
+requires-python = ">=3.8"
+dependencies = [
+    "Wagtail>=4.1",
+    "Markdown>=3.3,<4",
+    # note: bleach5 requires bleach[css]. Will make one of the next versions require >= 5
+    "bleach>=3.3,<5",
+]
+
+[project.urls]
+Changelog = "https://github.com/torchbox/wagtail-markdown/blob/main/CHANGELOG.md"
+
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.module]
+name = "wagtailmarkdown"
+
+[tool.flit.sdist]
+exclude = [
+    "tests",
+    "Makefile",
+    "docs",
+    ".*",
+    "*.json",
+    "*.ini",
+    "*.yml",
+]
+
 [tool.black]
-target-version = ['py311']
+target-version = ["py311"]
 
 [tool.isort]
 profile = "black"
@@ -20,7 +76,10 @@ ignore = ["E501"]
 
 [tool.coverage.run]
 branch = true
-source = "wagtailmarkdown"
+parallel = true
+source_pkgs = ["wagtailmarkdown"]
+
+omit = ["**/migrations/*", "tests/*"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]

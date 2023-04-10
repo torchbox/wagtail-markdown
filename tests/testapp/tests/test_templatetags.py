@@ -3,17 +3,12 @@ from django.test import TestCase
 from wagtail.documents import get_document_model
 from wagtail.documents.tests.utils import get_test_document_file
 from wagtail.images.tests.utils import Image, get_test_image_file
+from wagtail.models import Page
 
 from testapp.models import TestPage
 
 from wagtailmarkdown.mdx.inlinepatterns import _options_to_dict
 from wagtailmarkdown.templatetags.wagtailmarkdown import markdown
-
-
-try:
-    from wagtail.models import Page
-except ImportError:
-    from wagtail.core.models import Page
 
 
 markdown_input = (
@@ -108,7 +103,7 @@ class TestTemplateTags(TestCase):
         self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/">test3</a></p>')
 
     def test_markdown_linker_wrong_type(self):
-        self.assertEquals(
+        self.assertEqual(
             markdown("<:foobar:test3>"), '<p>[invalid linker type "foobar"]</p>'
         )
 
