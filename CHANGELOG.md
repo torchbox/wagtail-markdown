@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed
+
+- Minimum Wagtail requirement is 4.1 ([#120](https://github.com/torchbox/wagtail-markdown/pull/120)) Thanks @nmoreton
+- Switched to using flit for packaging and ruff for linting
+
 ## [0.10.0] - 2022-09-18
 
 ### Added
