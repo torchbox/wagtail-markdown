@@ -2,7 +2,8 @@ ci:
   autofix_prs: false
 
 default_language_version:
-  python: python3.8
+  python: python3.11
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -21,27 +22,17 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black
-        args: ['--target-version', 'py38']
-  - repo: https://github.com/pycqa/isort
-    # isort config is in setup.cfg
-    rev: 5.12.0
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.262'
     hooks:
-      - id: isort
-  - repo: https://github.com/pycqa/flake8
-    # flake8 config is in setup.cfg
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
+      - id: ruff
   - repo: https://github.com/mgedmin/check-manifest
     rev: "0.49"
     hooks:
     - id: check-manifest
       args: [--no-build-isolation]
-  - repo: https://github.com/asottile/blacken-docs
+  - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.13.0
     hooks:
       - id: blacken-docs
-        additional_dependencies: [black==22.8.0]
+        additional_dependencies: [black==23.3.0]
