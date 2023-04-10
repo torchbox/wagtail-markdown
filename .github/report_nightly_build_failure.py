@@ -4,6 +4,7 @@ Called by GitHub Action when the nightly build fails.
 This reports an error to the #nightly-build-failures Slack channel.
 """
 import os
+
 import requests
 
 if "SLACK_WEBHOOK_URL" in os.environ:
