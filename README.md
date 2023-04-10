@@ -1,6 +1,6 @@
 ## wagtail-markdown: Markdown fields and blocks for Wagtail
 
-[![Build status](https://img.shields.io/github/workflow/status/torchbox/wagtail-markdown/CI/main?style=for-the-badge)](https://github.com/torchbox/wagtail-markdown/actions)
+[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-markdown/ci.yml?branch=main&style=for-the-badge)](https://github.com/torchbox/wagtail-markdown/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg?style=for-the-badge)](https://pypi.org/project/wagtail-markdown/)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-markdown/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-markdown/main)
