@@ -327,5 +327,5 @@ Now you can run tests as shown below:
 tox -p
 ```
 
-or, you can run them for a specific environment `tox -e py39-django3.2-wagtail2.15` or specific test
-`tox -e py39-django3.2-wagtail2.15 tests.testapp.tests.test_admin.TestFieldsAdmin`
+or, you can run them for a specific environment `tox -e py311-django3.2-wagtail4.1` or specific test
+`tox -e py311-django3.2-wagtail4.1 tests.testapp.tests.test_admin.TestFieldsAdmin`

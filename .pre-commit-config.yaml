@@ -26,11 +26,6 @@ repos:
     rev: 'v0.0.262'
     hooks:
       - id: ruff
-  - repo: https://github.com/mgedmin/check-manifest
-    rev: "0.49"
-    hooks:
-    - id: check-manifest
-      args: [--no-build-isolation]
   - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.13.0
     hooks:

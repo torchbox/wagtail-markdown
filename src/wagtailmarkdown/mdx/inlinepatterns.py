@@ -4,6 +4,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from wagtail.documents import get_document_model
 from wagtail.images import get_image_model
 from wagtail.images.exceptions import InvalidFilterSpecError
+from wagtail.models import Page
 
 from markdown import Extension
 from markdown.inlinepatterns import (
@@ -12,12 +13,6 @@ from markdown.inlinepatterns import (
     ImageInlineProcessor,
     LinkInlineProcessor,
 )
-
-
-try:
-    from wagtail.models import Page
-except ImportError:
-    from wagtail.core.models import Page
 
 
 def _options_to_dict(value: str) -> dict:
