@@ -2,10 +2,15 @@
 
 ## Unreleased
 
+### Added
+
+- Support for the Wagtail 5.0 dark theme
+
 ### Changed
 
 - Minimum Wagtail requirement is 4.1 ([#120](https://github.com/torchbox/wagtail-markdown/pull/120)) Thanks @nmoreton
-- Switched to using flit for packaging and ruff for linting
+- Switched to using [flit](https://flit.pypa.io/en/latest/) for packaging and [ruff](https://beta.ruff.rs/docs/) for linting
+- Upgraded EasyMde to v2.18.0
 
 ## [0.10.0] - 2022-09-18
 
