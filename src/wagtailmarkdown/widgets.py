@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.telepath import register
 from wagtail.utils.widgets import WidgetWithScript
 from wagtail.widget_adapters import WidgetAdapter
@@ -23,13 +24,15 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
 
     @property
     def media(self):
+        css = (
+            "wagtailmarkdown/css/easymde.min.css",
+            "wagtailmarkdown/css/easymde.tweaks.css",
+        )
+        if WAGTAIL_VERSION >= (5, 0):
+            css += ("wagtailmarkdown/css/easymde.darkmode.css",)
+
         return forms.Media(
-            css={
-                "all": (
-                    "wagtailmarkdown/css/easymde.min.css",
-                    "wagtailmarkdown/css/easymde.tweaks.css",
-                )
-            },
+            css={"all": css},
             js=(
                 "wagtailmarkdown/js/easymde.min.js",
                 "wagtailmarkdown/js/easymde.attach.js",

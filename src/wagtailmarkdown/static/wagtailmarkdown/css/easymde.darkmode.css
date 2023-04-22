@@ -1,0 +1,60 @@
+.EasyMDEContainer .CodeMirror {
+    background-color: var(--w-color-surface-field);
+    color: var(--w-color-text-context);
+    border: 1px solid var(--w-color-border-field-default);
+}
+
+.EasyMDEContainer .editor-toolbar {
+    border: 1px solid var(--w-color-border-field-default);
+    border-bottom: none;
+}
+
+.EasyMDEContainer:hover .CodeMirror, .EasyMDEContainer .CodeMirror-focused, .EasyMDEContainer:hover .editor-toolbar {
+    border-color: var(--w-color-border-field-hover);
+}
+
+.EasyMDEContainer .editor-toolbar > * {
+    color: var(--w-color-text-context);
+}
+
+.EasyMDEContainer .CodeMirror-cursor {
+    border-left-color: var(--w-color-text-context);
+}
+
+.EasyMDEContainer .CodeMirror-selected {
+    background-color: var(--w-color-text-context);
+    opacity: 0.5;
+}
+
+.EasyMDEContainer .editor-toolbar > .active, .editor-toolbar > button:hover {
+    background-color: var(--w-color-surface-field);
+    color: var(--w-color-text-context);
+}
+
+.EasyMDEContainer .cm-url, .EasyMDEContainer .cm-link, .EasyMDEContainer .cm-image {
+    color: var(--w-color-text-link-default);
+}
+
+.EasyMDEContainer .cm-link {
+    text-decoration: underline;
+}
+
+.EasyMDEContainer .cm-s-easymde .cm-comment {
+    background-color: var(--w-color-border-furniture);
+    color: var(--w-color-text-context);
+}
+
+.EasyMDEContainer .CodeMirror-fullscreen, .EasyMDEContainer .editor-toolbar.fullscreen, .EasyMDEContainer .editor-preview {
+    background-color: var(--w-color-surface-field);
+    color: var(--w-color-text-context);
+}
+
+.EasyMDEContainer .editor-preview pre {
+    background-color: var(--w-color-black-20);
+    padding: 1em;
+}
+
+.EasyMDEContainer .editor-preview pre code {
+    background-color: transparent;
+    box-shadow: none;
+}
