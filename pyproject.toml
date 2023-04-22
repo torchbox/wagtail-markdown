@@ -3,7 +3,6 @@ name = "wagtail-markdown"
 description = "Markdown support for Wagtail"
 authors = [{name = "Felicity Tarnell ", email = "hello@torchbox.com"}]
 maintainers = [{name = "Dan Braghis", email="dan.braghis@torchbox.com"}]
-url="https://github.com/torchbox/wagtail-markdown"
 readme = "README.md"
 license = {file = "LICENSE"}
 keywords = ["Wagtail", "Django", "Markdown"]
@@ -34,6 +33,7 @@ dependencies = [
 ]
 
 [project.urls]
+Repository = "https://github.com/torchbox/wagtail-markdown"
 Changelog = "https://github.com/torchbox/wagtail-markdown/blob/main/CHANGELOG.md"
 
 
