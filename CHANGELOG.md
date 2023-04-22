@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [0.11.0] - 2023-04-22
+
 ### Added
 
 - Support for the Wagtail 5.0 dark theme
@@ -97,7 +99,8 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.10.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-headless-preview/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/torchbox/wagtail-markdown/compare/0.8.0...v0.9.0
 [0.8.0]: https://github.com/torchbox/wagtail-markdown/compare/0.7.0...0.8.0
