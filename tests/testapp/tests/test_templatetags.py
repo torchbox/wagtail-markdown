@@ -5,7 +5,7 @@ from wagtail.documents.tests.utils import get_test_document_file
 from wagtail.images.tests.utils import Image, get_test_image_file
 from wagtail.models import Page
 
-from testapp.models import TestPage
+from tests.testapp.models import TestPage
 
 from wagtailmarkdown.mdx.inlinepatterns import _options_to_dict
 from wagtailmarkdown.templatetags.wagtailmarkdown import markdown

@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     "wagtail",
     "taggit",
     "wagtailmarkdown",
-    "testapp",
+    "tests.testapp",
 ]
 
 TEMPLATES = [
@@ -44,7 +44,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 STATIC_URL = "/static/"
 
-ROOT_URLCONF = "testapp.urls"
+ROOT_URLCONF = "tests.testapp.urls"
 
 MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
