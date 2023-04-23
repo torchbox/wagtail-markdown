@@ -58,17 +58,6 @@ exclude = [
 [tool.black]
 target-version = ["py311"]
 
-[tool.isort]
-profile = "black"
-known_django = "django"
-known_wagtail = "wagtail"
-known_first_party = ['wagtailmarkdown']
-sections = ['FUTURE', 'STDLIB', 'DJANGO', 'WAGTAIL', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
-skip=['migrations', '.git', '__pycache__', 'venv', '.venv', '.github', '.tox', 'build', 'dist']
-blocked_extensions=["pyc", "rst", "html", "js", "svg", "txt", "css", "scss", "png", "sh"]
-lines_between_types = 1
-lines_after_imports = 2
-
 [tool.ruff]
 target-version = "py311"
 
