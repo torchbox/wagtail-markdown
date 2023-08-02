@@ -1,8 +1,9 @@
 ## wagtail-markdown: Markdown fields and blocks for Wagtail
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-markdown/ci.yml?branch=main&style=for-the-badge)](https://github.com/torchbox/wagtail-markdown/actions)
-[![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg?style=for-the-badge)](https://pypi.org/project/wagtail-markdown/)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
+[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-markdown/ci.yml?branch=main)](https://github.com/torchbox/wagtail-markdown/actions)
+[![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg)](https://pypi.org/project/wagtail-markdown/)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/psf/black)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-markdown/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-markdown/main)
 
 
@@ -299,11 +300,28 @@ And render the content in a template:
 
 ## Compatibility
 
-wagtail-markdown supports Wagtail 2.15 and above, python-markdown 3.3 and above.
+wagtail-markdown supports Wagtail 4.1 and above, python-markdown 3.3 and above.
 
 ## Contributing
 
 All contributions are welcome!
+
+### Installation
+
+To make changes to this project, first clone this repository:
+
+```shell
+git clone git@github.com:torchbox/wagtail-markdown.git
+cd wagtail-markdown
+```
+
+With your preferred Python virtual environment activated, install testing dependencies:
+
+```shell
+pip install -e '.[testing]' -U
+```
+
+### pre-commit
 
 Note that this project uses [pre-commit](https://github.com/pre-commit/pre-commit). To set up locally:
 
@@ -321,11 +339,20 @@ $ pre-commit run --all-files
 
 ### How to run tests
 
-Now you can run tests as shown below:
+To run all tests in all environments:
 
 ```sh
 tox -p
 ```
 
-or, you can run them for a specific environment `tox -e py311-django3.2-wagtail4.1` or specific test
-`tox -e py311-django3.2-wagtail4.1 tests.testapp.tests.test_admin.TestFieldsAdmin`
+To run tests for a specific environment:
+
+```shell
+tox -e py311-django3.2-wagtail4.1
+```
+
+or, a specific test
+
+```shell
+tox -e py311-django3.2-wagtail4.1 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+```
