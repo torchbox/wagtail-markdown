@@ -1,7 +1,7 @@
+import contextlib
 import xml.etree.ElementTree as etree
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-
 from wagtail.images import get_image_model
 
 
@@ -32,10 +32,9 @@ class Linker:
             elif opt == "full":
                 opts["classname"] = "full-width"
             elif opt == "width":
-                try:
+                with contextlib.suppress(ValueError):
                     opts["spec"] = "width-%d" % int(value)
-                except ValueError:
-                    pass
+
         try:
             image = get_image_model().objects.get(title=fname)
         except ObjectDoesNotExist:

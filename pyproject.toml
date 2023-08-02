@@ -57,13 +57,33 @@ exclude = [
 ]
 
 [tool.black]
-target-version = ["py311"]
+target-version = ["py38"]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py38"
+
+select = [
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "DJ", # flake8-django
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+    "PGH", # pygrep-hooks
+    "S",   # flake8-bandit
+    "SIM", # flake8-simplify
+    "W",   # pycodestyle warnings
+    "YTT",   # flake8-2020
+    "UP",  # pyupgrade
+    "RUF100",  # unused noqa
+]
 
 ignore = ["E501"]
 
+[tool.ruff.isort]
+known-first-party = ["src", "wagtailmarkdown"]
+lines-between-types = 1
+lines-after-imports = 2
 
 [tool.coverage.run]
 branch = true

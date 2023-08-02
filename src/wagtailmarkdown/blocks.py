@@ -1,6 +1,5 @@
 from django import forms
 from django.utils.functional import cached_property
-
 from wagtail.blocks import TextBlock
 
 from .utils import render_markdown
