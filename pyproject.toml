@@ -53,6 +53,7 @@ exclude = [
     "*.json",
     "*.ini",
     "*.yml",
+    "CHANGELOG.md",
 ]
 
 [tool.black]
@@ -66,13 +67,14 @@ ignore = ["E501"]
 
 [tool.coverage.run]
 branch = true
+concurrency = ["multiprocessing", "thread"]
 parallel = true
-source_pkgs = ["wagtailmarkdown"]
+source = ["wagtailmarkdown"]
 
 omit = ["**/migrations/*", "tests/*"]
 
 [tool.coverage.paths]
-source = ["src", ".tox/*/site-packages"]
+source = ["src", ".tox/py*/**/site-packages"]
 
 [tool.coverage.report]
 show_missing = true

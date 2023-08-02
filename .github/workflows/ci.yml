@@ -47,14 +47,19 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: ⬇️ Install dependencies
         run: |
           python -Im pip install --upgrade pip
-          python -Im pip install tox tox-gh-actions
-      - name: Run tox targets for Python ${{ matrix.python-version }}
-        run: tox
+          python -Im pip install flit tox tox-gh-actions
+          python -Im flit install --symlink
 
-      - name: Upload coverage data
+      - name: 🏗️ Build wheel
+        run: python -Im flit build --format wheel
+
+      - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
+        run: tox --installpkg ./dist/*.whl
+
+      - name: ⬆️ Upload coverage data
         uses: actions/upload-artifact@v3
         with:
           name: coverage-data
@@ -90,14 +95,14 @@ jobs:
         with:
           name: coverage-data
 
-      - name: Combine coverage
+      - name: ＋  Combine coverage
         run: |
           python -Im coverage combine
           python -Im coverage html --skip-covered --skip-empty
           python -Im coverage report
           echo "## Coverage summary" >> $GITHUB_STEP_SUMMARY
           python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-      - name: Upload HTML report if check failed.
+      - name: 📈 Upload HTML report if check failed.
         uses: actions/upload-artifact@v3
         with:
           name: html-report
