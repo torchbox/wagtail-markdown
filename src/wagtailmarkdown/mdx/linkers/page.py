@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as etree
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-
 from wagtail.models import Page
 
 

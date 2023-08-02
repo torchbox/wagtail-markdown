@@ -1,12 +1,10 @@
 from django.test import TestCase
-
 from wagtail.documents import get_document_model
 from wagtail.documents.tests.utils import get_test_document_file
 from wagtail.images.tests.utils import Image, get_test_image_file
 from wagtail.models import Page
 
 from tests.testapp.models import TestPage
-
 from wagtailmarkdown.mdx.inlinepatterns import _options_to_dict
 from wagtailmarkdown.templatetags.wagtailmarkdown import markdown
 
@@ -144,7 +142,7 @@ class TestTemplateTags(TestCase):
         )
 
     def test_markdown_linker_image_not_found(self):
-        self.assertEquals(markdown("<:image:nope>"), '<p>[image "nope" not found]</p>')
+        self.assertEqual(markdown("<:image:nope>"), '<p>[image "nope" not found]</p>')
 
     def test_markdown_linker_image_multiple(self):
         image = Image.objects.create(

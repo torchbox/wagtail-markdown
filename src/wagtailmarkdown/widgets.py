@@ -1,6 +1,5 @@
 from django import forms
 from django.conf import settings
-
 from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.telepath import register
 from wagtail.utils.widgets import WidgetWithScript
@@ -18,9 +17,9 @@ class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
                 if settings.WAGTAILMARKDOWN["autodownload_fontawesome"]
                 else "false"
             )
-            return 'easymdeAttach("{0}", {1});'.format(id_, autodownload)
+            return f'easymdeAttach("{id_}", {autodownload});'
 
-        return 'easymdeAttach("{0}");'.format(id_)
+        return f'easymdeAttach("{id_}");'
 
     @property
     def media(self):

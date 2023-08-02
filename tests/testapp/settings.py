@@ -4,7 +4,7 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-SECRET_KEY = "fake_secret_key_to_run_tests"  # pragma: allowlist secret
+SECRET_KEY = "fake_secret_key_to_run_tests"  # noqa: S105
 
 IS_INTERACTIVE = "INTERACTIVE" in os.environ
 

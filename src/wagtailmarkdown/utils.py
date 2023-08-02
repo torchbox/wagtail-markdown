@@ -1,11 +1,11 @@
 from collections import defaultdict
 
+import bleach
+import markdown
+
 from django.conf import settings
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
-
-import bleach
-import markdown
 
 from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.mdx.inlinepatterns import ImageExtension, LinkExtension
@@ -18,7 +18,8 @@ def render_markdown(text, context=None):
     """
     markdown_html = _transform_markdown_into_html(text)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
-    return mark_safe(sanitised_markdown_html)
+    # note: we use mark_safe here because bleach is already sanitising the HTML
+    return mark_safe(sanitised_markdown_html)  # noqa: S308
 
 
 def _transform_markdown_into_html(text):
