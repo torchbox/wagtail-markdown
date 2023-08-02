@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## [0.11.1] - 2023-08-02
+
+### Changed
+
+- Various maintenance and tooling tweaks. Includes switching to [PyPI trusted publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/)
+- Added Wagtail 5.1 to the testing matrix
+
 ## [0.11.0] - 2023-04-22
 
 ### Added
@@ -99,7 +106,8 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.1...HEAD
+[0.11.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/torchbox/wagtail-markdown/compare/0.8.0...v0.9.0
