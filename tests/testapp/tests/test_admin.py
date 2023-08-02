@@ -2,7 +2,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from wagtail.models import Page
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.test.utils import WagtailTestUtils
 
 from wagtailmarkdown.blocks import MarkdownBlock
 from wagtailmarkdown.fields import MarkdownField
