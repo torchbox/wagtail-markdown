@@ -7,9 +7,16 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
+from wagtailmarkdown.constants import (
+    DEFAULT_BLEACH_KWARGS,
+    SETTINGS_MODE_OVERRIDE,
+    UNSAFE_HTML,
+)
 from wagtailmarkdown.mdx.inlinepatterns import ImageExtension, LinkExtension
 from wagtailmarkdown.mdx.linker import LinkerExtension
+
+
+unsafe_html = getattr(settings, "WAGTAILMARKDOWN", {}).get("unsafe_html", UNSAFE_HTML)
 
 
 def render_markdown(text, context=None):
@@ -17,6 +24,8 @@ def render_markdown(text, context=None):
     Turn markdown into HTML.
     """
     markdown_html = _transform_markdown_into_html(text)
+    if unsafe_html:
+        return mark_safe(markdown_html)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
     # note: we use mark_safe here because bleach is already sanitising the HTML
     return mark_safe(sanitised_markdown_html)  # noqa: S308
