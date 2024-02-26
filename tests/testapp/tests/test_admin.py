@@ -51,8 +51,8 @@ class TestFieldsAdmin(TestCase, WagtailTestUtils):
                 "&quot;_args&quot;: [&quot;&lt;textarea name=\\&quot;__NAME__\\"
                 "&quot; cols=\\&quot;40\\&quot; "
                 "rows=\\&quot;1\\&quot; id=\\&quot;__ID__\\&quot; "
-                "data-controller=\\&quot;easymde\\&quot;&gt;\\n&lt;/textarea&gt;&lt;script&gt;"
-                "&lt;/script&gt;&quot;, &quot;__ID__&quot;]}",
+                "data-controller=\\&quot;easymde\\&quot;&gt;\\n&lt;/textarea&gt;&quot;, "
+                "&quot;__ID__&quot;]}",
             )
         else:
             self.assertContains(
@@ -79,14 +79,14 @@ class TestFieldsAdmin(TestCase, WagtailTestUtils):
 
             self.assertEqual(
                 init,
-                '<textarea name="name" cols="40" rows="10" id="the_id" data-controller="easymde">\nvalue</textarea><script></script>',
+                '<textarea name="name" cols="40" rows="10" id="the_id" data-controller="easymde">\nvalue</textarea>',
             )
 
             with override_settings(WAGTAILMARKDOWN={"autodownload_fontawesome": False}):
                 init = widget.render("name", "value", attrs={"id": "the_id"})
                 self.assertEqual(
                     init,
-                    '<textarea name="name" cols="40" rows="10" id="the_id" data-controller="easymde" data-easymde-autodownload-value="false">\nvalue</textarea><script></script>',
+                    '<textarea name="name" cols="40" rows="10" id="the_id" data-controller="easymde" data-easymde-autodownload-value="false">\nvalue</textarea>',
                 )
         else:
             init = widget.render_js_init("the_id", "name", "value")
