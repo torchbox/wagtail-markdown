@@ -3,6 +3,7 @@
 import django.db.models.deletion
 
 from django.db import migrations, models
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail import fields as wagtail_fields
 
 import wagtailmarkdown.blocks
@@ -15,6 +16,8 @@ class Migration(migrations.Migration):
     dependencies = [
         ("wagtailcore", "0059_apply_collection_ordering"),
     ]
+
+    extra_args = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
 
     operations = [
         migrations.CreateModel(
@@ -62,7 +65,7 @@ class Migration(migrations.Migration):
                             )
                         ],
                         blank=True,
-                        use_json_field=True,
+                        **extra_args,
                     ),
                 ),
             ],
