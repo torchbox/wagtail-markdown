@@ -18,15 +18,20 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
     "Framework :: Wagtail",
-    "Framework :: Wagtail :: 4",
     "Framework :: Wagtail :: 5",
+    "Framework :: Wagtail :: 6",
 ]
 
 dynamic = ["version"]
 requires-python = ">=3.8"
 dependencies = [
-    "Wagtail>=4.1",
+    "Wagtail>=5.2",
     "Markdown>=3.3,<4",
     # note: bleach5 requires bleach[css]. Will make one of the next versions require >= 5
     "bleach>=3.3,<5",
