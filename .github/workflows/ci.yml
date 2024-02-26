@@ -19,7 +19,7 @@ env:
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
   # Keep in sync with .pre-commit-config.yaml/default_language_version/python.
-  PYTHON_LATEST: "3.11"
+  PYTHON_LATEST: "3.12"
 
 jobs:
   tests:
@@ -28,7 +28,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Harden Runner
