@@ -1,4 +1,3 @@
-from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks import StreamBlock
 from wagtail.fields import StreamField
@@ -18,12 +17,10 @@ class MyStreamBlock(StreamBlock):
 
 
 class TestWithStreamFieldPage(Page):
-    extra_args = {"use_json_field": True} if WAGTAIL_VERSION < (6, 0) else {}
-
     body = StreamField(
         MyStreamBlock,
         blank=True,
-        **extra_args,
+        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [FieldPanel("body")]
