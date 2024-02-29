@@ -30,7 +30,6 @@ if WAGTAIL_VERSION >= (6, 0):
             css = (
                 "wagtailmarkdown/css/easymde.min.css",
                 "wagtailmarkdown/css/easymde.tweaks.css",
-                "wagtailmarkdown/css/easymde.darkmode.css",
             )
 
             return forms.Media(
@@ -65,7 +64,6 @@ else:
             css = (
                 "wagtailmarkdown/css/easymde.min.css",
                 "wagtailmarkdown/css/easymde.tweaks.css",
-                "wagtailmarkdown/css/easymde.darkmode.css",
             )
 
             return forms.Media(
