@@ -39,8 +39,8 @@ dependencies = [
 
 [project.optional-dependencies]
 testing = [
-    "pre-commit>=3.3.0,<4",
     "tox>=4.6.4,<5",
+    "coverage>=7.0,<8.0",
 ]
 
 [project.urls]
