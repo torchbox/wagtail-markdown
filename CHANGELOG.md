@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Support for the Django 5.0
+- Support for the Wagtail 6.0
+- Dropped support for Wagtail < 5.2
+
 ## [0.11.1] - 2023-08-02
 
 ### Changed

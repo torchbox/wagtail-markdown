@@ -2,41 +2,79 @@ from django import forms
 from django.conf import settings
 from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.telepath import register
-from wagtail.utils.widgets import WidgetWithScript
 from wagtail.widget_adapters import WidgetAdapter
 
 
-class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
-    def render_js_init(self, id_, name, value):
-        if (
-            hasattr(settings, "WAGTAILMARKDOWN")
-            and "autodownload_fontawesome" in settings.WAGTAILMARKDOWN
-        ):
-            autodownload = (
-                "true"
-                if settings.WAGTAILMARKDOWN["autodownload_fontawesome"]
-                else "false"
+if WAGTAIL_VERSION >= (6, 0):
+
+    class MarkdownTextarea(forms.widgets.Textarea):  # type: ignore PGH003
+        def build_attrs(self, *args, **kwargs):
+            attrs = super().build_attrs(*args, **kwargs)
+            attrs["data-controller"] = "easymde"
+
+            if (
+                hasattr(settings, "WAGTAILMARKDOWN")
+                and "autodownload_fontawesome" in settings.WAGTAILMARKDOWN
+            ):
+                autodownload = (
+                    "true"
+                    if settings.WAGTAILMARKDOWN["autodownload_fontawesome"]
+                    else "false"
+                )
+                attrs["data-easymde-autodownload-value"] = autodownload
+
+            return attrs
+
+        @property
+        def media(self):
+            css = (
+                "wagtailmarkdown/css/easymde.min.css",
+                "wagtailmarkdown/css/easymde.tweaks.css",
+                "wagtailmarkdown/css/easymde.darkmode.css",
             )
-            return f'easymdeAttach("{id_}", {autodownload});'
 
-        return f'easymdeAttach("{id_}");'
+            return forms.Media(
+                css={"all": css},
+                js=(
+                    "wagtailmarkdown/js/easymde.min.js",
+                    "wagtailmarkdown/js/easymde.attach.js",
+                    "wagtailmarkdown/js/easymde-controller.js",
+                ),
+            )
 
-    @property
-    def media(self):
-        css = (
-            "wagtailmarkdown/css/easymde.min.css",
-            "wagtailmarkdown/css/easymde.tweaks.css",
-        )
-        if WAGTAIL_VERSION >= (5, 0):
-            css += ("wagtailmarkdown/css/easymde.darkmode.css",)
+else:
+    from wagtail.utils.widgets import WidgetWithScript
 
-        return forms.Media(
-            css={"all": css},
-            js=(
-                "wagtailmarkdown/js/easymde.min.js",
-                "wagtailmarkdown/js/easymde.attach.js",
-            ),
-        )
+    class MarkdownTextarea(WidgetWithScript, forms.widgets.Textarea):
+        def render_js_init(self, id_, name, value):
+            if (
+                hasattr(settings, "WAGTAILMARKDOWN")
+                and "autodownload_fontawesome" in settings.WAGTAILMARKDOWN
+            ):
+                autodownload = (
+                    "true"
+                    if settings.WAGTAILMARKDOWN["autodownload_fontawesome"]
+                    else "false"
+                )
+                return f'easymdeAttach("{id_}", {autodownload});'
+
+            return f'easymdeAttach("{id_}");'
+
+        @property
+        def media(self):
+            css = (
+                "wagtailmarkdown/css/easymde.min.css",
+                "wagtailmarkdown/css/easymde.tweaks.css",
+                "wagtailmarkdown/css/easymde.darkmode.css",
+            )
+
+            return forms.Media(
+                css={"all": css},
+                js=(
+                    "wagtailmarkdown/js/easymde.min.js",
+                    "wagtailmarkdown/js/easymde.attach.js",
+                ),
+            )
 
 
 class MarkdownTextareaAdapter(WidgetAdapter):

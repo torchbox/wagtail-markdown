@@ -348,11 +348,11 @@ tox -p
 To run tests for a specific environment:
 
 ```shell
-tox -e py311-django3.2-wagtail4.1
+tox -e py312-django5.0-wagtail6.0
 ```
 
 or, a specific test
 
 ```shell
-tox -e py311-django3.2-wagtail4.1 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+tox -e py312-django5.0-wagtail6.0 -- tests.testapp.tests.test_admin.TestFieldsAdmin
 ```
