@@ -15,7 +15,6 @@ Specifically, it provides:
 
 * A `wagtailmarkdown.blocks.MarkdownBlock` for use in StreamFields.
 * A `wagtailmarkdown.fields.MarkdownField` for use in Page models.
-* A `wagtailmarkdown.edit_handlers.MarkdownPanel` for use in the editor interface.
 * A `markdown` template tag.
 
 The markdown rendered is based on `python-markdown`, but with several
