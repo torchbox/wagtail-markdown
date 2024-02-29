@@ -18,7 +18,6 @@ env:
   TOX_TESTENV_PASSENV: FORCE_COLOR
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
-  # Keep in sync with .pre-commit-config.yaml/default_language_version/python.
   PYTHON_LATEST: "3.12"
 
 jobs:
@@ -49,15 +48,10 @@ jobs:
 
       - name: ⬇️ Install dependencies
         run: |
-          python -Im pip install --upgrade pip
-          python -Im pip install flit tox tox-gh-actions
-          python -Im flit install --symlink
-
-      - name: 🏗️ Build wheel
-        run: python -Im flit build --format wheel
+          python -Im pip install --upgrade pip setuptools wheel flit tox tox-gh-actions
 
       - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
-        run: tox --installpkg ./dist/*.whl
+        run: tox
 
       - name: ⬆️ Upload coverage data
         uses: actions/upload-artifact@v4
@@ -88,7 +82,7 @@ jobs:
           # Use latest Python, so it understands all syntax.
           python-version: ${{env.PYTHON_LATEST}}
 
-      - run: python -Im pip install --upgrade coverage[toml]
+      - run: python -Im pip install --upgrade coverage
 
       - name: Download coverage data
         uses: actions/download-artifact@v4
