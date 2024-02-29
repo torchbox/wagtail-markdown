@@ -62,9 +62,9 @@ class TestTemplateTags(TestCase):
 
     def tearDown(self):
         for rendition in self.image.renditions.all():
-            rendition.file.delete(False)
-        self.image.file.delete(False)
-        self.document.file.delete(False)
+            rendition.file.delete(save=False)
+        self.image.file.delete(save=False)
+        self.document.file.delete(save=False)
 
     def test_markdown_transformed_to_html(self):
         self.assertEqual(markdown("# heading"), "<h1>heading</h1>")
@@ -154,7 +154,7 @@ class TestTemplateTags(TestCase):
             '<p>[multiple images "Test image" found]</p>',
         )
 
-        image.file.delete(False)
+        image.file.delete(save=False)
 
     def test_markdown_linker_doc(self):
         self.assertEqual(
@@ -183,7 +183,7 @@ class TestTemplateTags(TestCase):
             '<p>[multiple documents "Test document" found]</p>',
         )
 
-        document.file.delete(False)
+        document.file.delete(save=False)
 
     def test_markdown_inline_links(self):
         self.assertEqual(
