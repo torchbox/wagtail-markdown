@@ -128,4 +128,7 @@ def _get_markdown_kwargs():
         else:
             kwargs["extension_configs"].update(markdown_settings["extension_configs"])
 
+    if "tab_length" in markdown_settings:
+        kwargs["tab_length"] = markdown_settings["tab_length"]
+
     return kwargs

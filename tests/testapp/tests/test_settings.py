@@ -53,6 +53,11 @@ class TestSettings(TestCase):
                 kwargs["extension_configs"]["codehilite"], [("guess_lang", True)]
             )
 
+        with override_settings(WAGTAILMARKDOWN={"tab_length": 2}):
+            kwargs = _get_markdown_kwargs()
+            self.assertTrue("tab_length" in kwargs)
+            self.assertTrue(kwargs["tab_length"], 2)
+
         with override_settings(WAGTAILMARKDOWN={"extensions": ["toc"]}):
             kwargs = _get_markdown_kwargs()
             self.assertTrue("toc" in kwargs["extensions"])
