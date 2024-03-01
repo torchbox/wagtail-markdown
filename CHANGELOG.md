@@ -6,7 +6,8 @@
 
 ### Added
 
-- Add Wagtail 6.0 and Django 5.0 to the test matrix
+- Add Wagtail 6.0 and Django 5.0 to the test matrix ([#139](https://github.com/torchbox/wagtail-markdown/pull/139)) @katdom13, @nickmoreton
+- Ability to customize tab length ([#136](https://github.com/torchbox/wagtail-markdown/pull/)) @bjackson
 
 ### Removed
 
