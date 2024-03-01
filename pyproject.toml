@@ -64,6 +64,6 @@ exclude = [
     "*.json",
     "*.ini",
     "*.yml",
-    "*.toml",
+    "ruff.toml",
     "CHANGELOG.md",
 ]
