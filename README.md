@@ -58,6 +58,12 @@ WAGTAILMARKDOWN = {
     "extensions": [],  # optional. a list of python-markdown supported extensions
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
     "extensions_settings_mode": "extend",  # optional. Possible values: "extend" or "override". Defaults to "extend".
+    "unsafe_html": True, # optional. skip bleach.
+    "image_opts": { # optional. specify default image rendition options.
+        "spec": "width-700",
+        "classname": "right",
+    },
+    "wrap_images_in_anchors": False, # optional. do not wrap images in anchors tags.
 }
 ```
 

@@ -96,5 +96,13 @@ DEFAULT_BLEACH_KWARGS = {
     "styles": DEFAULT_ALLOWED_STYLES,
 }
 
+DEFAULT_IMAGE_OPTS = {
+    "spec": "width-500",
+    "classname": "left",
+}
+
+UNSAFE_HTML = False
+
+WRAP_IMAGES_IN_ANCHORS = True
 
 SETTINGS_MODE_OVERRIDE = "override"
