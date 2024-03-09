@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [0.12.1] - 2024-03-09
+
+### Fixed
+
+- A double `MarkdownBlock` editor initialisation issue in Wagtail 6
+
+### Changed
+
+- The telepath adapter code is not longer used in Wagtail 6+
+
 ## [0.12.0] - 2024-02-29
 
 ### Added
@@ -118,8 +128,9 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...HEAD
-[0.11.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
+[0.12.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
 [0.11.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.9.0...v0.10.0
