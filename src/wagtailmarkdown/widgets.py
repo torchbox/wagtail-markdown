@@ -2,8 +2,6 @@ from django import forms
 from django.conf import settings
 from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.staticfiles import versioned_static
-from wagtail.telepath import register
-from wagtail.widget_adapters import WidgetAdapter
 
 
 class MarkdownTextareaBase(forms.Textarea):
@@ -48,7 +46,9 @@ if WAGTAIL_VERSION >= (6, 0):
             )
 
 else:
+    from wagtail.telepath import register
     from wagtail.utils.widgets import WidgetWithScript
+    from wagtail.widget_adapters import WidgetAdapter
 
     class MarkdownTextarea(WidgetWithScript, MarkdownTextareaBase):
         def render_js_init(self, id_, name, value):
@@ -62,12 +62,11 @@ else:
 
             return f'easymdeAttach("{id_}");'
 
+    class MarkdownTextareaAdapter(WidgetAdapter):
+        js_constructor = "wagtailmarkdown.widgets.MarkdownTextarea"
 
-class MarkdownTextareaAdapter(WidgetAdapter):
-    js_constructor = "wagtailmarkdown.widgets.MarkdownTextarea"
+        class Media:
+            # TODO: remove the adapter when dropping support for Wagtail 5.2
+            js = ["wagtailmarkdown/js/markdown-textarea-adapter.js"]
 
-    class Media:
-        js = ["wagtailmarkdown/js/markdown-textarea-adapter.js"]
-
-
-register(MarkdownTextareaAdapter(), MarkdownTextarea)
+    register(MarkdownTextareaAdapter(), MarkdownTextarea)
