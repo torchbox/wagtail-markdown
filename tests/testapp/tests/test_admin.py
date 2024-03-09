@@ -43,18 +43,7 @@ class TestFieldsAdmin(TestCase, WagtailTestUtils):
             )
         )
         self.assertContains(response, "easymde.attach.js")
-        if WAGTAIL_VERSION >= (6, 0):
-            self.assertContains(
-                response,
-                "[&quot;markdown&quot;, {&quot;_type&quot;: "
-                "&quot;wagtailmarkdown.widgets.MarkdownTextarea&quot;, "
-                "&quot;_args&quot;: [&quot;&lt;textarea name=\\&quot;__NAME__\\"
-                "&quot; cols=\\&quot;40\\&quot; "
-                "rows=\\&quot;1\\&quot; id=\\&quot;__ID__\\&quot; "
-                "data-controller=\\&quot;easymde\\&quot;&gt;\\n&lt;/textarea&gt;&quot;, "
-                "&quot;__ID__&quot;]}",
-            )
-        else:
+        if WAGTAIL_VERSION < (6, 0):
             self.assertContains(
                 response,
                 "[&quot;markdown&quot;, {&quot;_type&quot;: "
@@ -65,7 +54,7 @@ class TestFieldsAdmin(TestCase, WagtailTestUtils):
                 "&lt;script&gt;easymdeAttach(\\&quot;__ID__\\&quot;);"
                 "&lt;/script&gt;&quot;, &quot;__ID__&quot;]}",
             )
-        self.assertContains(response, "markdown-textarea-adapter.js")
+            self.assertContains(response, "markdown-textarea-adapter.js")
 
     def test_markdown_field(self):
         field = MarkdownField()

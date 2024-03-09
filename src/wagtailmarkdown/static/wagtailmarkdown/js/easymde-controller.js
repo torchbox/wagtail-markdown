@@ -1,12 +1,11 @@
-// wagtailmarkdown/static/wagtailmarkdown/js/easymde-controller.js
-
 class EasyMDEContainer extends window.StimulusModule.Controller {
-    static values = { autodownload: Boolean };
+    static values = { autodownload: Boolean};
 
     connect() {
-        if (this.autodownloadValue != null) {
+        if (this.hasAutodownloadValue) {
             easymdeAttach(this.element.id, this.autodownloadValue);
-        } else {
+        }
+        else {
             easymdeAttach(this.element.id);
         }
     }
