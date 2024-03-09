@@ -39,24 +39,12 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
 */
-function refreshCodeMirror(e) {
-    setTimeout(
-        function() {
-            e.CodeMirror.refresh();
-        }, 100
-    );
-}
-
-// Wagtail < 3.0
-document.addEventListener('shown.bs.tab', function() {
-    document.querySelectorAll('.CodeMirror').forEach(function(e) {
-        refreshCodeMirror(e)
-    });
-});
-
-// Wagtail >= 3.0
 document.addEventListener('wagtail:tab-changed', function() {
     document.querySelectorAll('.CodeMirror').forEach(function(e) {
-        refreshCodeMirror(e)
+        setTimeout(
+            function() {
+                e.CodeMirror.refresh();
+            }, 100
+        );
     });
 });
