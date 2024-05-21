@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add Wagtail 6.1 @katdom13
+
+### Removed
+
+- Support for Django < 4.2 @katdom13
+
+
 ## [0.12.1] - 2024-03-09
 
 ### Fixed
