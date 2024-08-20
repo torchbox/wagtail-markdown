@@ -4,6 +4,7 @@
 
 ### Added
 
+- Add tox testing for wagtail 6.2
 - Add Wagtail 6.1 @katdom13
 
 ### Removed
