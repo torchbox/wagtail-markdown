@@ -280,7 +280,7 @@ class MyPage(Page):
     body = MarkdownField()
 
     content_panels = [
-        FieldPanel("title", classname="full title"),
+        FieldPanel("title", classname="title"),
         FieldPanel("body"),
     ]
 ```
@@ -347,11 +347,11 @@ tox -p
 To run tests for a specific environment:
 
 ```shell
-tox -e py312-django5.0-wagtail6.0
+tox -e py312-django5.0-wagtail6.1
 ```
 
 or, a specific test
 
 ```shell
-tox -e py312-django5.0-wagtail6.0 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+tox -e py312-django5.0-wagtail6.1 -- tests.testapp.tests.test_admin.TestFieldsAdmin
 ```
