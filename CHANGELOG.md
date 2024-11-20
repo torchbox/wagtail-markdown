@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Add tox testing for wagtail 6.2 and 6.3 and include Django 5.1
+- Update the ruff github action which fixes the error seen in CI
+
 ## [0.12.1] - 2024-03-09
 
 ### Fixed
