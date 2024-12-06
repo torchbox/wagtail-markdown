@@ -18,7 +18,7 @@ env:
   TOX_TESTENV_PASSENV: FORCE_COLOR
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
-  PYTHON_LATEST: "3.12"
+  PYTHON_LATEST: "3.13"
 
 jobs:
   tests:
@@ -27,7 +27,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - name: Harden Runner
@@ -37,10 +37,13 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             files.pythonhosted.org:443
+            objects.githubusercontent.com:443
             github.com:443
             pypi.org:443
             api.github.com:443
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -58,6 +61,7 @@ jobs:
         with:
           name: coverage-data-${{ matrix.python-version }}
           path: .coverage.*
+          include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 1
 
@@ -73,10 +77,13 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             files.pythonhosted.org:443
+            objects.githubusercontent.com:443
             github.com:443
             pypi.org:443
             api.github.com:443
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           # Use latest Python, so it understands all syntax.

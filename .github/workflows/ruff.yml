@@ -13,10 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-
-    - run: python -Im pip install --user ruff
-
-    - name: Run ruff
-      working-directory: ./src
-      run: ruff --output-format=github wagtailmarkdown
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        # keep in sync with .pre-commit-config.yaml
+        run: python -Im pip install --user ruff==0.8.2
+      - name: Run Ruff
+        run: ruff check --output-format=github ./src/wagtailmarkdown
