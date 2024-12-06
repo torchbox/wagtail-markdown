@@ -33,7 +33,7 @@ class Linker:
                 opts["classname"] = "full-width"
             elif opt == "width":
                 with contextlib.suppress(ValueError):
-                    opts["spec"] = "width-%d" % int(value)
+                    opts["spec"] = f"width-{int(value)}"
 
         try:
             image = get_image_model().objects.get(title=fname)
