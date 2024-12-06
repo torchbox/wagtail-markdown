@@ -299,7 +299,7 @@ And render the content in a template:
 
 ## Compatibility
 
-wagtail-markdown supports Wagtail 4.1 and above, python-markdown 3.3 and above.
+wagtail-markdown supports Wagtail 5.2 and above, python-markdown 3.3 and above.
 
 ## Contributing
 
@@ -347,11 +347,11 @@ tox -p
 To run tests for a specific environment:
 
 ```shell
-tox -e py312-django5.0-wagtail6.0
+tox -e py313-django5.1-wagtail6.3
 ```
 
 or, a specific test
 
 ```shell
-tox -e py312-django5.0-wagtail6.0 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+tox -e py313-django5.1-wagtail6.3 -- tests.testapp.tests.test_admin.TestFieldsAdmin
 ```
