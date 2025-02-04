@@ -14,6 +14,7 @@ WAGTAILMARKDOWN_BLEACH_SETTINGS = {
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],
     "allowed_attributes": {"i": ["aria-hidden"], "a": ["data-test"]},
+    "allowed_protocols": ["tel"],
     "extensions": ["toc", "sane_lists"],
     "extension_configs": {
         "codehilite": [("guess_lang", True)],
@@ -163,3 +164,21 @@ class TestSettings(TestCase):
             }
         ):
             self.assertDictEqual(_get_bleach_kwargs()["attributes"], allowed)
+
+    def test_get_bleach_kwargs_with_protocols(self):
+        with override_settings(WAGTAILMARKDOWN={"allowed_protocols": ["tel"]}):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["protocols"]),
+                sorted(set(DEFAULT_BLEACH_KWARGS["protocols"] + ["tel"])),
+            )
+
+        with override_settings(
+            WAGTAILMARKDOWN={
+                "allowed_protocols": ["tel"],
+                "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
+            }
+        ):
+            self.assertListEqual(
+                sorted(_get_bleach_kwargs()["protocols"]),
+                ["tel"],
+            )
