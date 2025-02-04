@@ -77,7 +77,10 @@ def _get_bleach_kwargs():
             bleach_kwargs["protocols"] = settings.WAGTAILMARKDOWN["allowed_protocols"]
         else:
             bleach_kwargs["protocols"] = list(
-                set(settings.WAGTAILMARKDOWN["allowed_protocols"] + bleach_kwargs["protocols"])
+                set(
+                    settings.WAGTAILMARKDOWN["allowed_protocols"]
+                    + bleach_kwargs["protocols"]
+                )
             )
 
     return bleach_kwargs
