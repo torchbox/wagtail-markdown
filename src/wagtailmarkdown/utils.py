@@ -72,6 +72,17 @@ def _get_bleach_kwargs():
                 key: list(value) for key, value in merged.items()
             }
 
+    if "allowed_protocols" in settings.WAGTAILMARKDOWN:
+        if override:
+            bleach_kwargs["protocols"] = settings.WAGTAILMARKDOWN["allowed_protocols"]
+        else:
+            bleach_kwargs["protocols"] = list(
+                set(
+                    settings.WAGTAILMARKDOWN["allowed_protocols"]
+                    + bleach_kwargs["protocols"]
+                )
+            )
+
     return bleach_kwargs
 
 

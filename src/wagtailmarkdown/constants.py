@@ -90,10 +90,17 @@ DEFAULT_ALLOWED_STYLES = [
     "margin-right",
 ]
 
+DEFAULT_ALLOWED_PROTOCOLS = [
+    "http",
+    "https",
+    "mailto",
+]
+
 DEFAULT_BLEACH_KWARGS = {
     "tags": DEFAULT_ALLOWED_TAGS,
     "attributes": DEFAULT_ALLOWED_ATTRIBUTES,
     "styles": DEFAULT_ALLOWED_STYLES,
+    "protocols": DEFAULT_ALLOWED_PROTOCOLS,
 }
 
 
