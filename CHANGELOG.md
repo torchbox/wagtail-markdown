@@ -7,6 +7,8 @@
 - Add tox testing for Django 5.2 and Wagtail 6.4, 7.0
 - Support only Wagtail >= 6.3
 
+- Adds support/testing for Wagtail 6.4 and 7.0, and Django 5.2. It also drops support for Wagtail 5.x and 6.2.
+
 ## [0.12.1] - 2024-03-09
 
 ### Fixed
