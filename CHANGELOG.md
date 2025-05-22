@@ -4,6 +4,10 @@
 
 - Add tox testing for wagtail 6.2 and 6.3 and include Django 5.1
 - Update the ruff github action which fixes the error seen in CI
+- Add tox testing for Django 5.2 and Wagtail 6.4, 7.0
+- Support only Wagtail >= 6.3
+
+- Adds support/testing for Wagtail 6.4 and 7.0, and Django 5.2. It also drops support for Wagtail 5.x and 6.2.
 
 ## [0.12.1] - 2024-03-09
 
