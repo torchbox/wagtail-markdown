@@ -39,7 +39,7 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
 */
-document.addEventListener('wagtail:tab-changed', function() {
+document.addEventListener('w-tabs:changed', function() {
     document.querySelectorAll('.CodeMirror').forEach(function(e) {
         setTimeout(
             function() {
