@@ -30,7 +30,7 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
     // Save the codemirror instance on the original HTML element for later use.
     mde.element.codemirror = mde.codemirror;
 
-    mde.codemirror.on("change", function() {
+    mde.codemirror.on("change", function () {
         document.getElementById(id).value = mde.value();
     });
 }
@@ -38,13 +38,19 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
+*
+* WT 7.1: The tabbed component model is still in flux so for the time
+* being I have just created an array of the events to apply the function to.
 */
-document.addEventListener('w-tabs:changed', function() {
-    document.querySelectorAll('.CodeMirror').forEach(function(e) {
-        setTimeout(
-            function() {
-                e.CodeMirror.refresh();
-            }, 100
-        );
-    });
+['wagtail:tab-changed', 'w-tabs:changed'].forEach(function (event) {
+    document.addEventListener(event, function () {
+        document.querySelectorAll('.CodeMirror').forEach(function (e) {
+            setTimeout(
+                function () {
+                    e.CodeMirror.refresh();
+                }, 100
+            );
+        });
+    })
 });
+
