@@ -53,4 +53,3 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
         });
     })
 });
-
