@@ -30,7 +30,7 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
     // Save the codemirror instance on the original HTML element for later use.
     mde.element.codemirror = mde.codemirror;
 
-    mde.codemirror.on("change", function() {
+    mde.codemirror.on("change", function () {
         document.getElementById(id).value = mde.value();
     });
 }
@@ -38,13 +38,18 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
+*
+* Note: this uses an array of events to apply the function to, so as to cover
+* the different supported Wagtail versions.
 */
-document.addEventListener('wagtail:tab-changed', function() {
-    document.querySelectorAll('.CodeMirror').forEach(function(e) {
-        setTimeout(
-            function() {
-                e.CodeMirror.refresh();
-            }, 100
-        );
-    });
+['wagtail:tab-changed', 'w-tabs:changed'].forEach(function (event) {
+    document.addEventListener(event, function () {
+        document.querySelectorAll('.CodeMirror').forEach(function (e) {
+            setTimeout(
+                function () {
+                    e.CodeMirror.refresh();
+                }, 100
+            );
+        });
+    })
 });

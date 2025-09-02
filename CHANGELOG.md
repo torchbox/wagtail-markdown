@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added support and testing for Wagtail 7.1, dropped support for Wagtail 6.4 (EOL) (@damwaingames)
+
 - Add tox testing for wagtail 6.2 and 6.3 and include Django 5.1
 - Update the ruff github action which fixes the error seen in CI
 - Add tox testing for Django 5.2 and Wagtail 6.4, 7.0
