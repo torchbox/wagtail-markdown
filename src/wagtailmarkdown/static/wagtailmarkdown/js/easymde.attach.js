@@ -39,8 +39,8 @@ function easymdeAttach(id, autoDownloadFontAwesome) {
 /*
 * Used to initialize content when MarkdownFields are used in admin panels.
 *
-* WT 7.1: The tabbed component model is still in flux so for the time
-* being I have just created an array of the events to apply the function to.
+* Note: this uses an array of events to apply the function to, so as to cover
+* the different supported Wagtail versions.
 */
 ['wagtail:tab-changed', 'w-tabs:changed'].forEach(function (event) {
     document.addEventListener(event, function () {
