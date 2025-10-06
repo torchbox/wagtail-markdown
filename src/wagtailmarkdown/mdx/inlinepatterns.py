@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from django.apps import apps
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
@@ -46,7 +46,7 @@ class ObjectLookupNegotiator:
     MEDIA_PREFIX = "media:"
 
     @staticmethod
-    def retrieve_page(lookup_field_value) -> Page | None:
+    def retrieve_page(lookup_field_value) -> Optional[Page]:
         try:
             return Page.objects.get(pk=lookup_field_value)
         except (Page.DoesNotExist, Page.MultipleObjectsReturned):
@@ -139,7 +139,9 @@ class LinkProcessor(LinkInlineProcessor):
 
 class ImageExtension(Extension):
     def __init__(
-        self, object_lookup_negotiator: ObjectLookupNegotiator | None = None, **kwargs
+        self,
+        object_lookup_negotiator: Optional[ObjectLookupNegotiator] = None,
+        **kwargs,
     ):
         self.object_lookup_negotiator = (
             object_lookup_negotiator or ObjectLookupNegotiator
@@ -160,7 +162,9 @@ class ImageExtension(Extension):
 
 class LinkExtension(Extension):
     def __init__(
-        self, object_lookup_negotiator: ObjectLookupNegotiator | None = None, **kwargs
+        self,
+        object_lookup_negotiator: Optional[ObjectLookupNegotiator] = None,
+        **kwargs,
     ):
         self.object_lookup_negotiator = (
             object_lookup_negotiator or ObjectLookupNegotiator
