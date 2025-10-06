@@ -250,6 +250,12 @@ Previously we supported custom link tags that used the target object title. They
 
 ⚠️ these types of tags are not reliable as titles can and will change. Support for  will be removed in the future.
 
+#### Inline tags
+
+wagtail-markdown supports the following custom inline tags: `~TEXT~` and `~~TEXT~~` for strikethrough. The resulting
+markup is `<del>TEXT</del>`. Note that with this, the default allowed tags include `del` and `ins`.
+
+
 ### Usage
 
 You can use it as a `StreamField` block:
@@ -347,11 +353,11 @@ tox -p
 To run tests for a specific environment:
 
 ```shell
-tox -e py313-django5.1-wagtail6.3
+tox -e py313-django5.2-wagtail7.0
 ```
 
 or, a specific test
 
 ```shell
-tox -e py313-django5.1-wagtail6.3 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+tox -e py313-django5.2-wagtail7.0 -- tests.testapp.tests.test_admin.TestFieldsAdmin
 ```

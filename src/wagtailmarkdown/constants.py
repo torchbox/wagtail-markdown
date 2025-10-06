@@ -34,6 +34,8 @@ DEFAULT_ALLOWED_TAGS = [
     "ol",
     "hr",
     "br",
+    "del",
+    "ins",
 ]
 
 DEFAULT_ALLOWED_ATTRIBUTES = {

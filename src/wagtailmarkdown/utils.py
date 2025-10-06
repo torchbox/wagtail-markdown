@@ -8,7 +8,11 @@ from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
 from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
-from wagtailmarkdown.mdx.inlinepatterns import ImageExtension, LinkExtension
+from wagtailmarkdown.mdx.inlinepatterns import (
+    DelExtension,
+    ImageExtension,
+    LinkExtension,
+)
 from wagtailmarkdown.mdx.linker import LinkerExtension
 
 
@@ -91,6 +95,7 @@ def _get_default_markdown_kwargs():
             ),
             LinkExtension(),
             ImageExtension(),
+            DelExtension(),
         ],
         "extension_configs": {
             "codehilite": [

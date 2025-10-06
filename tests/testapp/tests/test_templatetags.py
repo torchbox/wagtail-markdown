@@ -270,3 +270,19 @@ class TestTemplateTags(TestCase):
             _options_to_dict("class=left,filter=fill-200x200,foo =bar,baz="),
             {"class": "left", "filter": "fill-200x200", "foo": "bar", "baz": ""},
         )
+
+    def test_del_extension(self):
+        self.assertEqual(markdown("~~removed~~"), "<p><del>removed</del></p>")
+        self.assertEqual(
+            markdown("pre~~removed~~post"), "<p>pre<del>removed</del>post</p>"
+        )
+        self.assertEqual(markdown("~removed~"), "<p><del>removed</del></p>")
+        self.assertEqual(
+            markdown("pre~removed~post"), "<p>pre<del>removed</del>post</p>"
+        )
+
+        self.assertEqual(
+            markdown("~~one~~~two~~~three~~"),
+            "<p><del>one</del><del>two</del><del>three</del></p>",
+        )
+        self.assertEqual(markdown("~~~weird~~~"), "<p><del>~weird</del>~</p>")

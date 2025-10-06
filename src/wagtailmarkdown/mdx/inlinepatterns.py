@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING, Optional
+
 from django.apps import apps
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from markdown import Extension
@@ -6,11 +8,16 @@ from markdown.inlinepatterns import (
     LINK_RE,
     ImageInlineProcessor,
     LinkInlineProcessor,
+    SimpleTagInlineProcessor,
 )
 from wagtail.documents import get_document_model
 from wagtail.images import get_image_model
 from wagtail.images.exceptions import InvalidFilterSpecError
 from wagtail.models import Page
+
+
+if TYPE_CHECKING:
+    from markdown import Markdown
 
 
 def _options_to_dict(value: str) -> dict:
@@ -39,7 +46,7 @@ class ObjectLookupNegotiator:
     MEDIA_PREFIX = "media:"
 
     @staticmethod
-    def retrieve_page(lookup_field_value):
+    def retrieve_page(lookup_field_value) -> Optional[Page]:
         try:
             return Page.objects.get(pk=lookup_field_value)
         except (Page.DoesNotExist, Page.MultipleObjectsReturned):
@@ -131,13 +138,17 @@ class LinkProcessor(LinkInlineProcessor):
 
 
 class ImageExtension(Extension):
-    def __init__(self, object_lookup_negotiator=None, **kwargs):
+    def __init__(
+        self,
+        object_lookup_negotiator: Optional[ObjectLookupNegotiator] = None,
+        **kwargs,
+    ):
         self.object_lookup_negotiator = (
             object_lookup_negotiator or ObjectLookupNegotiator
         )
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md):
+    def extendMarkdown(self, md: "Markdown") -> None:
         md.inlinePatterns.register(
             ImageProcessor(
                 pattern=IMAGE_LINK_RE,
@@ -150,13 +161,17 @@ class ImageExtension(Extension):
 
 
 class LinkExtension(Extension):
-    def __init__(self, object_lookup_negotiator=None, **kwargs):
+    def __init__(
+        self,
+        object_lookup_negotiator: Optional[ObjectLookupNegotiator] = None,
+        **kwargs,
+    ):
         self.object_lookup_negotiator = (
             object_lookup_negotiator or ObjectLookupNegotiator
         )
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md):
+    def extendMarkdown(self, md: "Markdown") -> None:
         md.inlinePatterns.register(
             LinkProcessor(
                 pattern=LINK_RE,
@@ -165,4 +180,12 @@ class LinkExtension(Extension):
             ),
             "link",
             161,
+        )
+
+
+class DelExtension(Extension):
+    def extendMarkdown(self, md: "Markdown") -> None:
+        """Supports ~TEXT~ and ~~TEXT~~ syntax."""
+        md.inlinePatterns.register(
+            SimpleTagInlineProcessor(r"(\~{1,2})(.+?)\1", "del"), "tilde del", 170
         )
