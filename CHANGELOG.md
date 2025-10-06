@@ -1,15 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [0.13.0] - 2025-10-06
 
-- Added support and testing for Wagtail 7.1, dropped support for Wagtail 6.4 (EOL) (@damwaingames)
-
-- Add tox testing for wagtail 6.2 and 6.3 and include Django 5.1
-- Update the ruff github action which fixes the error seen in CI
-- Add tox testing for Django 5.2 and Wagtail 6.4, 7.0
-- Support only Wagtail >= 6.3
-
-- Adds support/testing for Wagtail 6.4 and 7.0, and Django 5.2. It also drops support for Wagtail 5.x and 6.2.
+- Added support Wagtail 7.1, Django 5.2 (@damwaingames)
+- Dropped support for Wagtail < 6.3
+- Added custom inline pattern for strikethrough (`~TEXT~` and `--TEXT--`) (@zerolab)
 
 ## [0.12.1] - 2024-03-09
 
@@ -19,7 +14,7 @@
 
 ### Changed
 
-- The telepath adapter code is not longer used in Wagtail 6+
+- The telepath adapter code is no longer used in Wagtail 6+
 
 ## [0.12.0] - 2024-02-29
 
@@ -137,7 +132,8 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
 [0.11.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.11.1
