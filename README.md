@@ -54,6 +54,7 @@ WAGTAILMARKDOWN = {
     "allowed_tags": [],  # optional. a list of HTML tags. e.g. ['div', 'p', 'a']
     "allowed_styles": [],  # optional. a list of styles
     "allowed_attributes": {},  # optional. a dict with HTML tag as key and a list of attributes as value
+    "allowed_protocols": [],  # optional. a list of protocols e.g. ['http', 'https', 'mailto', 'tel']
     "allowed_settings_mode": "extend",  # optional. Possible values: "extend" or "override". Defaults to "extend".
     "extensions": [],  # optional. a list of python-markdown supported extensions
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
@@ -62,7 +63,7 @@ WAGTAILMARKDOWN = {
 }
 ```
 
-Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `extensions` and `extension_configs` are added to the
+Note: `allowed_tags`, `allowed_styles`, `allowed_attributes`, `allowed_protocols`, `extensions` and `extension_configs` are added to the
 [default wagtail-markdown settings](https://github.com/torchbox/wagtail-markdown/blob/main/src/wagtailmarkdown/constants.py).
 
 
@@ -156,10 +157,10 @@ WAGTAILMARKDOWN = {
 }
 ```
 
-#### Allowed HTML - `allowed_styles` / `allowed_attributes` / `allowed_tags`
+#### Allowed HTML - `allowed_styles` / `allowed_attributes` / `allowed_tags` / `allowed_protocols`
 
 wagtail-markdown uses [bleach](https://github.com/mozilla/bleach) to sanitise the input. To extend the default
-bleach configurations, you can add your own allowed tags, styles or attributes:
+bleach configurations, you can add your own allowed tags, styles, attributes or protocols:
 
 ```python
 WAGTAILMARKDOWN = {
@@ -167,6 +168,7 @@ WAGTAILMARKDOWN = {
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],
     "allowed_attributes": {"i": ["aria-hidden"]},
+    "allowed_protocols": ["tel"],
 }
 ```
 
