@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+## Changed
+
+- Added testing for Wagtail 7.2
+- Added testing for Python 3.14
+- Updated minimum Python requirement to 3.10
+- Dropped testing for Python 3.9
+- Dropped testing for Wagtail 7.1
+
 ## [0.13.0] - 2025-10-06
 
 - Added support Wagtail 7.1, Django 5.2 (@damwaingames)
