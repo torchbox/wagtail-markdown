@@ -4,7 +4,7 @@
 
 ## Changed
 
-- Added testing for Wagtail 7.2
+- Added testing for Wagtail 7.3
 - Added testing for Python 3.14
 - Updated minimum Python requirement to 3.10
 - Dropped testing for Python 3.9
