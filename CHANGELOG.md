@@ -4,11 +4,9 @@
 
 ## Changed
 
-- Added testing for Wagtail 7.3
-- Added testing for Python 3.14
 - Updated minimum Python requirement to 3.10
-- Dropped testing for Python 3.9
-- Dropped testing for Wagtail 7.1
+- Added Wagtail 7.3 and Python 3.14 to test matrix
+- Dropped Python 3.9 and Wagtail 7.1 from test matrix
 
 ## [0.13.0] - 2025-10-06
 
