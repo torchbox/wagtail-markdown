@@ -144,7 +144,6 @@ class TestSettings(TestCase):
             )
 
     def test_get_nh3_kwargs_with_attributes(self):
-        allowed = {"*": {"data-test"}}
         with override_settings(WAGTAILMARKDOWN={"allowed_attributes": {"*": ["data-test"]}}):
             expected = DEFAULT_NH3_KWARGS["attributes"].copy()
             expected["*"].add("data-test")

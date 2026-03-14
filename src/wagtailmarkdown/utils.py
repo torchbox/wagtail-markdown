@@ -61,7 +61,7 @@ def _get_nh3_kwargs():
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
         if override:
-            nh3_kwargs["attributes"] = {k: set(v) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items()}
+            nh3_kwargs["attributes"] = dict((k, set(v)) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items())
         else:
             # Convert nh3 default attributes to same format as user attributes
             default_attrs = nh3_kwargs.get("attributes", {})
