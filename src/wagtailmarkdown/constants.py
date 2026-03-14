@@ -47,7 +47,6 @@ DEFAULT_ALLOWED_ATTRIBUTES = {
     "a": [
         "href",
         "target",
-        "rel",
         "title",
     ],
     "img": [
@@ -92,10 +91,10 @@ DEFAULT_ALLOWED_STYLES = [
     "margin-right",
 ]
 
-DEFAULT_BLEACH_KWARGS = {
-    "tags": DEFAULT_ALLOWED_TAGS,
-    "attributes": DEFAULT_ALLOWED_ATTRIBUTES,
-    "styles": DEFAULT_ALLOWED_STYLES,
+DEFAULT_NH3_KWARGS = {
+    "tags": set(DEFAULT_ALLOWED_TAGS),
+    "attributes": {k: set(v) for k, v in DEFAULT_ALLOWED_ATTRIBUTES.items()},
+    "filter_style_properties": set(DEFAULT_ALLOWED_STYLES),
 }
 
 

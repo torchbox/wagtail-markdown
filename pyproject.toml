@@ -33,8 +33,7 @@ requires-python = ">=3.9"
 dependencies = [
     "Wagtail>=6.3",
     "Markdown>=3.3,<4",
-    # note: bleach5 requires bleach[css]. Will make one of the next versions require >= 5
-    "bleach>=3.3,<5",
+    "nh3>=0.3.3",
 ]
 
 [project.optional-dependencies]

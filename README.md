@@ -158,8 +158,8 @@ WAGTAILMARKDOWN = {
 
 #### Allowed HTML - `allowed_styles` / `allowed_attributes` / `allowed_tags`
 
-wagtail-markdown uses [bleach](https://github.com/mozilla/bleach) to sanitise the input. To extend the default
-bleach configurations, you can add your own allowed tags, styles or attributes:
+wagtail-markdown uses [nh3](https://github.com/messense/nh3) to sanitise the input. To extend the default
+nh3 configurations, you can add your own allowed tags, styles or attributes:
 
 ```python
 WAGTAILMARKDOWN = {
