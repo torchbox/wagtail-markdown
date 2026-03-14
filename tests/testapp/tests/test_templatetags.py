@@ -18,9 +18,9 @@ markdown_input = (
 
 expected_output = (
     "<h1>Heading</h1>\n<p>This is <em>some</em> "
-    'text with a <a href="https://example.com">link</a>\n'
-    "and some disallowed tag and attributes: &lt;i&gt;italic&lt;/i&gt;, "
-    "<a>anchor tag</a> &lt;script&gt;alert('boom!')&lt;/script&gt;</p>"
+    'text with a <a href="https://example.com" rel="noopener noreferrer">link</a>\n'
+    "and some disallowed tag and attributes: italic, "
+    '<a rel="noopener noreferrer">anchor tag</a> </p>'
 )
 
 table_input = """
@@ -88,17 +88,17 @@ class TestTemplateTags(TestCase):
 
     def test_markdown_linker_page_simple(self):
         self.assertEqual(
-            markdown("<:page:test3>"), '<p><a href="/test3/">test3</a></p>'
+            markdown("<:page:test3>"), '<p><a href="/test3/" rel="noopener noreferrer">test3</a></p>'
         )
 
     def test_markdown_linker_page_with_title(self):
         self.assertEqual(
             markdown("<:page:test3|Link title>"),
-            '<p><a href="/test3/">Link title</a></p>',
+            '<p><a href="/test3/" rel="noopener noreferrer">Link title</a></p>',
         )
 
     def test_markdown_linker_default(self):
-        self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/">test3</a></p>')
+        self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/" rel="noopener noreferrer">test3</a></p>')
 
     def test_markdown_linker_wrong_type(self):
         self.assertEqual(
@@ -108,36 +108,36 @@ class TestTemplateTags(TestCase):
     def test_markdown_linker_image(self):
         self.assertEqual(
             markdown("<:image:Test image>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="left" src="/images/test.width-500.png"></a></p>',
         )
 
     def test_markdown_linker_image_with_classname(self):
         self.assertEqual(
             markdown("<:image:Test image|left>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="left" src="/images/test.width-500.png"></a></p>',
         )
         self.assertEqual(
             markdown("<:image:Test image|right>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="right" src="/images/test.width-500.png"></a></p>',
         )
         self.assertEqual(
             markdown("<:image:Test image|full>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="full-width" src="/images/test.width-500.png"></a></p>',
         )
 
     def test_markdown_linker_image_with_rendition(self):
         self.assertEqual(
             markdown("<:image:Test image|width=200>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="left" src="/images/test.width-200.png"></a></p>',
         )
         self.assertEqual(
             markdown("<:image:Test image|width=foo>"),
-            '<p><a href="/original_images/test.png">'
+            '<p><a href="/original_images/test.png" rel="noopener noreferrer">'
             '<img class="left" src="/images/test.width-500.png"></a></p>',
         )
 
@@ -159,13 +159,13 @@ class TestTemplateTags(TestCase):
     def test_markdown_linker_doc(self):
         self.assertEqual(
             markdown("<:doc:Test document>"),
-            '<p><a href="/documents/test.txt">Test document</a></p>',
+            '<p><a href="/documents/test.txt" rel="noopener noreferrer">Test document</a></p>',
         )
 
     def test_markdown_linker_doc_with_title(self):
         self.assertEqual(
             markdown("<:doc:Test document|The document>"),
-            '<p><a href="/documents/test.txt">The document</a></p>',
+            '<p><a href="/documents/test.txt" rel="noopener noreferrer">The document</a></p>',
         )
 
     def test_markdown_linker_doc_not_found(self):
@@ -188,20 +188,20 @@ class TestTemplateTags(TestCase):
     def test_markdown_inline_links(self):
         self.assertEqual(
             markdown(f"[Page link](page:{self.page1.pk})"),
-            f'<p><a href="{self.page1.url}">Page link</a></p>',
+            f'<p><a href="{self.page1.url}" rel="noopener noreferrer">Page link</a></p>',
         )
         self.assertEqual(
             markdown("[Non-existent page link](page:10000)"),
-            '<p><a href="page:10000">Non-existent page link</a></p>',
+            '<p><a rel="noopener noreferrer">Non-existent page link</a></p>',
         )
 
         self.assertEqual(
             markdown(f"[Document link](doc:{self.document.pk})"),
-            f'<p><a href="{self.document.url}">Document link</a></p>',
+            f'<p><a href="{self.document.url}" rel="noopener noreferrer">Document link</a></p>',
         )
         self.assertEqual(
             markdown("[Non-existent document link](doc:12345)"),
-            '<p><a href="doc:12345">Non-existent document link</a></p>',
+            '<p><a rel="noopener noreferrer">Non-existent document link</a></p>',
         )
 
         self.assertEqual(
@@ -211,7 +211,7 @@ class TestTemplateTags(TestCase):
         )
         self.assertEqual(
             markdown("![image not found](image:12345)"),
-            '<p><img alt="image not found" src="image:12345"></p>',
+            '<p><img alt="image not found"></p>',
         )
 
         self.assertEqual(
