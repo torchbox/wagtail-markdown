@@ -111,7 +111,11 @@ class TestSettings(TestCase):
         ):
             self.assertListEqual(
                 sorted(_get_nh3_kwargs()["filter_style_properties"]),
-                sorted(set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(["display", "color"])),
+                sorted(
+                    set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(
+                        ["display", "color"]
+                    )
+                ),
             )
         with override_settings(
             WAGTAILMARKDOWN={

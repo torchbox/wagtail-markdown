@@ -89,7 +89,8 @@ class TestTemplateTags(TestCase):
 
     def test_markdown_linker_page_simple(self):
         self.assertEqual(
-            markdown("<:page:test3>"), '<p><a href="/test3/">test3</a></p>'
+            markdown("<:page:test3>"),
+            '<p><a href="/test3/">test3</a></p>',
         )
 
     def test_markdown_linker_page_with_title(self):
@@ -99,7 +100,10 @@ class TestTemplateTags(TestCase):
         )
 
     def test_markdown_linker_default(self):
-        self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/">test3</a></p>')
+        self.assertEqual(
+            markdown("<:test3>"),
+            '<p><a href="/test3/">test3</a></p>',
+        )
 
     def test_markdown_linker_wrong_type(self):
         self.assertEqual(
