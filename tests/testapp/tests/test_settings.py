@@ -97,10 +97,10 @@ class TestSettings(TestCase):
             self.assertNotEqual(kwargs, DEFAULT_NH3_KWARGS)
             self.assertTrue("i" in kwargs["tags"])
             self.assertTrue("some_style" in kwargs["filter_style_properties"])
-            self.assertSetEqual(kwargs["attributes"]["i"], {"aria-hidden"})
-            self.assertSetEqual(
-                set(kwargs["attributes"]["a"]),
-                set(DEFAULT_NH3_KWARGS["attributes"]["a"]).union(["data-test"]),
+            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
+            self.assertEqual(
+                sorted(kwargs["attributes"]["a"]),
+                sorted(DEFAULT_NH3_KWARGS["attributes"]["a"] + ["data-test"]),
             )
 
     def test_get_nh3_kwargs(self):
@@ -110,9 +110,9 @@ class TestSettings(TestCase):
         with override_settings(
             WAGTAILMARKDOWN={"allowed_styles": ["display", "color"]}
         ):
-            self.assertSetEqual(
-                _get_nh3_kwargs()["filter_style_properties"],
-                set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(["display", "color"]),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["filter_style_properties"]),
+                sorted(set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(["display", "color"])),
             )
         with override_settings(
             WAGTAILMARKDOWN={
@@ -120,16 +120,16 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertSetEqual(
-                _get_nh3_kwargs()["filter_style_properties"],
-                {"display", "color"},
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["filter_style_properties"]),
+                ["color", "display"],
             )
 
     def test_get_nh3_kwargs_with_tags(self):
         with override_settings(WAGTAILMARKDOWN={"allowed_tags": ["a", "iframe"]}):
-            self.assertSetEqual(
-                _get_nh3_kwargs()["tags"],
-                set(DEFAULT_NH3_KWARGS["tags"]).union(["a", "iframe"]),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["tags"]),
+                sorted(set(DEFAULT_NH3_KWARGS["tags"]).union(["a", "iframe"])),
             )
 
         with override_settings(
@@ -138,27 +138,28 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertSetEqual(
-                _get_nh3_kwargs()["tags"],
-                {"a", "iframe"},
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["tags"]),
+                ["a", "iframe"],
             )
 
     def test_get_nh3_kwargs_with_attributes(self):
-        with override_settings(WAGTAILMARKDOWN={"allowed_attributes": {"*": ["data-test"]}}):
+        allowed = {"*": ["data-test"]}
+        with override_settings(WAGTAILMARKDOWN={"allowed_attributes": allowed}):
             expected = DEFAULT_NH3_KWARGS["attributes"].copy()
-            expected["*"].add("data-test")
+            expected["*"] += ["data-test"]
 
             attributes = _get_nh3_kwargs()["attributes"]
             for key, value in expected.items():
-                self.assertSetEqual(
-                    value,
-                    attributes[key],
+                self.assertListEqual(
+                    sorted(value),
+                    sorted(attributes[key]),
                 )
 
         with override_settings(
             WAGTAILMARKDOWN={
-                "allowed_attributes": {"*": ["data-test"]},
+                "allowed_attributes": allowed,
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": {"data-test"}})
+            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": ["data-test"]})

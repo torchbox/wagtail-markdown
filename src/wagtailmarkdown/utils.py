@@ -1,4 +1,5 @@
 from collections import defaultdict
+from copy import deepcopy
 
 import nh3
 import markdown
@@ -31,11 +32,19 @@ def _transform_markdown_into_html(text):
 
 
 def _sanitise_markdown_html(markdown_html):
-    return nh3.clean(markdown_html, **_get_nh3_kwargs())
+    nh3_kwargs = _get_nh3_kwargs()
+    nh3_kwargs["tags"] = set(nh3_kwargs["tags"])
+    nh3_kwargs["attributes"] = {
+        key: set(value) for key, value in nh3_kwargs["attributes"].items()
+    }
+    nh3_kwargs["filter_style_properties"] = set(
+        nh3_kwargs["filter_style_properties"]
+    )
+    return nh3.clean(markdown_html, **nh3_kwargs)
 
 
 def _get_nh3_kwargs():
-    nh3_kwargs = DEFAULT_NH3_KWARGS.copy()
+    nh3_kwargs = deepcopy(DEFAULT_NH3_KWARGS)
 
     if not hasattr(settings, "WAGTAILMARKDOWN"):
         return nh3_kwargs
@@ -46,39 +55,35 @@ def _get_nh3_kwargs():
     )
     if "allowed_styles" in settings.WAGTAILMARKDOWN:
         if override:
-            nh3_kwargs["filter_style_properties"] = set(settings.WAGTAILMARKDOWN["allowed_styles"])
+            nh3_kwargs["filter_style_properties"] = settings.WAGTAILMARKDOWN["allowed_styles"]
         else:
-            nh3_kwargs["filter_style_properties"] = set(
-                list(nh3_kwargs.get("filter_style_properties", set())) + settings.WAGTAILMARKDOWN["allowed_styles"]
+            nh3_kwargs["filter_style_properties"] = list(
+                set(
+                    settings.WAGTAILMARKDOWN["allowed_styles"] + nh3_kwargs["filter_style_properties"]
+                )
             )
     if "allowed_tags" in settings.WAGTAILMARKDOWN:
         if override:
-            nh3_kwargs["tags"] = set(settings.WAGTAILMARKDOWN["allowed_tags"])
+            nh3_kwargs["tags"] = list(settings.WAGTAILMARKDOWN["allowed_tags"])
         else:
-            nh3_kwargs["tags"] = set(
-                list(nh3_kwargs.get("tags", set())) + settings.WAGTAILMARKDOWN["allowed_tags"]
+            nh3_kwargs["tags"] = list(
+                dict.fromkeys(nh3_kwargs["tags"] + settings.WAGTAILMARKDOWN["allowed_tags"])
             )
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
         if override:
-            nh3_kwargs["attributes"] = dict((k, set(v)) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items())
+            nh3_kwargs["attributes"] = settings.WAGTAILMARKDOWN["allowed_attributes"]
         else:
-            # Convert nh3 default attributes to same format as user attributes
-            default_attrs = nh3_kwargs.get("attributes", {})
-            if default_attrs and isinstance(next(iter(default_attrs.values())), set):
-                # Already in set format
-                user_attrs = settings.WAGTAILMARKDOWN["allowed_attributes"]
-            else:
-                # Convert from list format to set format
-                default_attrs = {k: set(v) for k, v in default_attrs.items()}
-                user_attrs = {k: set(v) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items()}
-            
-            # Merge attributes
             merged = defaultdict(set)
-            for _dict in [default_attrs, user_attrs]:
+            for _dict in [
+                nh3_kwargs["attributes"],
+                settings.WAGTAILMARKDOWN["allowed_attributes"],
+            ]:
                 for key, value in _dict.items():
                     merged[key].update(value)
-            nh3_kwargs["attributes"] = {key: value for key, value in merged.items()}
+            nh3_kwargs["attributes"] = {
+                key: list(value) for key, value in merged.items()
+            }
 
     return nh3_kwargs
 
