@@ -92,9 +92,9 @@ DEFAULT_ALLOWED_STYLES = [
 ]
 
 DEFAULT_NH3_KWARGS = {
-    "tags": set(DEFAULT_ALLOWED_TAGS),
-    "attributes": {k: set(v) for k, v in DEFAULT_ALLOWED_ATTRIBUTES.items()},
-    "filter_style_properties": set(DEFAULT_ALLOWED_STYLES),
+    "tags": DEFAULT_ALLOWED_TAGS,
+    "attributes": DEFAULT_ALLOWED_ATTRIBUTES,
+    "filter_style_properties": DEFAULT_ALLOWED_STYLES,
     "link_rel": None,
     "url_schemes": {"http", "https", "mailto", "page", "doc", "image"},
 }
