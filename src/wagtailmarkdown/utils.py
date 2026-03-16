@@ -37,9 +37,7 @@ def _sanitise_markdown_html(markdown_html):
     nh3_kwargs["attributes"] = {
         key: set(value) for key, value in nh3_kwargs["attributes"].items()
     }
-    nh3_kwargs["filter_style_properties"] = set(
-        nh3_kwargs["filter_style_properties"]
-    )
+    nh3_kwargs["filter_style_properties"] = set(nh3_kwargs["filter_style_properties"])
     return nh3.clean(markdown_html, **nh3_kwargs)
 
 
@@ -55,11 +53,14 @@ def _get_nh3_kwargs():
     )
     if "allowed_styles" in settings.WAGTAILMARKDOWN:
         if override:
-            nh3_kwargs["filter_style_properties"] = settings.WAGTAILMARKDOWN["allowed_styles"]
+            nh3_kwargs["filter_style_properties"] = settings.WAGTAILMARKDOWN[
+                "allowed_styles"
+            ]
         else:
             nh3_kwargs["filter_style_properties"] = list(
                 set(
-                    settings.WAGTAILMARKDOWN["allowed_styles"] + nh3_kwargs["filter_style_properties"]
+                    settings.WAGTAILMARKDOWN["allowed_styles"]
+                    + nh3_kwargs["filter_style_properties"]
                 )
             )
     if "allowed_tags" in settings.WAGTAILMARKDOWN:
@@ -67,7 +68,9 @@ def _get_nh3_kwargs():
             nh3_kwargs["tags"] = list(settings.WAGTAILMARKDOWN["allowed_tags"])
         else:
             nh3_kwargs["tags"] = list(
-                dict.fromkeys(nh3_kwargs["tags"] + settings.WAGTAILMARKDOWN["allowed_tags"])
+                dict.fromkeys(
+                    nh3_kwargs["tags"] + settings.WAGTAILMARKDOWN["allowed_tags"]
+                )
             )
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
