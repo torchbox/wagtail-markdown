@@ -4,9 +4,9 @@ from django.test import override_settings
 
 from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.utils import (
-    _get_nh3_kwargs,
     _get_default_markdown_kwargs,
     _get_markdown_kwargs,
+    _get_nh3_kwargs,
 )
 
 
