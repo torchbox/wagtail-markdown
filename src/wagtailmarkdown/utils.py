@@ -1,8 +1,8 @@
 from collections import defaultdict
 from copy import deepcopy
 
-import nh3
 import markdown
+import nh3
 
 from django.conf import settings
 from django.utils.encoding import smart_str
