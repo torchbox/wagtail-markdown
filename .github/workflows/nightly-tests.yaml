@@ -7,6 +7,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   nightly-test:
     # Cannot check the existence of secrets, so limiting to repository name to prevent all forks to run nightly.
