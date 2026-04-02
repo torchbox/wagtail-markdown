@@ -56,15 +56,17 @@ class TestTemplateTags(TestCase):
             title="Test image",
             file=get_test_image_file(size=(1, 1)),
         )
+        self.addCleanup(
+            lambda: [
+                rendition.file.delete(save=False)
+                for rendition in self.image.renditions.all()
+            ]
+        )
+        self.addCleanup(lambda: self.image.file.delete(save=False))
         self.document = get_document_model().objects.create(
             title="Test document", file=get_test_document_file()
         )
-
-    def tearDown(self):
-        for rendition in self.image.renditions.all():
-            rendition.file.delete(save=False)
-        self.image.file.delete(save=False)
-        self.document.file.delete(save=False)
+        self.addCleanup(lambda: self.document.file.delete(save=False))
 
     def test_markdown_transformed_to_html(self):
         self.assertEqual(markdown("# heading"), "<h1>heading</h1>")

@@ -17,6 +17,7 @@ from wagtail.models import Page
 
 
 if TYPE_CHECKING:
+    from django.db.models import Model
     from markdown import Markdown
 
 
@@ -34,6 +35,7 @@ def _options_to_dict(value: str) -> dict:
             if key.strip():
                 _dict[key.strip()] = val.strip()
         except ValueError:
+            # ignore any key_value_pair that don't contain '='
             pass
 
     return _dict
@@ -53,21 +55,21 @@ class ObjectLookupNegotiator:
             return None
 
     @staticmethod
-    def retrieve_document(lookup_field_value):
+    def retrieve_document(lookup_field_value: str) -> "Model | None":
         try:
             return get_document_model().objects.get(pk=lookup_field_value)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return None
 
     @staticmethod
-    def retrieve_image(lookup_field_value):
+    def retrieve_image(lookup_field_value: str) -> "Model | None":
         try:
             return get_image_model().objects.get(pk=lookup_field_value)
         except (ObjectDoesNotExist, MultipleObjectsReturned):
             return None
 
     @staticmethod
-    def retrieve_wagtailmedia(lookup_field_value):
+    def retrieve_wagtailmedia(lookup_field_value: str) -> "Model | None":
         if not apps.is_installed("wagtailmedia"):
             return None
 
@@ -79,7 +81,7 @@ class ObjectLookupNegotiator:
             return None
 
     @classmethod
-    def retrieve(cls, url):
+    def retrieve(cls, url: str) -> "Model | None":
         pairs = (
             (cls.PAGE_LINK_PREFIX, cls.retrieve_page),
             (cls.DOCUMENT_LINK_PREFIX, cls.retrieve_document),
@@ -89,6 +91,8 @@ class ObjectLookupNegotiator:
         for prefix, object_retrieve_method in pairs:
             if url.startswith(prefix):
                 return object_retrieve_method(url.replace(prefix, ""))
+
+        return None
 
 
 class ImageProcessor(ImageInlineProcessor):
