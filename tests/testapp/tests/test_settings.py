@@ -37,15 +37,15 @@ class TestSettings(TestCase):
             kwargs["extension_configs"], default_kwargs["extension_configs"]
         )
 
-        self.assertFalse("toc" in kwargs["extensions"])
-        self.assertFalse("pymdownx.arithmatex" in kwargs["extension_configs"])
+        self.assertNotIn("toc", kwargs["extensions"])
+        self.assertNotIn("pymdownx.arithmatex", kwargs["extension_configs"])
         self.assertEqual(
             kwargs["extension_configs"]["codehilite"], [("guess_lang", False)]
         )
 
         with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
             kwargs = _get_markdown_kwargs()
-            self.assertTrue("toc" in kwargs["extensions"])
+            self.assertIn("toc", kwargs["extensions"])
             self.assertEqual(
                 kwargs["extension_configs"]["pymdownx.arithmatex"], {"generic": True}
             )
@@ -55,13 +55,12 @@ class TestSettings(TestCase):
 
         with override_settings(WAGTAILMARKDOWN={"tab_length": 2}):
             kwargs = _get_markdown_kwargs()
-            self.assertTrue("tab_length" in kwargs)
-            self.assertTrue(kwargs["tab_length"], 2)
+            self.assertEqual(kwargs["tab_length"], 2)
 
         with override_settings(WAGTAILMARKDOWN={"extensions": ["toc"]}):
             kwargs = _get_markdown_kwargs()
-            self.assertTrue("toc" in kwargs["extensions"])
-            self.assertDictEqual(
+            self.assertIn("toc", kwargs["extensions"])
+            self.assertEqual(
                 kwargs["extension_configs"], default_kwargs["extension_configs"]
             )
 
@@ -79,24 +78,24 @@ class TestSettings(TestCase):
         }
         with override_settings(WAGTAILMARKDOWN=OVERRIDE_MARKDOWN_SETTINGS):
             kwargs = _get_markdown_kwargs()
-            self.assertListEqual(kwargs["extensions"], ["toc", "sane_lists"])
-            self.assertDictEqual(
+            self.assertEqual(kwargs["extensions"], ["toc", "sane_lists"])
+            self.assertEqual(
                 kwargs["extension_configs"], {"pymdownx.arithmatex": {"generic": True}}
             )
 
     def test_bleach_options(self):
         kwargs = _get_bleach_kwargs()
-        self.assertDictEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+        self.assertEqual(kwargs, DEFAULT_BLEACH_KWARGS)
 
-        self.assertFalse("i" in kwargs["tags"])
-        self.assertFalse("i" in kwargs["attributes"])
-        self.assertFalse("some_style" in kwargs["styles"])
+        self.assertNotIn("i", kwargs["tags"])
+        self.assertNotIn("i", kwargs["attributes"])
+        self.assertNotIn("some_style", kwargs["styles"])
 
         with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
             kwargs = _get_bleach_kwargs()
             self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
-            self.assertTrue("i" in kwargs["tags"])
-            self.assertTrue("some_style" in kwargs["styles"])
+            self.assertIn("i", kwargs["tags"])
+            self.assertIn("some_style", kwargs["styles"])
             self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
             self.assertEqual(
                 sorted(kwargs["attributes"]["a"]),
@@ -110,7 +109,7 @@ class TestSettings(TestCase):
         with override_settings(
             WAGTAILMARKDOWN={"allowed_styles": ["display", "color"]}
         ):
-            self.assertListEqual(
+            self.assertEqual(
                 sorted(_get_bleach_kwargs()["styles"]),
                 sorted(set(DEFAULT_BLEACH_KWARGS["styles"] + ["display", "color"])),
             )
@@ -120,14 +119,14 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertListEqual(
+            self.assertEqual(
                 sorted(_get_bleach_kwargs()["styles"]),
                 ["color", "display"],
             )
 
     def test_get_bleach_kwargs_with_tags(self):
         with override_settings(WAGTAILMARKDOWN={"allowed_tags": ["a", "iframe"]}):
-            self.assertListEqual(
+            self.assertEqual(
                 sorted(_get_bleach_kwargs()["tags"]),
                 sorted(set(DEFAULT_BLEACH_KWARGS["tags"] + ["a", "iframe"])),
             )
@@ -138,7 +137,7 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertListEqual(
+            self.assertEqual(
                 sorted(_get_bleach_kwargs()["tags"]),
                 ["a", "iframe"],
             )
@@ -151,7 +150,7 @@ class TestSettings(TestCase):
 
             attributes = _get_bleach_kwargs()["attributes"]
             for key, value in expected.items():
-                self.assertListEqual(
+                self.assertEqual(
                     sorted(value),
                     sorted(attributes[key]),
                 )
@@ -162,4 +161,4 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertDictEqual(_get_bleach_kwargs()["attributes"], allowed)
+            self.assertEqual(_get_bleach_kwargs()["attributes"], allowed)
