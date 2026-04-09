@@ -88,15 +88,15 @@ class TestSettings(TestCase):
         kwargs = _get_nh3_kwargs()
         self.assertDictEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
 
-        self.assertFalse("i" in kwargs["tags"])
-        self.assertFalse("i" in kwargs["attributes"])
-        self.assertFalse("some_style" in kwargs["filter_style_properties"])
+        self.assertNotIn("i", kwargs["tags"])
+        self.assertNotIn("i", kwargs["attributes"])
+        self.assertNotIn("some_style", kwargs["filter_style_properties"])
 
         with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_NH3_SETTINGS):
             kwargs = _get_nh3_kwargs()
             self.assertNotEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
-            self.assertTrue("i" in kwargs["tags"])
-            self.assertTrue("some_style" in kwargs["filter_style_properties"])
+            self.assertIn("i", kwargs["tags"])
+            self.assertIn("some_style", kwargs["filter_style_properties"])
             self.assertEqual(kwargs["attributes"]["i"], {"aria-hidden"})
             self.assertEqual(
                 sorted(kwargs["attributes"]["a"]),
