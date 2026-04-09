@@ -33,19 +33,25 @@ def _transform_markdown_into_html(text):
 
 def _sanitise_markdown_html(markdown_html):
     nh3_kwargs = _get_nh3_kwargs()
-    nh3_kwargs["tags"] = set(nh3_kwargs["tags"])
-    nh3_kwargs["attributes"] = {
-        key: set(value) for key, value in nh3_kwargs["attributes"].items()
-    }
-    nh3_kwargs["filter_style_properties"] = set(nh3_kwargs["filter_style_properties"])
     return nh3.clean(markdown_html, **nh3_kwargs)
+
+
+def _coerce_nh3_kwargs_types(nh3_kwargs):
+    coerced = deepcopy(nh3_kwargs)
+    coerced["tags"] = set(coerced["tags"])
+    coerced["attributes"] = {
+        key: set(value) for key, value in coerced["attributes"].items()
+    }
+    coerced["filter_style_properties"] = set(coerced["filter_style_properties"])
+
+    return coerced
 
 
 def _get_nh3_kwargs():
     nh3_kwargs = deepcopy(DEFAULT_NH3_KWARGS)
 
     if not hasattr(settings, "WAGTAILMARKDOWN"):
-        return nh3_kwargs
+        return _coerce_nh3_kwargs_types(nh3_kwargs)
 
     override = (
         settings.WAGTAILMARKDOWN.get("allowed_settings_mode", "extend").lower()
@@ -88,7 +94,7 @@ def _get_nh3_kwargs():
                 key: list(value) for key, value in merged.items()
             }
 
-    return nh3_kwargs
+    return _coerce_nh3_kwargs_types(nh3_kwargs)
 
 
 def _get_default_markdown_kwargs():

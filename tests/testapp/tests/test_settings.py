@@ -7,10 +7,11 @@ from wagtailmarkdown.utils import (
     _get_default_markdown_kwargs,
     _get_markdown_kwargs,
     _get_nh3_kwargs,
+    _coerce_nh3_kwargs_types,
 )
 
 
-WAGTAILMARKDOWN_BLEACH_SETTINGS = {
+WAGTAILMARKDOWN_NH3_SETTINGS = {
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],
     "allowed_attributes": {"i": ["aria-hidden"], "a": ["data-test"]},
@@ -20,6 +21,16 @@ WAGTAILMARKDOWN_BLEACH_SETTINGS = {
         "pymdownx.arithmatex": {"generic": True},
     },
 }
+
+
+# def _get_expected_default_nh3_kwargs():
+#     return {
+#         "tags": set(DEFAULT_NH3_KWARGS["tags"]),
+#         "attributes": {
+#             key: set(value) for key, value in DEFAULT_NH3_KWARGS["attributes"].items()
+#         },
+#         "filter_style_properties": set(DEFAULT_NH3_KWARGS["filter_style_properties"]),
+#     }
 
 
 class TestSettings(TestCase):
@@ -43,7 +54,7 @@ class TestSettings(TestCase):
             kwargs["extension_configs"]["codehilite"], [("guess_lang", False)]
         )
 
-        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
+        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_NH3_SETTINGS):
             kwargs = _get_markdown_kwargs()
             self.assertIn("toc", kwargs["extensions"])
             self.assertEqual(
@@ -71,7 +82,7 @@ class TestSettings(TestCase):
             self.assertNotIn("sane_lists", default_kwargs["extension_configs"])
             self.assertIn("sane_lists", kwargs["extension_configs"])
 
-        OVERRIDE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_BLEACH_SETTINGS.copy()
+        OVERRIDE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_NH3_SETTINGS.copy()
         OVERRIDE_MARKDOWN_SETTINGS["extensions_settings_mode"] = SETTINGS_MODE_OVERRIDE
         OVERRIDE_MARKDOWN_SETTINGS["extension_configs"] = {
             "pymdownx.arithmatex": {"generic": True}
@@ -85,25 +96,27 @@ class TestSettings(TestCase):
 
     def test_bleach_options(self):
         kwargs = _get_nh3_kwargs()
-        self.assertDictEqual(kwargs, DEFAULT_NH3_KWARGS)
+        self.assertDictEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
 
         self.assertFalse("i" in kwargs["tags"])
         self.assertFalse("i" in kwargs["attributes"])
         self.assertFalse("some_style" in kwargs["filter_style_properties"])
 
-        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
+        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_NH3_SETTINGS):
             kwargs = _get_nh3_kwargs()
-            self.assertNotEqual(kwargs, DEFAULT_NH3_KWARGS)
+            self.assertNotEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
             self.assertTrue("i" in kwargs["tags"])
             self.assertTrue("some_style" in kwargs["filter_style_properties"])
-            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
+            self.assertEqual(kwargs["attributes"]["i"], {"aria-hidden"})
             self.assertEqual(
                 sorted(kwargs["attributes"]["a"]),
                 sorted(DEFAULT_NH3_KWARGS["attributes"]["a"] + ["data-test"]),
             )
 
     def test_get_nh3_kwargs(self):
-        self.assertEqual(_get_nh3_kwargs(), DEFAULT_NH3_KWARGS)
+        self.assertEqual(
+            _get_nh3_kwargs(), _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS)
+        )
 
     def test_get_nh3_kwargs_with_styles(self):
         with override_settings(
@@ -167,4 +180,4 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": ["data-test"]})
+            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": {"data-test"}})
