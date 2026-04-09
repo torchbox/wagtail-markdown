@@ -163,7 +163,8 @@ class TestSettings(TestCase):
         allowed = {"*": ["data-test"]}
         with override_settings(WAGTAILMARKDOWN={"allowed_attributes": allowed}):
             expected = {
-                key: list(value) for key, value in DEFAULT_NH3_KWARGS["attributes"].items()
+                key: list(value)
+                for key, value in DEFAULT_NH3_KWARGS["attributes"].items()
             }
             expected["*"] += ["data-test"]
 
