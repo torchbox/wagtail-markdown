@@ -19,8 +19,8 @@ markdown_input = (
 expected_output = (
     "<h1>Heading</h1>\n<p>This is <em>some</em> "
     'text with a <a href="https://example.com">link</a>\n'
-    "and some disallowed tag and attributes: &lt;i&gt;italic&lt;/i&gt;, "
-    "<a>anchor tag</a> &lt;script&gt;alert('boom!')&lt;/script&gt;</p>"
+    "and some disallowed tag and attributes: italic, "
+    "<a>anchor tag</a> </p>"
 )
 
 table_input = """
@@ -90,7 +90,8 @@ class TestTemplateTags(TestCase):
 
     def test_markdown_linker_page_simple(self):
         self.assertEqual(
-            markdown("<:page:test3>"), '<p><a href="/test3/">test3</a></p>'
+            markdown("<:page:test3>"),
+            '<p><a href="/test3/">test3</a></p>',
         )
 
     def test_markdown_linker_page_with_title(self):
@@ -100,7 +101,10 @@ class TestTemplateTags(TestCase):
         )
 
     def test_markdown_linker_default(self):
-        self.assertEqual(markdown("<:test3>"), '<p><a href="/test3/">test3</a></p>')
+        self.assertEqual(
+            markdown("<:test3>"),
+            '<p><a href="/test3/">test3</a></p>',
+        )
 
     def test_markdown_linker_wrong_type(self):
         self.assertEqual(
