@@ -19,7 +19,8 @@ markdown_input = (
 expected_output = (
     "<h1>Heading</h1>\n<p>This is <em>some</em> "
     'text with a <a href="https://example.com">link</a>\n'
-    "and some disallowed tag and attributes: italic, <a>anchor tag</a> </p>"
+    "and some disallowed tag and attributes: italic, "
+    "<a>anchor tag</a> </p>"
 )
 
 table_input = """
@@ -197,7 +198,11 @@ class TestTemplateTags(TestCase):
         )
         self.assertEqual(
             markdown("[Non-existent page link](page:10000)"),
+<<<<<<< HEAD
             '<p><a href="page:10000">Non-existent page link</a></p>',
+=======
+            "<p><a>Non-existent page link</a></p>",
+>>>>>>> 7b787ce (added link_rel=None option to default settings)
         )
 
         self.assertEqual(
@@ -206,7 +211,11 @@ class TestTemplateTags(TestCase):
         )
         self.assertEqual(
             markdown("[Non-existent document link](doc:12345)"),
+<<<<<<< HEAD
             '<p><a href="doc:12345">Non-existent document link</a></p>',
+=======
+            "<p><a>Non-existent document link</a></p>",
+>>>>>>> 7b787ce (added link_rel=None option to default settings)
         )
 
         self.assertEqual(
