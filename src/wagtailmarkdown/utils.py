@@ -93,6 +93,8 @@ def _get_nh3_kwargs():
             nh3_kwargs["attributes"] = {
                 key: list(value) for key, value in merged.items()
             }
+    if "link_rel" in settings.WAGTAILMARKDOWN:
+        nh3_kwargs["link_rel"] = settings.WAGTAILMARKDOWN["link_rel"]
 
     return _coerce_nh3_kwargs_types(nh3_kwargs)
 
