@@ -19,8 +19,7 @@ markdown_input = (
 expected_output = (
     "<h1>Heading</h1>\n<p>This is <em>some</em> "
     'text with a <a href="https://example.com">link</a>\n'
-    "and some disallowed tag and attributes: &lt;i&gt;italic&lt;/i&gt;, "
-    "<a>anchor tag</a> &lt;script&gt;alert('boom!')&lt;/script&gt;</p>"
+    "and some disallowed tag and attributes: italic, <a>anchor tag</a> </p>"
 )
 
 table_input = """

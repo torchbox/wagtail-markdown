@@ -2,9 +2,9 @@ from unittest import TestCase
 
 from django.test import override_settings
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
+from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.utils import (
-    _get_bleach_kwargs,
+    _get_nh3_kwargs,
     _get_default_markdown_kwargs,
     _get_markdown_kwargs,
 )
@@ -84,34 +84,34 @@ class TestSettings(TestCase):
             )
 
     def test_bleach_options(self):
-        kwargs = _get_bleach_kwargs()
-        self.assertEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+        kwargs = _get_nh3_kwargs()
+        self.assertDictEqual(kwargs, DEFAULT_NH3_KWARGS)
 
-        self.assertNotIn("i", kwargs["tags"])
-        self.assertNotIn("i", kwargs["attributes"])
-        self.assertNotIn("some_style", kwargs["styles"])
+        self.assertFalse("i" in kwargs["tags"])
+        self.assertFalse("i" in kwargs["attributes"])
+        self.assertFalse("some_style" in kwargs["filter_style_properties"])
 
         with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
-            kwargs = _get_bleach_kwargs()
-            self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
-            self.assertIn("i", kwargs["tags"])
-            self.assertIn("some_style", kwargs["styles"])
-            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
-            self.assertEqual(
-                sorted(kwargs["attributes"]["a"]),
-                sorted(DEFAULT_BLEACH_KWARGS["attributes"]["a"] + ["data-test"]),
+            kwargs = _get_nh3_kwargs()
+            self.assertNotEqual(kwargs, DEFAULT_NH3_KWARGS)
+            self.assertTrue("i" in kwargs["tags"])
+            self.assertTrue("some_style" in kwargs["filter_style_properties"])
+            self.assertSetEqual(kwargs["attributes"]["i"], {"aria-hidden"})
+            self.assertSetEqual(
+                set(kwargs["attributes"]["a"]),
+                set(DEFAULT_NH3_KWARGS["attributes"]["a"]).union(["data-test"]),
             )
 
-    def test_get_bleach_kwargs(self):
-        self.assertEqual(_get_bleach_kwargs(), DEFAULT_BLEACH_KWARGS)
+    def test_get_nh3_kwargs(self):
+        self.assertEqual(_get_nh3_kwargs(), DEFAULT_NH3_KWARGS)
 
-    def test_get_bleach_kwargs_with_styles(self):
+    def test_get_nh3_kwargs_with_styles(self):
         with override_settings(
             WAGTAILMARKDOWN={"allowed_styles": ["display", "color"]}
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["styles"]),
-                sorted(set(DEFAULT_BLEACH_KWARGS["styles"] + ["display", "color"])),
+            self.assertSetEqual(
+                _get_nh3_kwargs()["filter_style_properties"],
+                set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(["display", "color"]),
             )
         with override_settings(
             WAGTAILMARKDOWN={
@@ -119,16 +119,16 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["styles"]),
-                ["color", "display"],
+            self.assertSetEqual(
+                _get_nh3_kwargs()["filter_style_properties"],
+                {"display", "color"},
             )
 
-    def test_get_bleach_kwargs_with_tags(self):
+    def test_get_nh3_kwargs_with_tags(self):
         with override_settings(WAGTAILMARKDOWN={"allowed_tags": ["a", "iframe"]}):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["tags"]),
-                sorted(set(DEFAULT_BLEACH_KWARGS["tags"] + ["a", "iframe"])),
+            self.assertSetEqual(
+                _get_nh3_kwargs()["tags"],
+                set(DEFAULT_NH3_KWARGS["tags"]).union(["a", "iframe"]),
             )
 
         with override_settings(
@@ -137,28 +137,28 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["tags"]),
-                ["a", "iframe"],
+            self.assertSetEqual(
+                _get_nh3_kwargs()["tags"],
+                {"a", "iframe"},
             )
 
-    def test_get_bleach_kwargs_with_attributes(self):
-        allowed = {"*": ["data-test"]}
-        with override_settings(WAGTAILMARKDOWN={"allowed_attributes": allowed}):
-            expected = DEFAULT_BLEACH_KWARGS["attributes"].copy()
-            expected["*"] += ["data-test"]
+    def test_get_nh3_kwargs_with_attributes(self):
+        allowed = {"*": {"data-test"}}
+        with override_settings(WAGTAILMARKDOWN={"allowed_attributes": {"*": ["data-test"]}}):
+            expected = {key: set(value) for key, value in DEFAULT_NH3_KWARGS["attributes"].items()}
+            expected["*"].add("data-test")
 
-            attributes = _get_bleach_kwargs()["attributes"]
+            attributes = _get_nh3_kwargs()["attributes"]
             for key, value in expected.items():
-                self.assertEqual(
-                    sorted(value),
-                    sorted(attributes[key]),
+                self.assertSetEqual(
+                    value,
+                    attributes[key],
                 )
 
         with override_settings(
             WAGTAILMARKDOWN={
-                "allowed_attributes": allowed,
+                "allowed_attributes": {"*": ["data-test"]},
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(_get_bleach_kwargs()["attributes"], allowed)
+            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": {"data-test"}})

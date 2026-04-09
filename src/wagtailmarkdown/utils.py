@@ -1,13 +1,13 @@
 from collections import defaultdict
 
-import bleach
+import nh3
 import markdown
 
 from django.conf import settings
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
+from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.mdx.inlinepatterns import (
     DelExtension,
     ImageExtension,
@@ -22,7 +22,7 @@ def render_markdown(text, context=None):
     """
     markdown_html = _transform_markdown_into_html(text)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
-    # note: we use mark_safe here because bleach is already sanitising the HTML
+    # note: we use mark_safe here because nh3 is already sanitising the HTML
     return mark_safe(sanitised_markdown_html)  # noqa: S308
 
 
@@ -31,14 +31,14 @@ def _transform_markdown_into_html(text):
 
 
 def _sanitise_markdown_html(markdown_html):
-    return bleach.clean(markdown_html, **_get_bleach_kwargs())
+    return nh3.clean(markdown_html, **_get_nh3_kwargs())
 
 
-def _get_bleach_kwargs():
-    bleach_kwargs = DEFAULT_BLEACH_KWARGS.copy()
+def _get_nh3_kwargs():
+    nh3_kwargs = DEFAULT_NH3_KWARGS.copy()
 
     if not hasattr(settings, "WAGTAILMARKDOWN"):
-        return bleach_kwargs
+        return nh3_kwargs
 
     override = (
         settings.WAGTAILMARKDOWN.get("allowed_settings_mode", "extend").lower()
@@ -46,37 +46,41 @@ def _get_bleach_kwargs():
     )
     if "allowed_styles" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["styles"] = settings.WAGTAILMARKDOWN["allowed_styles"]
+            nh3_kwargs["filter_style_properties"] = set(settings.WAGTAILMARKDOWN["allowed_styles"])
         else:
-            bleach_kwargs["styles"] = list(
-                set(
-                    settings.WAGTAILMARKDOWN["allowed_styles"] + bleach_kwargs["styles"]
-                )
+            nh3_kwargs["filter_style_properties"] = set(
+                list(nh3_kwargs.get("filter_style_properties", set())) + settings.WAGTAILMARKDOWN["allowed_styles"]
             )
     if "allowed_tags" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["tags"] = settings.WAGTAILMARKDOWN["allowed_tags"]
+            nh3_kwargs["tags"] = set(settings.WAGTAILMARKDOWN["allowed_tags"])
         else:
-            bleach_kwargs["tags"] = list(
-                set(settings.WAGTAILMARKDOWN["allowed_tags"] + bleach_kwargs["tags"])
+            nh3_kwargs["tags"] = set(
+                list(nh3_kwargs.get("tags", set())) + settings.WAGTAILMARKDOWN["allowed_tags"]
             )
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["attributes"] = settings.WAGTAILMARKDOWN["allowed_attributes"]
+            nh3_kwargs["attributes"] = {k: set(v) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items()}
         else:
+            # Convert nh3 default attributes to same format as user attributes
+            default_attrs = nh3_kwargs.get("attributes", {})
+            if default_attrs and isinstance(next(iter(default_attrs.values())), set):
+                # Already in set format
+                user_attrs = settings.WAGTAILMARKDOWN["allowed_attributes"]
+            else:
+                # Convert from list format to set format
+                default_attrs = {k: set(v) for k, v in default_attrs.items()}
+                user_attrs = {k: set(v) for k, v in settings.WAGTAILMARKDOWN["allowed_attributes"].items()}
+            
+            # Merge attributes
             merged = defaultdict(set)
-            for _dict in [
-                bleach_kwargs["attributes"],
-                settings.WAGTAILMARKDOWN["allowed_attributes"],
-            ]:
+            for _dict in [default_attrs, user_attrs]:
                 for key, value in _dict.items():
                     merged[key].update(value)
-            bleach_kwargs["attributes"] = {
-                key: list(value) for key, value in merged.items()
-            }
+            nh3_kwargs["attributes"] = {key: value for key, value in merged.items()}
 
-    return bleach_kwargs
+    return nh3_kwargs
 
 
 def _get_default_markdown_kwargs():
