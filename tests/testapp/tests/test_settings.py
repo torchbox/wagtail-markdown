@@ -23,16 +23,6 @@ WAGTAILMARKDOWN_NH3_SETTINGS = {
 }
 
 
-# def _get_expected_default_nh3_kwargs():
-#     return {
-#         "tags": set(DEFAULT_NH3_KWARGS["tags"]),
-#         "attributes": {
-#             key: set(value) for key, value in DEFAULT_NH3_KWARGS["attributes"].items()
-#         },
-#         "filter_style_properties": set(DEFAULT_NH3_KWARGS["filter_style_properties"]),
-#     }
-
-
 class TestSettings(TestCase):
     def test_markdown_kwargs(self):
         kwargs = _get_markdown_kwargs()
