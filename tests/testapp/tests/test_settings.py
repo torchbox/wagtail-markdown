@@ -2,15 +2,16 @@ from unittest import TestCase
 
 from django.test import override_settings
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
+from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.utils import (
-    _get_bleach_kwargs,
+    _coerce_nh3_kwargs_types,
     _get_default_markdown_kwargs,
     _get_markdown_kwargs,
+    _get_nh3_kwargs,
 )
 
 
-WAGTAILMARKDOWN_BLEACH_SETTINGS = {
+WAGTAILMARKDOWN_NH3_SETTINGS = {
     "allowed_tags": ["i"],
     "allowed_styles": ["some_style"],
     "allowed_attributes": {"i": ["aria-hidden"], "a": ["data-test"]},
@@ -43,7 +44,7 @@ class TestSettings(TestCase):
             kwargs["extension_configs"]["codehilite"], [("guess_lang", False)]
         )
 
-        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
+        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_NH3_SETTINGS):
             kwargs = _get_markdown_kwargs()
             self.assertIn("toc", kwargs["extensions"])
             self.assertEqual(
@@ -71,7 +72,7 @@ class TestSettings(TestCase):
             self.assertNotIn("sane_lists", default_kwargs["extension_configs"])
             self.assertIn("sane_lists", kwargs["extension_configs"])
 
-        OVERRIDE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_BLEACH_SETTINGS.copy()
+        OVERRIDE_MARKDOWN_SETTINGS = WAGTAILMARKDOWN_NH3_SETTINGS.copy()
         OVERRIDE_MARKDOWN_SETTINGS["extensions_settings_mode"] = SETTINGS_MODE_OVERRIDE
         OVERRIDE_MARKDOWN_SETTINGS["extension_configs"] = {
             "pymdownx.arithmatex": {"generic": True}
@@ -84,34 +85,40 @@ class TestSettings(TestCase):
             )
 
     def test_bleach_options(self):
-        kwargs = _get_bleach_kwargs()
-        self.assertEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+        kwargs = _get_nh3_kwargs()
+        self.assertDictEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
 
         self.assertNotIn("i", kwargs["tags"])
         self.assertNotIn("i", kwargs["attributes"])
-        self.assertNotIn("some_style", kwargs["styles"])
+        self.assertNotIn("some_style", kwargs["filter_style_properties"])
 
-        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_BLEACH_SETTINGS):
-            kwargs = _get_bleach_kwargs()
-            self.assertNotEqual(kwargs, DEFAULT_BLEACH_KWARGS)
+        with override_settings(WAGTAILMARKDOWN=WAGTAILMARKDOWN_NH3_SETTINGS):
+            kwargs = _get_nh3_kwargs()
+            self.assertNotEqual(kwargs, _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS))
             self.assertIn("i", kwargs["tags"])
-            self.assertIn("some_style", kwargs["styles"])
-            self.assertEqual(kwargs["attributes"]["i"], ["aria-hidden"])
+            self.assertIn("some_style", kwargs["filter_style_properties"])
+            self.assertEqual(kwargs["attributes"]["i"], {"aria-hidden"})
             self.assertEqual(
                 sorted(kwargs["attributes"]["a"]),
-                sorted(DEFAULT_BLEACH_KWARGS["attributes"]["a"] + ["data-test"]),
+                sorted(DEFAULT_NH3_KWARGS["attributes"]["a"] + ["data-test"]),
             )
 
-    def test_get_bleach_kwargs(self):
-        self.assertEqual(_get_bleach_kwargs(), DEFAULT_BLEACH_KWARGS)
+    def test_get_nh3_kwargs(self):
+        self.assertEqual(
+            _get_nh3_kwargs(), _coerce_nh3_kwargs_types(DEFAULT_NH3_KWARGS)
+        )
 
-    def test_get_bleach_kwargs_with_styles(self):
+    def test_get_nh3_kwargs_with_styles(self):
         with override_settings(
             WAGTAILMARKDOWN={"allowed_styles": ["display", "color"]}
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["styles"]),
-                sorted(set(DEFAULT_BLEACH_KWARGS["styles"] + ["display", "color"])),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["filter_style_properties"]),
+                sorted(
+                    set(DEFAULT_NH3_KWARGS["filter_style_properties"]).union(
+                        ["display", "color"]
+                    )
+                ),
             )
         with override_settings(
             WAGTAILMARKDOWN={
@@ -119,16 +126,16 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["styles"]),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["filter_style_properties"]),
                 ["color", "display"],
             )
 
-    def test_get_bleach_kwargs_with_tags(self):
+    def test_get_nh3_kwargs_with_tags(self):
         with override_settings(WAGTAILMARKDOWN={"allowed_tags": ["a", "iframe"]}):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["tags"]),
-                sorted(set(DEFAULT_BLEACH_KWARGS["tags"] + ["a", "iframe"])),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["tags"]),
+                sorted(set(DEFAULT_NH3_KWARGS["tags"]).union(["a", "iframe"])),
             )
 
         with override_settings(
@@ -137,20 +144,23 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(
-                sorted(_get_bleach_kwargs()["tags"]),
+            self.assertListEqual(
+                sorted(_get_nh3_kwargs()["tags"]),
                 ["a", "iframe"],
             )
 
-    def test_get_bleach_kwargs_with_attributes(self):
+    def test_get_nh3_kwargs_with_attributes(self):
         allowed = {"*": ["data-test"]}
         with override_settings(WAGTAILMARKDOWN={"allowed_attributes": allowed}):
-            expected = DEFAULT_BLEACH_KWARGS["attributes"].copy()
+            expected = {
+                key: list(value)
+                for key, value in DEFAULT_NH3_KWARGS["attributes"].items()
+            }
             expected["*"] += ["data-test"]
 
-            attributes = _get_bleach_kwargs()["attributes"]
+            attributes = _get_nh3_kwargs()["attributes"]
             for key, value in expected.items():
-                self.assertEqual(
+                self.assertListEqual(
                     sorted(value),
                     sorted(attributes[key]),
                 )
@@ -161,4 +171,4 @@ class TestSettings(TestCase):
                 "allowed_settings_mode": SETTINGS_MODE_OVERRIDE,
             }
         ):
-            self.assertEqual(_get_bleach_kwargs()["attributes"], allowed)
+            self.assertDictEqual(_get_nh3_kwargs()["attributes"], {"*": {"data-test"}})

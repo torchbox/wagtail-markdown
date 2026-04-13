@@ -47,7 +47,6 @@ DEFAULT_ALLOWED_ATTRIBUTES = {
     "a": [
         "href",
         "target",
-        "rel",
         "title",
     ],
     "img": [
@@ -92,10 +91,12 @@ DEFAULT_ALLOWED_STYLES = [
     "margin-right",
 ]
 
-DEFAULT_BLEACH_KWARGS = {
+DEFAULT_NH3_KWARGS = {
     "tags": DEFAULT_ALLOWED_TAGS,
     "attributes": DEFAULT_ALLOWED_ATTRIBUTES,
-    "styles": DEFAULT_ALLOWED_STYLES,
+    "filter_style_properties": DEFAULT_ALLOWED_STYLES,
+    "link_rel": None,
+    "url_schemes": {"http", "https", "mailto", "page", "doc", "image"},
 }
 
 

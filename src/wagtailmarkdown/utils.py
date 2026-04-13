@@ -1,13 +1,14 @@
 from collections import defaultdict
+from copy import deepcopy
 
-import bleach
 import markdown
+import nh3
 
 from django.conf import settings
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
-from wagtailmarkdown.constants import DEFAULT_BLEACH_KWARGS, SETTINGS_MODE_OVERRIDE
+from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.mdx.inlinepatterns import (
     DelExtension,
     ImageExtension,
@@ -22,7 +23,7 @@ def render_markdown(text, context=None):
     """
     markdown_html = _transform_markdown_into_html(text)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
-    # note: we use mark_safe here because bleach is already sanitising the HTML
+    # note: we use mark_safe here because nh3 is already sanitising the HTML
     return mark_safe(sanitised_markdown_html)  # noqa: S308
 
 
@@ -31,14 +32,26 @@ def _transform_markdown_into_html(text):
 
 
 def _sanitise_markdown_html(markdown_html):
-    return bleach.clean(markdown_html, **_get_bleach_kwargs())
+    nh3_kwargs = _get_nh3_kwargs()
+    return nh3.clean(markdown_html, **nh3_kwargs)
 
 
-def _get_bleach_kwargs():
-    bleach_kwargs = DEFAULT_BLEACH_KWARGS.copy()
+def _coerce_nh3_kwargs_types(nh3_kwargs):
+    coerced = deepcopy(nh3_kwargs)
+    coerced["tags"] = set(coerced["tags"])
+    coerced["attributes"] = {
+        key: set(value) for key, value in coerced["attributes"].items()
+    }
+    coerced["filter_style_properties"] = set(coerced["filter_style_properties"])
+
+    return coerced
+
+
+def _get_nh3_kwargs():
+    nh3_kwargs = deepcopy(DEFAULT_NH3_KWARGS)
 
     if not hasattr(settings, "WAGTAILMARKDOWN"):
-        return bleach_kwargs
+        return _coerce_nh3_kwargs_types(nh3_kwargs)
 
     override = (
         settings.WAGTAILMARKDOWN.get("allowed_settings_mode", "extend").lower()
@@ -46,37 +59,44 @@ def _get_bleach_kwargs():
     )
     if "allowed_styles" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["styles"] = settings.WAGTAILMARKDOWN["allowed_styles"]
+            nh3_kwargs["filter_style_properties"] = settings.WAGTAILMARKDOWN[
+                "allowed_styles"
+            ]
         else:
-            bleach_kwargs["styles"] = list(
+            nh3_kwargs["filter_style_properties"] = list(
                 set(
-                    settings.WAGTAILMARKDOWN["allowed_styles"] + bleach_kwargs["styles"]
+                    settings.WAGTAILMARKDOWN["allowed_styles"]
+                    + nh3_kwargs["filter_style_properties"]
                 )
             )
     if "allowed_tags" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["tags"] = settings.WAGTAILMARKDOWN["allowed_tags"]
+            nh3_kwargs["tags"] = list(settings.WAGTAILMARKDOWN["allowed_tags"])
         else:
-            bleach_kwargs["tags"] = list(
-                set(settings.WAGTAILMARKDOWN["allowed_tags"] + bleach_kwargs["tags"])
+            nh3_kwargs["tags"] = list(
+                dict.fromkeys(
+                    nh3_kwargs["tags"] + settings.WAGTAILMARKDOWN["allowed_tags"]
+                )
             )
 
     if "allowed_attributes" in settings.WAGTAILMARKDOWN:
         if override:
-            bleach_kwargs["attributes"] = settings.WAGTAILMARKDOWN["allowed_attributes"]
+            nh3_kwargs["attributes"] = settings.WAGTAILMARKDOWN["allowed_attributes"]
         else:
             merged = defaultdict(set)
             for _dict in [
-                bleach_kwargs["attributes"],
+                nh3_kwargs["attributes"],
                 settings.WAGTAILMARKDOWN["allowed_attributes"],
             ]:
                 for key, value in _dict.items():
                     merged[key].update(value)
-            bleach_kwargs["attributes"] = {
+            nh3_kwargs["attributes"] = {
                 key: list(value) for key, value in merged.items()
             }
+    if "link_rel" in settings.WAGTAILMARKDOWN:
+        nh3_kwargs["link_rel"] = settings.WAGTAILMARKDOWN["link_rel"]
 
-    return bleach_kwargs
+    return _coerce_nh3_kwargs_types(nh3_kwargs)
 
 
 def _get_default_markdown_kwargs():
