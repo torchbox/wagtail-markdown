@@ -6,24 +6,22 @@ This reports an error to the #nightly-build-failures Slack channel.
 
 import os
 
-import requests
+import urllib3
 
 
 if "SLACK_WEBHOOK_URL" in os.environ:
-    # https://docs.github.com/en/free-pro-team@latest/actions/reference/environment-variables#default-environment-variables
+    # https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables
     repository = os.environ["GITHUB_REPOSITORY"]
     run_id = os.environ["GITHUB_RUN_ID"]
     url = f"https://github.com/{repository}/actions/runs/{run_id}"
 
     print("Reporting to #nightly-build-failures slack channel")
-    response = requests.post(  # noqa: S113
-        os.environ["SLACK_WEBHOOK_URL"],
-        json={
-            "text": f"A Nightly build failed. See {url}",
-        },
-    )
 
-    print(f"Slack responded with: {response}")
+    urllib3.request(
+        "POST",
+        os.environ["SLACK_WEBHOOK_URL"],
+        json={"text": f"A Nightly build failed. See {url}"},
+    )
 
 else:
     print(
