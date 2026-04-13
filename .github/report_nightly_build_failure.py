@@ -17,7 +17,7 @@ if "SLACK_WEBHOOK_URL" in os.environ:
 
     print("Reporting to #nightly-build-failures slack channel")
 
-    response = urllib3.request(
+    urllib3.request(
         "POST",
         os.environ["SLACK_WEBHOOK_URL"],
         json={"text": f"A Nightly build failed. See {url}"},
