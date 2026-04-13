@@ -10,8 +10,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read # to fetch code (actions/checkout)
+permissions: {}
 
 env:
   FORCE_COLOR: "1" # Make tools pretty.
@@ -24,6 +23,8 @@ jobs:
   tests:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # to fetch code (actions/checkout)
 
     strategy:
       matrix:
@@ -68,6 +69,8 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: tests
+    permissions:
+      contents: read # to fetch code (actions/checkout)
 
     steps:
       - name: Harden Runner
