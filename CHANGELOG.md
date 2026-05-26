@@ -9,8 +9,7 @@
 
 ## Removed
 
-- Dropped Python 3.9 and Wagtail 7.1, 7.2 from test matrix
-- Dropped support for Wagtail 6.3
+- Dropped support for Python < 3.10, Django < 5.2, Wagtal < 7.0
 
 ## Changed
 
