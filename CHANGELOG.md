@@ -4,8 +4,7 @@
 
 ## Added
 
-- Added Wagtail 7.3, 7.4 (LTS) and Python 3.14 to test matrix
-- Added Django 6.0 to the test matrix
+- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix
 
 ## Removed
 
