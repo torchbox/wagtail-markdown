@@ -33,7 +33,7 @@ requires-python = ">=3.10"
 dependencies = [
     "Wagtail>=6.3",
     "Markdown>=3.3,<4",
-    "nh3>=0.3.3",
+    "nh3>=0.3.4",
 ]
 
 [project.optional-dependencies]

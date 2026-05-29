@@ -47,6 +47,7 @@ DEFAULT_ALLOWED_ATTRIBUTES = {
     "a": [
         "href",
         "target",
+        "rel",
         "title",
     ],
     "img": [
