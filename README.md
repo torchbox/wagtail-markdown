@@ -58,6 +58,7 @@ WAGTAILMARKDOWN = {
     "extensions": [],  # optional. a list of python-markdown supported extensions
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
     "extensions_settings_mode": "extend",  # optional. Possible values: "extend" or "override". Defaults to "extend".
+    "link_rel": None, # optional. Possible value: "noopener noreferrer". Defaults to None.
     "tab_length": 4,  # optional. Sets the length of tabs used by python-markdown to render the output. This is the number of spaces used to replace with a tab character. Defaults to 4.
 }
 ```
@@ -158,8 +159,8 @@ WAGTAILMARKDOWN = {
 
 #### Allowed HTML - `allowed_styles` / `allowed_attributes` / `allowed_tags`
 
-wagtail-markdown uses [bleach](https://github.com/mozilla/bleach) to sanitise the input. To extend the default
-bleach configurations, you can add your own allowed tags, styles or attributes:
+wagtail-markdown uses [nh3](https://github.com/messense/nh3) to sanitise the input. To extend the default
+nh3 configurations, you can add your own allowed tags, styles or attributes:
 
 ```python
 WAGTAILMARKDOWN = {
