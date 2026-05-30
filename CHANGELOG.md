@@ -2,11 +2,17 @@
 
 ## [Unreleased]
 
+## Added
+
+- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix
+
+## Removed
+
+- Dropped support for Python < 3.10, Django < 5.2, Wagtal < 7.0
+
 ## Changed
 
 - Updated minimum Python requirement to 3.10
-- Added Wagtail 7.3 and Python 3.14 to test matrix
-- Dropped Python 3.9 and Wagtail 7.1 from test matrix
 
 ## [0.13.0] - 2025-10-06
 
