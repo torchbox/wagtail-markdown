@@ -97,7 +97,7 @@ DEFAULT_NH3_KWARGS = {
     "attributes": DEFAULT_ALLOWED_ATTRIBUTES,
     "filter_style_properties": DEFAULT_ALLOWED_STYLES,
     "link_rel": None,
-    "url_schemes": {"http", "https", "mailto", "page", "doc", "image"},
+    "url_schemes": {"http", "https", "mailto", "tel", "page", "doc", "image"},
 }
 
 

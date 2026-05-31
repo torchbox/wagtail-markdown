@@ -2,17 +2,20 @@
 
 ## [Unreleased]
 
-## Added
+## [0.14.0] - 2026-05-31
 
-- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix
+### Added
 
-## Removed
+- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix (@nickmoreton)
+- Added `tel` to the list of allowed protocols
 
-- Dropped support for Python < 3.10, Django < 5.2, Wagtal < 7.0
+### Removed
 
-## Changed
+- Dropped support for Python < 3.10, Django < 5.2, Wagtail < 7.0 (@nickmoreton)
 
-- Updated minimum Python requirement to 3.10
+### Changed
+
+- Changed the sanitisation library to [nh3](https://github.com/messense/nh3), removing the no longer supported bleach ([#163](https://github.com/torchbox/wagtail-markdown/pull/163)) @hoheinzollern
 
 ## [0.13.0] - 2025-10-06
 
@@ -67,7 +70,7 @@
 
 - Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
 - Support for inline links and images ([#107](https://github.com/torchbox/wagtail-markdown/pull/107)). With belated thanks to @richtier for the original PR (#44)
-- New settings: `allowed_settings_mode` and `extensions_settins_mode` to control the `allowed_*` and `extension*` settings mode.
+- New settings: `allowed_settings_mode` and `extensions_settings_mode` to control the `allowed_*` and `extension*` settings mode.
   Defaults to `extend`, but you can set to `override` to override the defaults. ([#108](https://github.com/torchbox/wagtail-markdown/pull/108))
 
 ### Removed
@@ -143,10 +146,11 @@
 
 - Fix problem with app loading
 - Make it compatible with newer versions of Wagtail that require `context` parameters in blocks' `render_basic` method.
-- Restructure app, refactor code. Add depreciation warnings.
+- Restructure app, refactor code. Add deprecation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
