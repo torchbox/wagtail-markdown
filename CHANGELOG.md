@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-## [0.14.0] - 2026-05-31
+## [0.14.1] - 2026-05-31
+
+Note: this is the same release as 0.14.0, with the publishing workflow fixed
 
 ### Added
 
@@ -149,8 +151,8 @@
 - Restructure app, refactor code. Add deprecation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.0...HEAD
-[0.14.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...v0.14.0
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.1...HEAD
+[0.14.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...v0.14.1
 [0.13.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
