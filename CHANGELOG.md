@@ -2,17 +2,20 @@
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-05-31
+
 ## Added
 
-- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix
+- Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix (@nickmoreton)
+- Added `tel` to the list of allowed protocols
 
 ## Removed
 
-- Dropped support for Python < 3.10, Django < 5.2, Wagtal < 7.0
+- Dropped support for Python < 3.10, Django < 5.2, Wagtail < 7.0 (@nickmoreton)
 
-## Changed
+### Changed
 
-- Updated minimum Python requirement to 3.10
+- Changed the sanitisation library to [nh3](https://github.com/messense/nh3), removing the no longer supported bleach ([#163](https://github.com/torchbox/wagtail-markdown/pull/163)) @hoheinzollern
 
 ## [0.13.0] - 2025-10-06
 
@@ -146,7 +149,8 @@
 - Restructure app, refactor code. Add depreciation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.11.0...v0.12.0
