@@ -1,6 +1,8 @@
 name: Publish to PyPI
 
 on:
+  push:
+    branches: [ main ]
   release:
     types: [published]
 
@@ -11,12 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read # to fetch code (actions/checkout)
-
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
         with:
-          persist-credentials: false
           fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
@@ -26,27 +27,26 @@ jobs:
 
       - name: ⬇️ Install build dependencies
         run: |
-          python -Im pip install flit
-          python -Im flit install --symlink
+          python -m pip install -U flit
 
       - name: 🏗️ Build
-        run: python -Im flit build
+        run: python -m flit build
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           path: ./dist
 
-  # https://docs.pypi.org/trusted-publishers/using-a-publisher/
-  pypi-publish:
-    name: ⬆️ Upload release to PyPI
-    environment: 'release'
-    if: github.repository_owner == 'torchbox' && github.event.action == 'published'
+  # Upload to Test PyPI on every commit on main.
+  publish-test-pypi:
+    name: Publish in-dev package to test.pypi.org
+    environment: 'publish-test-pypi'
+    if: github.repository_owner == 'torchbox' && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
 
     permissions:
-      # Mandatory for trusted publishing
-      id-token: write
+      id-token: write  # Mandatory for trusted publishing
+
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
         with:
@@ -55,4 +55,30 @@ jobs:
       - name: 🚀 Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b  # v1.14.0
         with:
-          packages-dir: artifact/
+          # Do not perform attestation for things for TestPyPI. This is
+          # because there's nothing that would prevent a malicious PyPI from
+          # serving a signed TestPyPI asset in place of a release intended for
+          # PyPI.
+          attestations: false
+          repository-url: https://test.pypi.org/legacy/
+
+  # https://docs.pypi.org/trusted-publishers/using-a-publisher/
+  publish-pypi:
+    name: ⬆️ Upload release to PyPI
+    environment: 'publish'
+    if: github.repository_owner == 'torchbox' && github.event.action == 'published'
+    runs-on: ubuntu-latest
+    needs: build
+
+    permissions:
+      id-token: write  # Mandatory for trusted publishing
+
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        with:
+          path: dist
+
+      - name: 🚀 Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b  # v1.14.0
+        with:
+          attestations: true
