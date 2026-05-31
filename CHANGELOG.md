@@ -4,12 +4,12 @@
 
 ## [0.14.0] - 2026-05-31
 
-## Added
+### Added
 
 - Added Python 3.14, Django 6.0, Wagtail 7.3 and 7.4 (LTS) to the test matrix (@nickmoreton)
 - Added `tel` to the list of allowed protocols
 
-## Removed
+### Removed
 
 - Dropped support for Python < 3.10, Django < 5.2, Wagtail < 7.0 (@nickmoreton)
 
@@ -70,7 +70,7 @@
 
 - Ability to pass custom options to the EasyMDE editor ([#104](https://github.com/torchbox/wagtail-markdown/pull/104)) Thanks @frcroth
 - Support for inline links and images ([#107](https://github.com/torchbox/wagtail-markdown/pull/107)). With belated thanks to @richtier for the original PR (#44)
-- New settings: `allowed_settings_mode` and `extensions_settins_mode` to control the `allowed_*` and `extension*` settings mode.
+- New settings: `allowed_settings_mode` and `extensions_settings_mode` to control the `allowed_*` and `extension*` settings mode.
   Defaults to `extend`, but you can set to `override` to override the defaults. ([#108](https://github.com/torchbox/wagtail-markdown/pull/108))
 
 ### Removed
@@ -146,7 +146,7 @@
 
 - Fix problem with app loading
 - Make it compatible with newer versions of Wagtail that require `context` parameters in blocks' `render_basic` method.
-- Restructure app, refactor code. Add depreciation warnings.
+- Restructure app, refactor code. Add deprecation warnings.
 
 
 [unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.0...HEAD
