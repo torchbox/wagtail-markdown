@@ -16,6 +16,7 @@ permissions: {}
 
 jobs:
   ruff:
+    name: Ruff
     runs-on: ubuntu-latest
     permissions:
       contents: read # to fetch code (actions/checkout)
