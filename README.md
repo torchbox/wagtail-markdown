@@ -329,8 +329,9 @@ pip install -e '.[testing]' -U
 
 ### pre-commit
 
-Note that this project uses [pre-commit](https://github.com/pre-commit/pre-commit). To set up locally:
+Note that this project uses [prek](https://prek.j178.dev/) / [pre-commit](https://github.com/pre-commit/pre-commit). To set up locally:
 
+Using pre-commit:
 ```shell
 # if you don't have it yet
 $ pip install pre-commit
@@ -341,6 +342,19 @@ $ pre-commit install
 
 # Optional, run all checks once for this, then the checks will run only on the changed files
 $ pre-commit run --all-files
+```
+
+Using prek:
+```shell
+# if you don't have it yet, globally
+$ pip install prek
+# go to the project directory
+$ cd wagtail-markdown
+# initialize prek
+$ prek install
+
+# Optional, run all checks once for this, then the checks will run only on the changed files
+$ prek run --all-files
 ```
 
 ### How to run tests
