@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Support for Wagtail 8.0
+
 ## [0.14.1] - 2026-05-31
 
 Note: this is the same release as 0.14.0, with the publishing workflow fixed
