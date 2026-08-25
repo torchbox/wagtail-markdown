@@ -32,3 +32,9 @@ lines-after-imports = 2
 
 [format]
 docstring-code-format = true
+
+
+[lint.per-file-ignores]
+"tests/**/migrations/*" = [
+    "RUF012",  # Mutable default value for class attribute
+]
