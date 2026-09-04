@@ -55,9 +55,10 @@ DEFAULT_ALLOWED_ATTRIBUTES = {
         "alt",
         "title",
     ],
-    "tr": [
+    "th": [
         "rowspan",
         "colspan",
+        "scope",
     ],
     "td": [
         "rowspan",
