@@ -31,6 +31,6 @@ jobs:
           python-version: "3.14"
       - name: Install dependencies
         # keep in sync with .pre-commit-config.yaml
-        run: python -Im pip install ruff==0.16.3
+        run: python -Im pip install ruff==0.16.5
       - name: Run Ruff
         run: ruff check --output-format=github ./src/wagtailmarkdown
