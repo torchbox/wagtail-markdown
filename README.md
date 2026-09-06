@@ -1,6 +1,6 @@
 ## wagtail-markdown: Markdown fields and blocks for Wagtail
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-markdown/ci.yml?branch=main)](https://github.com/torchbox/wagtail-markdown/actions)
+[![Build status](https://img.shields.io/github/actions/workflow/status/torchbox/wagtail-markdown/test.yml?branch=main)](https://github.com/torchbox/wagtail-markdown/actions)
 [![PyPI](https://img.shields.io/pypi/v/wagtail-markdown.svg)](https://pypi.org/project/wagtail-markdown/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/torchbox/wagtail-markdown/main.svg)](https://results.pre-commit.ci/latest/github/torchbox/wagtail-markdown/main)
@@ -16,7 +16,7 @@ Specifically, it provides:
 * A `wagtailmarkdown.fields.MarkdownField` for use in Page models.
 * A `markdown` template tag.
 
-The markdown rendered is based on `python-markdown`, but with several
+The rendered Markdown is based on `python-markdown`, but with several
 extensions to make it actually useful in Wagtail:
 
 * [Code highlighting](#syntax-highlighting).
@@ -368,11 +368,11 @@ tox -p
 To run tests for a specific environment:
 
 ```shell
-tox -e py313-django52-wagtail74
+tox -e python3.13-django5.2-wagtail7.4
 ```
 
 or, a specific test
 
 ```shell
-tox -e py313-django52-wagtail74 -- tests.testapp.tests.test_admin.TestFieldsAdmin
+tox -e python3.13-django5.2-wagtail7.4 -- tests.testapp.tests.test_admin.TestFieldsAdmin
 ```

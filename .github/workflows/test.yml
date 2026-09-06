@@ -52,10 +52,13 @@ jobs:
 
       - name: ⬇️ Install dependencies
         run: |
-          python -Im pip install --upgrade pip setuptools wheel flit tox tox-gh-actions
+          python -Im pip install --upgrade pip flit tox tox-gh-actions
+
+      - name: 🏗️ Build wheel
+        run: python -Im flit build --format wheel
 
       - name: 🧪 Run tox targets for Python ${{ matrix.python-version }}
-        run: tox
+        run: tox --installpkg ./dist/*.whl
 
       - name: ⬆️ Upload coverage data
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f  # v7.0.0
