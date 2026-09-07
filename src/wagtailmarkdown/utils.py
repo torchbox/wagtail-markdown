@@ -9,11 +9,6 @@ from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
 from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
-from wagtailmarkdown.mdx.inlinepatterns import (
-    DelExtension,
-    ImageExtension,
-    LinkExtension,
-)
 from wagtailmarkdown.mdx.linker import LinkerExtension
 
 
@@ -100,6 +95,13 @@ def _get_nh3_kwargs():
 
 
 def _get_default_markdown_kwargs():
+    # imported inline to avoid AppRegistryNotReady exceptions
+    from wagtailmarkdown.mdx.inlinepatterns import (
+        DelExtension,
+        ImageExtension,
+        LinkExtension,
+    )
+
     kwargs = {
         "extensions": [
             "extra",

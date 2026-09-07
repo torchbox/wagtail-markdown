@@ -1,7 +1,15 @@
 import xml.etree.ElementTree as etree
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from wagtail.models import Page
+from wagtail import VERSION as WAGTAIL_VERSION
+
+
+if WAGTAIL_VERSION >= (8, 0):
+    import swapper
+
+    Page = swapper.load_model("wagtailcore", "Page")
+else:
+    from wagtail.models import Page
 
 
 class Linker:
