@@ -2,9 +2,11 @@
 
 ## [Unreleased]
 
+## [0.15.0] - 2025-09-07
+
 ### Added
 
-- Support for Wagtail 8.0
+- Support for Wagtail 8.0 and its custom base pages ([#171](https://github.com/torchbox/wagtail-markdown/pull/171), [#172](https://github.com/torchbox/wagtail-markdown/pull/172))@zerolab
 
 ## [0.14.1] - 2026-05-31
 
@@ -155,7 +157,8 @@ Note: this is the same release as 0.14.0, with the publishing workflow fixed
 - Restructure app, refactor code. Add deprecation warnings.
 
 
-[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.1...HEAD
+[unreleased]: https://github.com/torchbox/wagtail-markdown/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.13.0...v0.14.1
 [0.13.0]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/torchbox/wagtail-markdown/compare/v0.12.0...v0.12.1
