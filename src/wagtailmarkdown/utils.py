@@ -1,3 +1,5 @@
+import re
+
 from collections import defaultdict
 from copy import deepcopy
 
@@ -5,8 +7,11 @@ import markdown
 import nh3
 
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
+from wagtail.images.exceptions import InvalidFilterSpecError
+from wagtail.images.shortcuts import get_rendition_or_not_found
 
 from wagtailmarkdown.constants import DEFAULT_NH3_KWARGS, SETTINGS_MODE_OVERRIDE
 from wagtailmarkdown.mdx.linker import LinkerExtension
@@ -16,14 +21,78 @@ def render_markdown(text, context=None):
     """
     Turn markdown into HTML.
     """
-    markdown_html = _transform_markdown_into_html(text)
+    md = markdown.Markdown(**_get_markdown_kwargs())
+    markdown_html = md.convert(smart_str(text))
+    markdown_html = _unwrap_image_placeholders(markdown_html, md)
     sanitised_markdown_html = _sanitise_markdown_html(markdown_html)
-    # note: we use mark_safe here because nh3 is already sanitising the HTML
+    sanitised_markdown_html = _render_image_placeholders(sanitised_markdown_html, md)
+    # note: we use mark_safe here because nh3 is already sanitising the HTML,
+    # and images rendered with the `image_template` setting come from a template
     return mark_safe(sanitised_markdown_html)  # noqa: S308
 
 
-def _transform_markdown_into_html(text):
-    return markdown.markdown(smart_str(text), **_get_markdown_kwargs())
+def _unwrap_image_placeholders(html, md):
+    """
+    Turn the empty elements Markdown leaves for images by the `image_template`
+    setting into plain text placeholders, which survive sanitising.
+    """
+    images = getattr(md, "wagtailmarkdown_images", None)
+    if images is None or not images.items:
+        return html
+
+    token = re.escape(images.token)
+    return re.sub(rf"<({token}\d+)></\1>", r"\1", html)
+
+
+def _render_image_placeholders(html, md):
+    """
+    Replace the placeholders left for images by the `image_template` setting
+    with the rendered template. A placeholder that is the only content of its
+    paragraph replaces the paragraph, with `standalone` set in the context.
+    """
+    images = getattr(md, "wagtailmarkdown_images", None)
+    if images is None or not images.items:
+        return html
+
+    def render(match, *, standalone):
+        item = images.items[int(match.group(1))]
+        return _render_image(item, images.template_name, standalone=standalone)
+
+    token = re.escape(images.token)
+    html = re.sub(
+        rf"<p>\s*{token}(\d+)\s*</p>",
+        lambda m: render(m, standalone=True),
+        html,
+    )
+    return re.sub(rf"{token}(\d+)", lambda m: render(m, standalone=False), html)
+
+
+def _render_image(item, template_name, *, standalone):
+    image = item.image
+    # The same attributes Wagtail's ImageBlock sets, which renditions use
+    # for their alt text, in {% image %}, {% picture %} and img_tag().
+    image.contextual_alt_text = item.alt
+    image.decorative = not item.alt
+
+    rendition = None
+    if item.filter_spec:
+        try:
+            rendition = get_rendition_or_not_found(image, item.filter_spec)
+        except InvalidFilterSpecError:
+            rendition = None
+
+    # Stripped, so an image inside text adds no spaces around itself.
+    return render_to_string(
+        template_name,
+        {
+            "image": image,
+            "alt": item.alt,
+            "class": item.css_class,
+            "caption": item.caption,
+            "rendition": rendition,
+            "standalone": standalone,
+        },
+    ).strip()
 
 
 def _sanitise_markdown_html(markdown_html):
@@ -116,7 +185,7 @@ def _get_default_markdown_kwargs():
                 }
             ),
             LinkExtension(),
-            ImageExtension(),
+            ImageExtension(template_name=_get_image_template()),
             DelExtension(),
         ],
         "extension_configs": {
@@ -128,6 +197,10 @@ def _get_default_markdown_kwargs():
     }
 
     return kwargs
+
+
+def _get_image_template():
+    return getattr(settings, "WAGTAILMARKDOWN", {}).get("image_template")
 
 
 def _get_markdown_kwargs():

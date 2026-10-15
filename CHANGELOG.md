@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- `image_template` setting to render `image:` images with a template; the bundled one renders a
+  `<figure>` with a responsive `<picture>`, and uses the Markdown image title as its caption
+
 ## [0.15.0] - 2025-09-07
 
 ### Added
