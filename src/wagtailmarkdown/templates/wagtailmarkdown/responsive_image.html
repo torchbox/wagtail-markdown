@@ -1,0 +1,33 @@
+{% load wagtailimages_tags %}
+{% comment %}
+  Renders an image written as ![alt](image:ID,class=...,filter=... "Title")
+  when WAGTAILMARKDOWN["image_template"] is set. Override this template, or
+  point the setting at your own, to change the markup.
+
+  Context:
+  - image: the image, whose renditions use the written alt text
+  - alt, class, caption (the Markdown title)
+  - rendition: only with a valid filter= option
+  - standalone: true when the image is the only thing in its paragraph, which
+    this template's output then replaces
+{% endcomment %}
+{% spaceless %}
+  {% if standalone %}
+    <figure class="{{ class }}">
+      {% if rendition %}
+        <img src="{{ rendition.url }}" width="{{ rendition.width }}" height="{{ rendition.height }}" alt="{{ alt }}" loading="lazy">
+      {% else %}
+        {% picture image width-{400,800,1200,1600} format-{webp,jpeg} sizes="100vw" loading="lazy" %}
+      {% endif %}
+      {% if caption %}
+        <figcaption>{{ caption }}</figcaption>
+      {% endif %}
+    </figure>
+  {% elif rendition %}
+    <img src="{{ rendition.url }}" width="{{ rendition.width }}" height="{{ rendition.height }}" alt="{{ alt }}" class="{{ class }}"{% if caption %} title="{{ caption }}"{% endif %} loading="lazy">
+  {% elif caption %}
+    {% picture image width-{400,800,1200,1600} format-{webp,jpeg} sizes="100vw" loading="lazy" class=class title=caption %}
+  {% else %}
+    {% picture image width-{400,800,1200,1600} format-{webp,jpeg} sizes="100vw" loading="lazy" class=class %}
+  {% endif %}
+{% endspaceless %}

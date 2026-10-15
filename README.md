@@ -241,6 +241,32 @@ wagtail-markdown supports custom inline links syntax:
 | ↳ class name and filter can be stacked | `![alt text](image:IMAGE_ID,class=the-class-name,filter=width-100)` |                                                                                                                                                                      |
 
 
+##### Responsive images and captions - `image_template`
+
+By default, `![alt text](image:IMAGE_ID)` renders a single `<img>`. To render images
+with a template instead, set `image_template`:
+
+```python
+WAGTAILMARKDOWN = {
+    "image_template": "wagtailmarkdown/responsive_image.html",
+}
+```
+
+With the bundled `wagtailmarkdown/responsive_image.html`:
+
+- an image that is the only thing in its paragraph becomes a `<figure>` with a responsive
+  `{% picture %}` (WebP and JPEG at 400 to 1600 pixels wide), and the Markdown image title
+  becomes its `<figcaption>`: `![A red cliff](image:42,class=right "Sunset over the cliffs")`
+- an image inside text becomes the same `<picture>` in place, with the title kept as a tooltip
+- `filter=` serves exactly that rendition as a single `<img>`
+
+Override the template, or point `image_template` at your own, to change the markup. Its
+context has `image` (whose renditions use the written alt text, as with Wagtail's `ImageBlock`),
+`alt`, `class`, `caption`, `rendition` (only with a valid `filter=`) and `standalone`.
+The template's output is inserted after the HTML is sanitised, so it isn't limited by the
+allowed tags and attributes.
+
+
 
 Previously we supported custom link tags that used the target object title. They had the following form:
 * `<:My page name|link title>` or `<:page:My page title>`

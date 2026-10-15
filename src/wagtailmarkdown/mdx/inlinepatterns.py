@@ -1,8 +1,13 @@
+import re
+import secrets
+import xml.etree.ElementTree as etree
+
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from django.apps import apps
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from markdown import Extension
+from markdown import Extension, util
 from markdown.inlinepatterns import (
     IMAGE_LINK_RE,
     LINK_RE,
@@ -103,9 +108,30 @@ class ObjectLookupNegotiator:
         return None
 
 
+# python-markdown stores backslash-escaped characters as STX<code point>ETX
+# until its last processing step.
+ESCAPED_CHAR_RE = re.compile(f"{util.STX}(\\d+){util.ETX}")
+
+
+def _unescape(text: str) -> str:
+    return ESCAPED_CHAR_RE.sub(lambda m: chr(int(m.group(1))), text)
+
+
+@dataclass
+class TemplateImage:
+    """An image to render with the `image_template` setting's template."""
+
+    image: "Model"
+    alt: str
+    css_class: str
+    caption: str
+    filter_spec: str | None
+
+
 class ImageProcessor(ImageInlineProcessor):
-    def __init__(self, object_lookup_negotiator, *args, **kwargs):
+    def __init__(self, object_lookup_negotiator, *args, template_name=None, **kwargs):
         self.object_lookup_negotiator = object_lookup_negotiator
+        self.template_name = template_name
         super().__init__(*args, **kwargs)
 
     def handleMatch(self, m, data):
@@ -115,6 +141,9 @@ class ImageProcessor(ImageInlineProcessor):
 
         pk, *opts_str = element.get("src", "").split(",", 1)
         image = self.object_lookup_negotiator.retrieve(pk)
+        if image and self.template_name:
+            opts = _options_to_dict(opts_str[0]) if opts_str else {}
+            return self._placeholder(image, element, opts), processed_m, index
         if image:
             opts = _options_to_dict(opts_str[0]) if opts_str else {}
             element.set("class", opts.get("class", "left"))
@@ -124,6 +153,29 @@ class ImageProcessor(ImageInlineProcessor):
             element.set("width", str(rendition.width))
             element.set("height", str(rendition.height))
         return element, processed_m, index
+
+    def _placeholder(self, image, element, opts) -> etree.Element:
+        """
+        Keep the image aside and return a placeholder token for it, which
+        `render_markdown` replaces with the rendered template after sanitising.
+        The token is letters and digits only, so Markdown leaves it alone. Until
+        `render_markdown` unwraps it, it is the tag name of an empty element, so
+        it isn't part of the text around it, such as the heading text `toc` uses
+        for ids.
+        """
+        images = self.md.wagtailmarkdown_images
+        images.items.append(
+            TemplateImage(
+                image=image,
+                # Kept outside the element tree, so escapes such as \[ are
+                # restored here rather than by Markdown itself.
+                alt=_unescape(element.get("alt", "")),
+                css_class=opts.get("class", "left"),
+                caption=_unescape(element.get("title", "")),
+                filter_spec=opts.get("filter"),
+            )
+        )
+        return etree.Element(f"{images.token}{len(images.items) - 1}")
 
     @staticmethod
     def _get_rendition(image, filter_spec):
@@ -149,15 +201,28 @@ class LinkProcessor(LinkInlineProcessor):
         return href, title, index, handled
 
 
+@dataclass
+class ImagePlaceholders:
+    """The images held back for a template in one Markdown instance."""
+
+    template_name: str
+    token: str = field(
+        default_factory=lambda: f"WAGTAILMARKDOWNIMAGE{secrets.token_hex(8)}N"
+    )
+    items: list[TemplateImage] = field(default_factory=list)
+
+
 class ImageExtension(Extension):
     def __init__(
         self,
         object_lookup_negotiator: ObjectLookupNegotiator | None = None,
+        template_name: str | None = None,
         **kwargs,
     ):
         self.object_lookup_negotiator = (
             object_lookup_negotiator or ObjectLookupNegotiator
         )
+        self.template_name = template_name
         super().__init__(**kwargs)
 
     def extendMarkdown(self, md: "Markdown") -> None:
@@ -166,10 +231,15 @@ class ImageExtension(Extension):
                 pattern=IMAGE_LINK_RE,
                 md=md,
                 object_lookup_negotiator=self.object_lookup_negotiator,
+                template_name=self.template_name,
             ),
             "image_link",
             151,
         )
+        if self.template_name:
+            md.wagtailmarkdown_images = ImagePlaceholders(
+                template_name=self.template_name
+            )
 
 
 class LinkExtension(Extension):
